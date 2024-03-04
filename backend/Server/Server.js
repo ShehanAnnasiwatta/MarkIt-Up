@@ -9,6 +9,13 @@ require('dotenv').config();
 app.use(cors());
 app.use(bodyParser.json())
 
+app.use(express.json());
+
+app.use((req, res, next) =>{
+    console.log(req.path, req.method)
+    next()
+})
+
 
 const PORT=process.env.PORT || 3200;
 const URL=process.env.DB_URL;
@@ -37,3 +44,8 @@ db.once('open',()=>{
 app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)
 })
+
+//student routes
+
+const studentRoutes = require('../Controller/Routers/studentRoutes')
+app.use("/student", studentRoutes);
