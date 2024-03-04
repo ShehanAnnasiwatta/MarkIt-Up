@@ -1,22 +1,23 @@
-//const dataModel=require('../Model/Users_model');
+const dataModel=require('../../Models/AdminUsers');
 const router=require('express').Router()
 const express=require('express')
 
 const app=express()
-
-
 
 //Data add
 router.route("/add").post((req,res)=>{
      const name=req.body.name
      const pass=req.body.password
      const role=req.body.role
-
+     const email=req.body.email
+     const phone=req.body.phone
 
      const addingData=new dataModel({
         name:name,
         password:pass,
-       role:role
+        role:role,
+        email:email,
+        phone:phone
       })
 
      addingData.save().then(()=>{
