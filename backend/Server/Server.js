@@ -5,12 +5,14 @@ const app=express();
 const db=mongoose.connection;
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const {SessionControl}=require('../Controller/SessionControl');
 
 require('dotenv').config();
 app.use(cors());
 app.use(bodyParser.json())
+app.use(cookieParser());
 
 const PORT=process.env.PORT || 3200;
 const URL=process.env.DB_URL;
