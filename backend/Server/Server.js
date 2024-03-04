@@ -46,6 +46,8 @@ app.use('/normalroutes',NormalRoutes);
 const SignAndLogout=require('../Controller/Routers/SignInAndLogOut');
 app.use('/loginAndSign',SignAndLogout);
 
+
+
 db.on('error',(err)=>{
     console.error(`Mongodb connection error ${err}`)
 })
