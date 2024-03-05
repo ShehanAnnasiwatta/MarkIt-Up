@@ -41,7 +41,7 @@ router.route("/").get(async(req,res)=>{
 
 //get one person data
 router.route("/oneUser/:id").get(async(req,res)=>{
-    let id=req.params.id;
+    const id=req.params.id;
 
    try {      
     dataModel.findById(id).then((data)=>{

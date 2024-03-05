@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const {SessionControl}=require('../Controller/SessionControl');
+const {RequireRole}=require('../Controller/Authentication');
 
 require('dotenv').config();
 app.use(cors());
@@ -32,7 +33,6 @@ app.use(
     })   
 );
 
-//app.use(SessionControl);
 
 //create db connection 
 mongoose.connect(URL, {
@@ -41,10 +41,10 @@ mongoose.connect(URL, {
 });
 
 const NormalRoutes=require('../Controller/Routers/Routes');
-app.use('/normalroutes',NormalRoutes);
+app.use('/normalroutes',RequireRole(['']),NormalRoutes);
 
 const SignAndLogout=require('../Controller/Routers/SignInAndLogOut');
-app.use('/loginAndSign',SignAndLogout);
+app.use('/loginAndSign',RequireRole(['']),SignAndLogout);
 
 
 
