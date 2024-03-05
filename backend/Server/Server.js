@@ -13,7 +13,6 @@ const {RequireRole}=require('../Controller/Authentication');
 require('dotenv').config();
 app.use(cors());
 app.use(bodyParser.json())
-
 app.use(express.json());
 
 app.use((req, res, next) =>{

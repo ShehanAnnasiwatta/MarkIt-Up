@@ -15,7 +15,9 @@ router.route("/add").post((req,res)=>{
      const addingData=new dataModel({
         name:name,
         password:pass,
-       role:role
+        role:role,
+        email:email,
+        phone:phone
       })
 
      addingData.save().then(()=>{
