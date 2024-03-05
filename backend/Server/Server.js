@@ -1,9 +1,14 @@
 const mongoose=require('mongoose')
 const express=require('express')
+const session = require('express-session');
 const app=express();
 const db=mongoose.connection;
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
+const {SessionControl}=require('../Controller/SessionControl');
+const {RequireRole}=require('../Controller/Authentication');
 
 require('dotenv').config();
 app.use(cors());
@@ -16,10 +21,25 @@ app.use((req, res, next) =>{
     next()
 })
 
+app.use(cookieParser());
 
 const PORT=process.env.PORT || 3200;
 const URL=process.env.DB_URL;
 
+
+app.use(
+    session({
+      secret:process.env.SESSION_KEY,
+      resave: false,
+      saveUninitialized: true,         
+      cookie: {
+        maxAge:SessionControl,
+        secure: false, // Set to true if using HTTPS
+        httpOnly: true,
+      },
+      rolling: true, // Reset the session expiration on every request    
+    })   
+);
 
 
 //create db connection 
@@ -28,8 +48,12 @@ mongoose.connect(URL, {
     useUnifiedTopology: true
 });
 
-//const NormalRoutes=require('./Routers/Routes');
-//app.use('/normalroutes',NormalRoutes);
+const NormalRoutes=require('../Controller/Routers/Routes');
+app.use('/normalroutes',RequireRole(['']),NormalRoutes);
+
+const SignAndLogout=require('../Controller/Routers/SignInAndLogOut');
+app.use('/loginAndSign',RequireRole(['']),SignAndLogout);
+
 
 
 db.on('error',(err)=>{
