@@ -2,8 +2,8 @@ const RequireRole=(role)=>{
 
 
     const UserRoles={
-        //admin:[],
-        //user:[]
+        admin:[],
+        user:[]
     };
     
 

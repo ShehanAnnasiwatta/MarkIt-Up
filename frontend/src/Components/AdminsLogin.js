@@ -12,12 +12,9 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Alert from '@mui/material/Alert';
-import CheckIcon from '@mui/icons-material/Check';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import axios from 'axios';
+
 
 function Copyright(props) {
     return (
@@ -29,18 +26,6 @@ function Copyright(props) {
         {new Date().getFullYear()}
         {'.'}
       </Typography>
-    );
-  }
-
-  function Alerttheme(){
-    return (
-        
-    <Stack sx={{ width: '100%' }} spacing={2}>
-    <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-    This success Alert has a custom icon.
-    </Alert>
-    </Stack>
-
     );
   }
 
@@ -61,8 +46,10 @@ const UserdataSubmit=async(e)=>{
         const alldata=await axios.post("http://localhost:3005/loginAndSign/signIn",sendData)
         console.log("Send the data")
         setloginMsg(alldata)
+    
     } catch (error) {
         console.log("data not send"+error.message)
+   
     }
 }
 
@@ -152,7 +139,6 @@ const UserdataSubmit=async(e)=>{
             </Grid>
             <Copyright sx={{ mt: 5 }} />
           </Box>
-          {loginmsg && loginmsg.message === 'Login successful' && <Alerttheme />}
         </Box>
       </Grid>
     </Grid>

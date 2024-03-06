@@ -53,7 +53,9 @@ app.use('/normalroutes',NormalRoutes);
 const SignAndLogout=require('../Controller/Routers/SignInAndLogOut');
 app.use('/loginAndSign',/*RequireRole([''])*/SignAndLogout);
 
-
+//student routes
+const studentRoutes = require('../Controller/Routers/studentRoutes')
+app.use("/student", studentRoutes);
 
 db.on('error',(err)=>{
     console.error(`Mongodb connection error ${err}`)
@@ -68,7 +70,3 @@ app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)
 })
 
-//student routes
-
-const studentRoutes = require('../Controller/Routers/studentRoutes')
-app.use("/student", studentRoutes);

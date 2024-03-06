@@ -3,10 +3,11 @@ import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
 
 
 import Registraition from './Components/Registraition';
-import AdminLogin from './Components/AdminsLogin'
+import AdminLogin from './Components/AdminsLogin';
 
 import Signup from './pages/Signup';
 import  Login from './pages/Login';
+
 function App() {
   return (
 
@@ -14,7 +15,7 @@ function App() {
 
    <Routes>
     <Route exact path="/" element={<AdminLogin/>}></Route>
-    <Route path="/register" element={<Registration/>}></Route> 
+    <Route path="/register" element={<Registraition/>}></Route> 
    </Routes>
 
  </Router>   
