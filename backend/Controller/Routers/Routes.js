@@ -6,14 +6,17 @@ const app=express()
 
 //Data add
 router.route("/add").post((req,res)=>{
-     const name=req.body.name
+
+     const Fname=req.body.Fname
+     const Lname=req.body.Lname
      const pass=req.body.password
      const role=req.body.role
      const email=req.body.email
      const phone=req.body.phone
 
      const addingData=new dataModel({
-        name:name,
+        Fname:Fname,
+        Lname:Lname,
         password:pass,
         role:role,
         email:email,
@@ -24,7 +27,7 @@ router.route("/add").post((req,res)=>{
         res.send("data added")
         console.log('data added');
      }).catch((err)=>{
-        console.log('data added error'+err.message);
+        console.log('data added error '+err.message);
      })
 
 })

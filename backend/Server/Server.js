@@ -48,10 +48,10 @@ mongoose.connect(URL, {
 });
 
 const NormalRoutes=require('../Controller/Routers/Routes');
-app.use('/normalroutes',RequireRole(['']),NormalRoutes);
+app.use('/normalroutes',NormalRoutes);
 
 const SignAndLogout=require('../Controller/Routers/SignInAndLogOut');
-app.use('/loginAndSign',RequireRole(['']),SignAndLogout);
+app.use('/loginAndSign',/*RequireRole([''])*/SignAndLogout);
 
 
 

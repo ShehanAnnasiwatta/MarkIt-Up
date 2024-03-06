@@ -2,7 +2,12 @@ const mongoose=require('mongoose');
 const sheet=mongoose.Schema;
 
 const UsersData=new sheet({
-    name:{
+    Fname:{
+        type: 'string',
+        required: true
+    },
+
+    Lname:{
         type: 'string',
         required: true
     },

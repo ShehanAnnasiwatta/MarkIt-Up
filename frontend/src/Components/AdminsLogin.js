@@ -6,47 +6,91 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import Stack from '@mui/material/Stack';
+import { useState } from 'react';
+import axios from 'axios';
 
 function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="https://mui.com/">
+          Your Website
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+  function Alerttheme(){
+    return (
+        
+    <Stack sx={{ width: '100%' }} spacing={2}>
+    <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+    This success Alert has a custom icon.
+    </Alert>
+    </Stack>
+
+    );
+  }
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+function AdminsLogin() {
+
+const[email,setEmail]=useState('')
+const[Pass,setPassword]=useState('')
+const[loginmsg,setloginMsg]=useState([])
+
+const UserdataSubmit=async(e)=>{
+    e.preventDefault();
+
+   const sendData={email:email,password:Pass}
+
+    try {
+        const alldata=await axios.post("http://localhost:3005/loginAndSign/signIn",sendData)
+        console.log("Send the data")
+        setloginMsg(alldata)
+    } catch (error) {
+        console.log("data not send"+error.message)
+    }
+}
+
 
   return (
+    
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <Grid container component="main" sx={{ height: '100vh' }}>
+      <CssBaseline />
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: (t) =>
+            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <Box
           sx={{
-            marginTop: 8,
+            my: 8,
+            mx: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -58,7 +102,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate  sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -68,6 +112,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e)=>{setEmail(e.target.value)}}
             />
             <TextField
               margin="normal"
@@ -78,6 +123,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e)=>{setPassword(e.target.value)}}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -88,6 +134,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={UserdataSubmit}
             >
               Sign In
             </Button>
@@ -103,10 +150,16 @@ export default function SignIn() {
                 </Link>
               </Grid>
             </Grid>
+            <Copyright sx={{ mt: 5 }} />
           </Box>
+          {loginmsg && loginmsg.message === 'Login successful' && <Alerttheme />}
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
-  );
+      </Grid>
+    </Grid>
+  </ThemeProvider>
+
+   
+  )
 }
+
+export default AdminsLogin
