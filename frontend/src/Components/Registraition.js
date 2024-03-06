@@ -4,11 +4,56 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
+import axios from "axios";
 
 function Registraition() {
 
     const[email,setEmail]=useState('');
     const[emailError,setEmailError]=useState('');
+    const[password,setpass]=useState('');
+    const[Repassword,setRePass]=useState('');
+    const[Fname,setFname]=useState('');
+    const[Lname,setLname]=useState('');
+    const[phone,setphone]=useState('');
+    const[role,setRole]=useState('');
+    const[matchpass,setMatchpass]=useState('');
+
+const insertUsersData=async(e)=>{
+   // e.preventDefault();
+
+     const UsersData={
+        Fname:Fname,
+        Lname:Lname,
+        password:password,
+        email:email,
+        phone:phone,
+        role:role
+     }
+
+     console.log(UsersData);
+
+     try {
+        const AllData=await axios.post("http://localhost:3005/normalroutes/add",UsersData);
+        console.log("Registration sucess",AllData.data);
+     } catch (error) {
+        console.log("Registration Error: " + error);
+     }
+
+}
+
+const cheackTwoPass=(e)=>{
+
+   e.preventDefault();
+
+   if( password===Repassword){
+        insertUsersData();
+   }else{
+    setMatchpass("Re entered password is incorrect");
+   }
+     
+}
+
+
 
     const handleEmailChange=(e) => {
              setEmail(e.target.value);
@@ -55,6 +100,8 @@ function Registraition() {
     <TextField
     id="outlined-error"
     label="First name"
+    onChange={(e)=>{setFname(e.target.value)}} 
+    required
 />
 
 <TextField
@@ -65,6 +112,8 @@ function Registraition() {
             textAlign: 'center',
         },
     }}
+    onChange={(e)=>{setLname(e.target.value)}} 
+    required
 />
 
     </div>
@@ -76,11 +125,14 @@ function Registraition() {
         onChange={handleEmailChange}
         helperText={emailError}
         error={Boolean(emailError)}
+        required
       />
 
       <TextField
         id="outlined-error-helper-text"
-        label="Phone number"       
+        label="Phone number" 
+        onChange={(e)=>{setphone(e.target.value)}}      
+        required
       />
     </div>
 
@@ -88,11 +140,17 @@ function Registraition() {
       <TextField
         id="outlined-error"
         label="Password"    
+        onChange={(e)=>{setpass(e.target.value)}} 
+        required
       />
 
       <TextField
         id="outlined-error-helper-text"
-        label="Re Enter Password"       
+        label="Re Enter Password"  
+        onChange={(e)=>{setRePass(e.target.value)}}   
+        error={Boolean(matchpass)}   
+        helperText={matchpass}
+        required
       />
     </div>
 
@@ -106,6 +164,13 @@ function Registraition() {
       options={countries}
       autoHighlight
       getOptionLabel={(option) => option.label}
+
+      onChange={(event, newValue) => {
+        // Update the state when an option is selected
+        setRole(newValue.label);
+        console.log(newValue);
+      }}
+
       renderOption={(props, option) => (
         <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
           {option.label}
@@ -130,7 +195,7 @@ function Registraition() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2,width:'100px',margin:'10px'}}
-              //onClick={emailvalidation(email)}
+              onClick={(e)=>{cheackTwoPass(e)}}
             >
               Register
             </Button>

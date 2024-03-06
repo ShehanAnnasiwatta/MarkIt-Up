@@ -36,11 +36,12 @@ const AuthorizedUser=(req,res,next)=>{
 
 router.post('/signin',async(req, res)=>{
 
-    const name=req.body.name
+    const email=req.body.email
     const password=req.body.password
-   
+
     //check username and pass with database data
-    const user=await UserActivation.findOne({name});
+    const user=await UserActivation.findOne({email});
+    console.log(user);
 
     if (!user || password !== user.password) {
         return res.json({ error: "Invalid credentials" });
@@ -49,12 +50,12 @@ router.post('/signin',async(req, res)=>{
     //Create JWT Token 
     const jwt_key=process.env.JWT_KEY;
 
-    const token=jwt.sign({name:user.name,role:user.role}, jwt_key,{expiresIn:'1h'});
+    const token=jwt.sign({email:user.email,role:user.role}, jwt_key,{expiresIn:'1h'});
 
     //set token as a cookie
     res.cookie('token',token,{httpOnly:true,secure:false});
 
-    req.session.user={username: user.name, role: user.role };
+    req.session.user={useEmail: user.email, role: user.role };
 
     res.json({ message: 'Login successful' });
     console.log({message: 'Login successful'});

@@ -1,8 +1,18 @@
+import React from 'react';
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
 import AdminLogin from './Components/AdminsLogin'
-import Registraition from './Components/Registraition';
+import Registration from './Components/Registraition';
 function App() {
   return (
-   <Registraition/>
+
+ <Router>  
+
+   <Routes>
+    <Route exact path="/" element={<AdminLogin/>}></Route>
+    <Route path="/register" element={<Registration/>}></Route> 
+   </Routes>
+
+ </Router>   
   );
 }
 
