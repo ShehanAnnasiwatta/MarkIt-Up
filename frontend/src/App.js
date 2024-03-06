@@ -1,8 +1,10 @@
+import React from 'react';
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
 import logo from './logo.svg';
 import './App.css';
 
 import AdminLogin from './Components/AdminsLogin'
-//import Registraition from './Components/Registraition';
+//import Registration from './Components/Registraition';
 import Signup from './pages/Signup';
 import  Login from './pages/Login';
 
@@ -11,20 +13,7 @@ import React from "react";
 
 function App() {
   return (
-    <div>
-      <div className='pages'>
-        <Routes>
-          <Route
-            path="/login"
-            element={Login}
-          />
-           <Route
-            path="/signup"
-            element={Signup}
-          />
-        </Routes>
-      </div>
-    </div>
+   <Registraition/>
   );
 }
 
