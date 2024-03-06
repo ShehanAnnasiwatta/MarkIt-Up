@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
+import Swal from 'sweetalert2';
 import axios from "axios";
 
 function Registraition() {
@@ -19,7 +20,7 @@ function Registraition() {
     const[matchpass,setMatchpass]=useState('');
 
 const insertUsersData=async(e)=>{
-   // e.preventDefault();
+   e.preventDefault();
 
      const UsersData={
         Fname:Fname,
@@ -34,9 +35,16 @@ const insertUsersData=async(e)=>{
 
      try {
         const AllData=await axios.post("http://localhost:3005/normalroutes/add",UsersData);
-        console.log("Registration sucess",AllData.data);
+        console.log(AllData.data);
+        testAlert("success","Registration sucess")
+       
+        setTimeout(() => {
+          window.location.href = '/';
+      }, 1500);
+        
      } catch (error) {
         console.log("Registration Error: " + error);
+        testAlert("error","Not Registered")
      }
 
 }
@@ -68,6 +76,16 @@ const cheackTwoPass=(e)=>{
         }      
     }
 
+    const testAlert=(icon,title)=>{
+      Swal.fire({
+        position: "center",
+        icon:icon,
+        title:title,
+        showConfirmButton: false,
+        timer: 1500
+      });
+      
+    }
 
     const countries = [
         { label: 'Examinar'},
@@ -195,7 +213,7 @@ const cheackTwoPass=(e)=>{
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2,width:'100px',margin:'10px'}}
-              onClick={(e)=>{cheackTwoPass(e)}}
+              onClick={insertUsersData}
             >
               Register
             </Button>
