@@ -44,12 +44,13 @@ const UserdataSubmit=async(e)=>{
 
     try {
         const alldata=await axios.post("http://localhost:3005/loginAndSign/signIn",sendData)
-        console.log("Send the data")
+        console.log(alldata.data);
+        alert(alldata.data.message);
         setloginMsg(alldata)
     
     } catch (error) {
         console.log("data not send"+error.message)
-   
+        alert(loginmsg.data.message);
     }
 }
 

@@ -34,7 +34,7 @@ const insertUsersData=async(e)=>{
      console.log(UsersData);
 
      try {
-        const AllData=await axios.post("http://localhost:3005/normalroutes/add",UsersData);
+        const AllData=await axios.post("http://localhost:3005/loginAndSign/addReg",UsersData);
         console.log(AllData.data);
         testAlert("success","Registration sucess")
        
