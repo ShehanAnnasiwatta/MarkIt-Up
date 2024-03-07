@@ -22,7 +22,7 @@ import axios from 'axios';
 function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
+          {'Copyright © '}
         <Link color="inherit" href="https://mui.com/">
           Your Website
         </Link>{' '}
@@ -32,12 +32,12 @@ function Copyright(props) {
     );
   }
 
-  function Alerttheme(){
+function Alerttheme(){
     return (
         
     <Stack sx={{ width: '100%' }} spacing={2}>
     <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-    This success Alert has a custom icon.
+      This success Alert has a custom icon.
     </Alert>
     </Stack>
 
@@ -65,7 +65,6 @@ const UserdataSubmit=async(e)=>{
         console.log("data not send"+error.message)
     }
 }
-
 
   return (
     
@@ -157,7 +156,6 @@ const UserdataSubmit=async(e)=>{
       </Grid>
     </Grid>
   </ThemeProvider>
-
    
   )
 }
