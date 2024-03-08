@@ -14,18 +14,32 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
-
+import { Stack } from '@mui/material';
+import Alert from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
+          {'Copyright © '}
         <Link color="inherit" href="https://mui.com/">
           Your Website
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
       </Typography>
+    );
+  }
+
+function Alerttheme(){
+    return (
+        
+    <Stack sx={{ width: '100%' }} spacing={2}>
+    <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+      This success Alert has a custom icon.
+    </Alert>
+    </Stack>
+
     );
   }
 
@@ -52,7 +66,6 @@ const UserdataSubmit=async(e)=>{
    
     }
 }
-
 
   return (
     
@@ -143,7 +156,6 @@ const UserdataSubmit=async(e)=>{
       </Grid>
     </Grid>
   </ThemeProvider>
-
    
   )
 }
