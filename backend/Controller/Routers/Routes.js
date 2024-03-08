@@ -1,11 +1,14 @@
 const dataModel=require('../../Models/AdminUsers');
+const requestTable=require('../../Models/RequestTableModel')
 const router=require('express').Router()
 const express=require('express')
+const nodemailer = require("nodemailer");
 
 const app=express()
 
 //Data add
 router.route("/add").post((req,res)=>{
+
 
      const Fname=req.body.Fname
      const Lname=req.body.Lname
@@ -32,13 +35,23 @@ router.route("/add").post((req,res)=>{
 
 })
 
-//data read
-router.route("/").get(async(req,res)=>{
+//data read in adminUsers
+router.route("/allData").get(async(req,res)=>{
     dataModel.find().then((data)=>{
         res.send(data)
     }).catch((err)=>{
         console.log(err.message);
-        res.send(err.message)
+        res.send({message:"Data not found"})
+    })
+})
+
+//data read in requesttable
+router.route("/allDataRequest").get(async(req,res)=>{
+    requestTable.find().then((data)=>{
+        res.send(data)
+    }).catch((err)=>{
+        console.log(err.message);
+        res.send({message:"Data not found requesttable"})
     })
 })
 
@@ -48,6 +61,20 @@ router.route("/oneUser/:id").get(async(req,res)=>{
 
    try {      
     dataModel.findById(id).then((data)=>{
+        res.json(data)
+    })
+
+   } catch (error) {
+     console.log("One data are read error "+error)
+   }
+})
+
+//get one person email in requesttable
+router.route("/oneUserEmail").get(async(req,res)=>{
+    const email=req.body.email;
+
+   try {      
+    requestTable.findOne(email).then((data)=>{
         res.json(data)
     })
 
@@ -68,6 +95,96 @@ router.route("/delete/:id").delete(async(req,res)=>{
     })
 })
 
+
+//(Dont change this one)
+//data update in requesttable and send emails to the Admin users
+router.route("/updateReq/:id").put(async(req,res)=>{
+    let id=req.params.id;
+
+    
+    const CurrentUser=await requestTable.findOne({_id:id});
+    console.log(CurrentUser)
+
+    const{name,email,role,RequestData}=req.body;
+    const updateData=({name,email,role,RequestData})
+
+    console.log("Sender True of the Access")
+   
+    try {
+        await requestTable.findByIdAndUpdate(id,updateData).then(()=>{
+            res.send({message:"data updated"});
+            
+            if(CurrentUser.RequestData===false){
+
+                const transporter = nodemailer.createTransport({
+                    host: "smtp.gmail.com",
+                    port: 587,
+                    secure: false, // Use `true` for port 465, `false` for all other ports
+                    auth: {
+                      user: "itpm322@gmail.com",
+                      pass: "uipa omfn jvrt eatd",
+                    },
+                  });
+                  
+                  // async..await is not allowed in global scope, must use a wrapper
+                  async function main() {
+                    // send mail with defined transport object
+                    const info = await transporter.sendMail({
+                      from: "itpm322@gmail.com" , // sender address
+                      to:CurrentUser.email, // list of receivers
+                      subject: "[MarkitUp] Access Was Granted", // Subject line
+                      text: "Hello world1", // plain text body
+                      html: "<b> Welcome to the system and you can countinue working on the system from now on</b>", // html body
+                    });
+                  
+                   
+                    console.log("Message sent: %s", info.messageId,nodemailer.getTestMessageUrl(info));
+                    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+                  }
+                     
+                  main().catch(console.error);
+            }
+            else if(CurrentUser.RequestData===true){
+
+
+                const transporter = nodemailer.createTransport({
+                    host: "smtp.gmail.com",
+                    port: 587,
+                    secure: false, // Use `true` for port 465, `false` for all other ports
+                    auth: {
+                      user: "itpm322@gmail.com",
+                      pass: "uipa omfn jvrt eatd",
+                    },
+                  });
+                  
+                  // async..await is not allowed in global scope, must use a wrapper
+                  async function main() {
+                    // send mail with defined transport object
+                    const info = await transporter.sendMail({
+                      from: "itpm322@gmail.com" , // sender address
+                      to:CurrentUser.email, // list of receivers
+                      subject: "[MarkitUp]Acess Forbidden", // Subject line
+                      text: "Hello world1", // plain text body
+                      html: "<b>Your Access forbidden the System </b>", // html body
+                    });
+                  
+                   
+                    console.log("Message sent: %s", info.messageId,nodemailer.getTestMessageUrl(info));
+                    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+                  }
+                     
+                  main().catch(console.error);
+
+            }
+        })
+    } catch (error) {
+        res.send({message:"Data not updated"})
+
+
+    }
+})
+
+
 //data update
 router.route("/update/:id").put(async(req,res)=>{
     let id=req.params.id;
@@ -77,7 +194,7 @@ router.route("/update/:id").put(async(req,res)=>{
     const updateData=({name,password,role})
 
     try {
-        await alldata.findByIdAndUpdate(id,updateData).then(()=>{
+        await dataModel.findByIdAndUpdate(id,updateData).then(()=>{
             res.send("data updated");
         })
     } catch (error) {

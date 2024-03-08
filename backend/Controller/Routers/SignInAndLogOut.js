@@ -4,7 +4,7 @@ const express=require('express');
 const router=express.Router();
 const cors=require('cors');
 const nodemailer = require("nodemailer");
-const dataModel=require('../../Models/studentModel')
+const ReqdataModel=require('../../Models/RequestTableModel')
 
 const app=express();
 require('dotenv').config();
@@ -88,6 +88,16 @@ router.route("/addReg").post((req,res)=>{
     const role=req.body.role
     const email=req.body.email
     const phone=req.body.phone
+   
+    //To request table
+    const RequestData=false;
+
+    const addReqdata=new ReqdataModel({
+          name:Fname+' '+Lname,
+          email: email,
+          role: role,
+          RequestData:RequestData
+    })
 
     const addingData=new UserActivation({
        Fname:Fname,
@@ -98,11 +108,13 @@ router.route("/addReg").post((req,res)=>{
        phone:phone
      })
 
-    addingData.save().then(()=>{
-       res.send("Registratrion data added")
+    try {
+        addReqdata.save()
+        addingData.save()
+
+       res.send({message:"Registratrion data added"})
        console.log('Registration data added');
 
-       
        const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
@@ -130,10 +142,11 @@ router.route("/addReg").post((req,res)=>{
       }
          
       main().catch(console.error);
+      
+    } catch (error) {
+         res.send({message:"Registratrion data added error: " + error.message})
+    }
 
-    }).catch((err)=>{
-       console.log('Registration data added error '+err.message);
-    })
 
 })
 

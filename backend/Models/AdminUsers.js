@@ -3,22 +3,22 @@ const sheet=mongoose.Schema;
 
 const UsersData=new sheet({
     Fname:{
-        type: 'string',
+        type:String,
         required: true
     },
 
     Lname:{
-        type: 'string',
+        type: String,
         required: true
     },
     
     password: {
-        type: 'string',
+        type: String,
         required: true
     },
-    role: {type: 'string', required: true},
-    email: {type: 'string', required: true},
-    phone: {type: 'string', required: true}
+    role: {type:String, required: true},
+    email: {type:String, required: true},
+    phone: {type:String, required: true}
 
 })
 
