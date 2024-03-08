@@ -9,8 +9,8 @@ import AdminHome from './Components/AdminHomePage';
 import AddAssi from './Components/AddAsignment';
 import AddStudent from './Components/AddStudentToSys';
 
-import Signup from './pages/Signup';
-import  Login from './pages/Login';
+import StudentLogin from './Components/StudentLogin';
+import StudentReg from './Components/StudentReg';
 
 function App() {
   return (
@@ -19,11 +19,13 @@ function App() {
 
    <Routes>
     <Route exact path="/" element={<AdminLogin/>}></Route>
-    <Route path="/register" element={<Registraition/>}></Route> 
+    <Route path="/register" element={<Registraition/>}></Route>
     <Route path="/requestTable" element={<RequestTable/>}></Route>
     <Route path="/adminHome/:id" element={<AdminHome/>}></Route> 
     <Route path="/addAssi" element={<AddAssi/>}></Route> 
     <Route path="/addStudents" element={<AddStudent/>}></Route> 
+    <Route path="/stLog" element={<StudentLogin/>}></Route>
+    <Route path="/stReg" element={<StudentReg/>}></Route> 
    </Routes>
 
  </Router>   
