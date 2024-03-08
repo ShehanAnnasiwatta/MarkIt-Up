@@ -53,6 +53,8 @@ app.use('/normalroutes',NormalRoutes);
 const SignAndLogout=require('../Controller/Routers/SignInAndLogOut');
 app.use('/loginAndSign',/*RequireRole([''])*/SignAndLogout);
 
+const StudentRoutes = require('../Controller/Routers/studentRoutes');
+app.use('/stRoutes', StudentRoutes);
 
 //student routes
 const studentRoutes = require('../Controller/Routers/studentRoutes')
