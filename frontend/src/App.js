@@ -15,8 +15,8 @@ import AdminHome from './components/adminhomePage';
 import AddAssi from './components/AddAsignment';
 import AddStudent from './components/AddStudentToSys';
 
-import Signup from './pages/Signup';
-import  Login from './pages/Login';
+import StudentLogin from './Components/StudentLogin';
+import StudentReg from './Components/StudentReg';
 import Header from './components/headers/Header';
 import ShedulePresentation from './Components/ShedulePresentation';
 import MarkingRubric from './Components/MarkingRubric';
@@ -28,7 +28,7 @@ function App() {
 <Header />
    <Routes>
     <Route exact path="/" element={<AdminLogin/>}></Route>
-    <Route path="/register" element={<Registraition/>}></Route> 
+    <Route path="/register" element={<Registraition/>}></Route>
     <Route path="/requestTable" element={<RequestTable/>}></Route>
     <Route path="/adminHome/:id" element={<AdminHome/>}></Route> 
     <Route path="/addAssi" element={<AddAssi/>}></Route> 
@@ -37,6 +37,8 @@ function App() {
     <Route path="/rubric" element={<MarkingRubric/>}></Route> 
 
 
+    <Route path="/stLog" element={<StudentLogin/>}></Route>
+    <Route path="/stReg" element={<StudentReg/>}></Route> 
    </Routes>
 
  </Router>   
