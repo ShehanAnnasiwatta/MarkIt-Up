@@ -47,6 +47,10 @@ const UserdataSubmit=async(e)=>{
         console.log(alldata.data);
         alert(alldata.data.message);
         setloginMsg(alldata)
+
+        if(alldata.data.message==="Login successful"){
+          window.location.href =`/adminHome/${alldata.data.UserId}`;
+        }
     
     } catch (error) {
         console.log("data not send"+error.message)

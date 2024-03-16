@@ -14,6 +14,11 @@ app.use(cors());
 
 const UserActivation = require('../../Models/AdminUsers');
 
+//If have the Problem time format and time value 
+const options = { timeZone: 'Asia/Colombo', hour12:true};
+const CurrentDate = new Date().toLocaleString('en-US', options);
+
+
 //Authorized User
 
 const AuthorizedUser=(req,res,next)=>{
@@ -22,14 +27,15 @@ const AuthorizedUser=(req,res,next)=>{
        const token=req.cookies.token;
     
        if(!token){
-        return res.json({error: 'User unauthorized'});
+        return res.json({message: 'User unauthorized'});
        }
+
         try{
             const decode=jwt.verify(token,process.env.JWT_KEY);
             req.user=decode
             next();
         }catch(e){
-            return res.json({error: 'Unauthorized'});
+            return res.json({message: 'Unauthorized'});
         }
        
 
@@ -45,7 +51,7 @@ router.post('/signin',async(req, res)=>{
     const user=await UserActivation.findOne({email});
     console.log(user);
 
-    if (!user || password !== user.password) {
+    if (!user|| password !== user.password) {
         return res.json({message: "Invalid credentials" });
       }
     
@@ -59,10 +65,9 @@ router.post('/signin',async(req, res)=>{
 
     req.session.user={useEmail: user.email, role: user.role };
 
-    res.json({ message: 'Login successful' });
-    console.log({message: 'Login successful'});
+    res.json({ message: 'Login successful',UserId:user._id});
 
-    res.redirect('');
+    console.log({message: 'Login successful'});
 
 })
 
@@ -88,6 +93,7 @@ router.route("/addReg").post((req,res)=>{
     const role=req.body.role
     const email=req.body.email
     const phone=req.body.phone
+    
    
     //To request table
     const RequestData=false;
@@ -96,7 +102,8 @@ router.route("/addReg").post((req,res)=>{
           name:Fname+' '+Lname,
           email: email,
           role: role,
-          RequestData:RequestData
+          RequestData:RequestData,
+          currentDate:CurrentDate
     })
 
     const addingData=new UserActivation({
