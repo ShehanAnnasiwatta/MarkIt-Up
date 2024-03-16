@@ -57,12 +57,17 @@ function RequestTable() {
                 <td>{itemsAdmin.email}</td>
                 <td>{itemsAdmin.role}</td>
                 <td>
+               
                   <Switch
                     checked={itemsAdmin.RequestData}
                     onChange={(checked) => {
                       updateSwitchData(itemsAdmin._id, checked);
-                    }}
+                    }}                   
                   />
+               
+                &nbsp; &nbsp;
+                      {itemsAdmin.RequestData? "Acces given":"No Acces given"}
+
                 </td>
               </tr>
             ))}
