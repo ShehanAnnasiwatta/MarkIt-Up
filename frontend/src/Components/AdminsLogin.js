@@ -15,7 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
 import { Stack } from '@mui/material';
-import Alert from '@mui/material';
+//import Alert from '@mui/material';
+import Alert from '@mui/material/Alert';
+
 import CheckIcon from '@mui/icons-material/Check';
 
 function Copyright(props) {
@@ -35,7 +37,7 @@ function Alerttheme(){
     return (
         
     <Stack sx={{ width: '100%' }} spacing={2}>
-    <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+     <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
       This success Alert has a custom icon.
     </Alert>
     </Stack>

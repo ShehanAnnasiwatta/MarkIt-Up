@@ -11,8 +11,13 @@ import AddStudent from './Components/AddStudentToSys';
 
 import StudentLogin from './Components/StudentLogin';
 import StudentReg from './Components/StudentReg';
-import StudentLogin from './Components/StudentLogin';
-import StudentReg from './Components/StudentReg';
+
+import AddProject from './pages/projects/addProjects';
+import ManageProject from './pages/projects/manageProject';
+
+import AddResearch from './pages/Research/AddResearch';
+import ManageResearch from './pages/Research/ManageResearchPaper';
+//import ManageProject from './pages/projects/manageProject';
 
 function App() {
   return (
@@ -28,6 +33,10 @@ function App() {
     <Route path="/addStudents" element={<AddStudent/>}></Route> 
     <Route path="/stLog" element={<StudentLogin/>}></Route>
     <Route path="/stReg" element={<StudentReg/>}></Route> 
+    <Route path="/addPro" element={<AddProject/>}></Route> 
+    <Route path="/managePro" element={<ManageProject/>}></Route> 
+    <Route path="/addRes" element={<AddResearch/>}></Route> 
+    <Route path="/manageRes" element={<ManageResearch/>}></Route> 
    </Routes>
 
  </Router>   

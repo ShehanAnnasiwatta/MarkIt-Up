@@ -63,18 +63,18 @@ function StudentReg() {
 
     }
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        emailValidation(e.target.value);
-    }
+    // const handleEmailChange = (e) => {
+    //     setEmail(e.target.value);
+    //     emailValidation(e.target.value);
+    // }
 
-    const emailValidation = (value) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // const emailValidation = (value) => {
+    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!emailRegex.test(value)) {
-            setEmailError("Please enter a valid email");
-        }
-    }
+    //     if (!emailRegex.test(value)) {
+    //         setEmailError("Please enter a valid email");
+    //     }
+    // }
 
     const testAlert = (icon, title) => {
         Swal.fire({
@@ -139,7 +139,7 @@ function StudentReg() {
                 <TextField
                     id="outlined-error"
                     label="Email"
-                    onChange={handleEmailChange}
+                    //onChange={handleEmailChange}
                     helperText={emailError}
                     error={Boolean(emailError)}
                     required
@@ -221,10 +221,11 @@ function StudentReg() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: '100px', margin: '10px' }}
-                onClick={checkTwoPass}
+                onClick={(e) => checkTwoPass(e)} 
             >
                 Register
             </Button>
+
 
 
             <Button
@@ -232,9 +233,11 @@ function StudentReg() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: '100px', margin: '10px', bgcolor: 'red', '&:hover': { bgcolor: 'red' } }}
+                onClick={(e) => insertStudentData(e)} 
             >
                 Cancel
-                </Button>
+            </Button>
+
    
    </Box>
    
