@@ -7,6 +7,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+const proRoutes = require('../Controller/Routers/projectRegRoutes')
+const resRoutes = require('../Controller/Routers/resPaperRoute')
+
 const {SessionControl}=require('../Controller/SessionControl');
 const {RequireRole}=require('../Controller/Authentication');
 
@@ -76,3 +79,6 @@ app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)
 })
 
+
+app.use('/projects', proRoutes)
+app.use('/research', resRoutes)
