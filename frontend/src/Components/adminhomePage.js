@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import { Dropdown, Collapse, initMDB } from "mdb-ui-kit";
 import "mdb-ui-kit/css/mdb.min.css";
+import { useParams } from 'react-router-dom'
 
 
 initMDB({ Dropdown, Collapse });
@@ -11,8 +12,12 @@ function AdminHomePage() {
 
   const[CurrentUser,SetAllUserData] = useState([])
 
+  const { id } = useParams();
+  console.log("Current user id AdminHome Page- ")
+  console.log(id);
+
        const UserData=()=>{
-         axios.get("http://localhost:3005/normalroutes/oneUserEmail").then((res)=>{
+         axios.get(`http://localhost:3005/normalroutes/oneUserEmail/${id}`).then((res)=>{
             SetAllUserData(res.data);
            // console.log(res.data);
          }).catch((err)=>{
@@ -120,7 +125,7 @@ function AdminHomePage() {
             loading="lazy"
           />
          <div style={{marginLeft:'20px',backgroundColor:'black',}}>
-          <h3 style={{color:'yellow'}}>{CurrentUser.name}</h3>
+          <h3 style={{color:'yellow'}}>{CurrentUser.Fname+" "}{CurrentUser.Lname}</h3>
         </div>
         </a>
         <ul
