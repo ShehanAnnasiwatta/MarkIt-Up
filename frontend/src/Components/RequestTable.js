@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Switch } from 'antd';
 
+
 function RequestTable() {
   const [ReqData, allReqData] = useState([]);
 
@@ -39,18 +40,21 @@ function RequestTable() {
   };
 
   return (
-    <div>
-      <div>
-        <table border={3}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Current Role</th>
-              <th>Access</th>
-            </tr>
-          </thead>
-          <tbody>
+
+   <div>
+    <div style={{ textAlign: 'center',marginTop:'10%'}}>
+       <table class="table table-hover" style={{width:'80%',margin:'auto'}}>
+       <thead>
+  <tr>
+    <th style={{backgroundColor: '#008DDA',fontWeight:'bolder',fontSize:'20px'}}>Name</th>
+    <th style={{backgroundColor: '#008DDA',fontWeight:'bolder',fontSize:'20px'}}>Email</th>
+    <th style={{backgroundColor: '#008DDA',fontWeight:'bolder',fontSize:'20px'}}>Current Role</th>
+    <th style={{backgroundColor: '#008DDA',fontWeight:'bolder',fontSize:'20px'}}>Access</th>
+  </tr>
+</thead>
+
+
+   <tbody>
             {ReqData.map((itemsAdmin) => (
               <tr key={itemsAdmin._id}>
                 <td>{itemsAdmin.name}</td>
@@ -72,8 +76,8 @@ function RequestTable() {
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
+</table>
+    </div>
     </div>
   );
 }

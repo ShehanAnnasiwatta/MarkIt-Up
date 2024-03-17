@@ -70,11 +70,12 @@ router.route("/oneUser/:id").get(async(req,res)=>{
 })
 
 //get one person email in requesttable
-router.route("/oneUserEmail").get(async(req,res)=>{
-    const email=req.body.email;
+router.route("/oneUserEmail/:id").get(async(req,res)=>{
+    const Uid=req.params.id;
+    console.log(Uid);
 
    try {      
-    requestTable.findOne(email).then((data)=>{
+    dataModel.findById(Uid).then((data)=>{
         res.json(data)
     })
 
