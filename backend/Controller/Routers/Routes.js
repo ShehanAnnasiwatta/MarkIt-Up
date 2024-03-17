@@ -1,12 +1,13 @@
 const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
+const studentDatamodel=require('../../Models/StudentDataModel')
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");
 
 const app=express()
 
-//Data add
+//Data add in register user
 router.route("/add").post((req,res)=>{
 
 
@@ -43,6 +44,38 @@ router.route("/allData").get(async(req,res)=>{
         console.log(err.message);
         res.send({message:"Data not found"})
     })
+})
+
+
+//Data add in Students
+router.route("/addStudent").post((req,res)=>{
+
+    const Email=req.body.Email;
+    const GroupNumber=req.body.GroupNumber;
+    const IdNumber=req.body.IdNumber;
+    const StudentName=req.body.StudentName;
+
+    const addDataStudent=new studentDatamodel({
+        Email:Email,GroupNumber:GroupNumber,IdNumber:IdNumber,StudentName:StudentName  //Semester:Semester
+     })
+
+    addDataStudent.save().then(()=>{
+       res.send("data added")
+       console.log('Student data added');
+    }).catch((err)=>{
+       console.log('Student Data Added Error '+err.message);
+    })
+
+})
+
+//data read in adminUsers
+router.route("/allData").get(async(req,res)=>{
+   dataModel.find().then((data)=>{
+       res.send(data)
+   }).catch((err)=>{
+       console.log(err.message);
+       res.send({message:"Data not found"})
+   })
 })
 
 //data read in requesttable
