@@ -1,6 +1,7 @@
 const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
+const presentation = require('../../Models/presentationModel')
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");
@@ -77,6 +78,54 @@ router.route("/allData").get(async(req,res)=>{
        res.send({message:"Data not found"})
    })
 })
+
+
+//Data add in Students
+router.route("/addStudent").post((req,res)=>{
+
+    const Email=req.body.Email;
+    const GroupNumber=req.body.GroupNumber;
+    const IdNumber=req.body.IdNumber;
+    const StudentName=req.body.StudentName;
+
+    const addDataStudent=new studentDatamodel({
+        Email:Email,GroupNumber:GroupNumber,IdNumber:IdNumber,StudentName:StudentName  //Semester:Semester
+     })
+
+    addDataStudent.save().then(()=>{
+       res.send("data added")
+       console.log('Student data added');
+    }).catch((err)=>{
+       console.log('Student Data Added Error '+err.message);
+    })
+
+})
+
+//data read in adminUsers
+router.route("/allData").get(async(req,res)=>{
+   dataModel.find().then((data)=>{
+       res.send(data)
+   }).catch((err)=>{
+       console.log(err.message);
+       res.send({message:"Data not found"})
+   })
+})
+
+//get examiners only
+router.route("/allExaminers").get(async (req, res) => {
+    dataModel.find({ role: "Examinar" }).then((data) => {
+        if (data.length > 0) {
+            res.send(data);
+        } else {
+            res.send({ message: "No examiner data found" });
+        }
+    }).catch((err) => {
+        console.log(err.message);
+        res.send({ message: "Error retrieving data" });
+    });
+});
+
+
 
 //data read in requesttable
 router.route("/allDataRequest").get(async(req,res)=>{
@@ -235,6 +284,36 @@ router.route("/update/:id").put(async(req,res)=>{
         res.send("Data not updated")
     }
 })
+
+//create presentation
+router.route("/addpresentation").post((req,res)=>{
+
+
+    const type = req.body.type
+    const date = req.body.date
+    const startTime = req.body.startTime
+    const endTime = req.body.endTime
+    const location = req.body.location
+    const examiners = req.body.examiners
+
+    const addPresentation = new presentation({
+       type,
+       date,
+       startTime,
+       endTime,
+       location,
+       examiners
+     })
+
+     addPresentation.save().then(()=>{
+       res.send("data added")
+       console.log('data added');
+    }).catch((err)=>{
+       console.log('data added error '+err.message);
+    })
+
+})
+
 
 
 module.exports = router;
