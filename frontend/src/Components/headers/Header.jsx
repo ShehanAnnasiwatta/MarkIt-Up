@@ -1,10 +1,22 @@
-import { AppBar, Avatar, Box, IconButton, Toolbar, Tab, Tabs } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { AppBar, Avatar, Box, IconButton, Toolbar, Tab, Tabs, Badge } from '@mui/material';
+import { grey, red } from '@mui/material/colors';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useState } from 'react'
+import ProfileMenu from '../menus/ProfileMenu';
 
 const Header = () => {
     const [value, setValue] = useState('1');
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const open = Boolean(anchorEl)
+
+    const handleOpen = (e) => {
+        setAnchorEl(e.currentTarget)
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
@@ -14,6 +26,7 @@ const Header = () => {
     const tabStyle = {
         textTransform: "capitalize",
         '&:hover': {
+            // fontWeight: "bold",
             color: grey['900']
         }
     }
@@ -68,11 +81,18 @@ const Header = () => {
                     >
 
                         <IconButton>
-                            <NotificationsIcon />
+                            <Badge badgeContent={1} color="error">
+                                <NotificationsIcon />
+                            </Badge>
                         </IconButton>
 
 
                         <IconButton
+                            onClick={handleOpen}
+                            id='icon-menu'
+                            aria-controls={open ? 'iocn-menu' : undefined}
+                            aria-haspopup={true}
+                            aria-expanded={open ? true : undefined}
                             sx={{
                                 padding: "4px",
                                 height: "40px",
@@ -86,7 +106,7 @@ const Header = () => {
                                 S
                             </Avatar>
                         </IconButton>
-
+                        <ProfileMenu anchorEl={anchorEl} open={open} onClose={handleClose}/>
                     </Box>
                 </Box>
 
