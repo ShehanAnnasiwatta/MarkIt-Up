@@ -57,6 +57,7 @@ app.use('/loginAndSign',/*RequireRole([''])*/SignAndLogout);
 const studentRoutes = require('../Controller/Routers/studentRoutes')
 app.use("/student", studentRoutes);
 
+
 db.on('error',(err)=>{
     console.error(`Mongodb connection error ${err}`)
 })
