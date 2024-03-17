@@ -8,6 +8,12 @@ import RequestTable from './components/RequestTable';
 import AdminHome from './components/adminhomePage';
 import AddAssi from './components/AddAsignment';
 import AddStudent from './components/AddStudentToSys';
+import Registraition from './components/Registraition';
+import AdminLogin from './components/AdminsLogin';
+import RequestTable from './components/RequestTable';
+import AdminHome from './components/adminhomePage';
+import AddAssi from './components/AddAsignment';
+import AddStudent from './components/AddStudentToSys';
 
 import Signup from './pages/Signup';
 import  Login from './pages/Login';
