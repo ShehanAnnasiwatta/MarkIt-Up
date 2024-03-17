@@ -11,6 +11,8 @@ import AddStudent from './Components/AddStudentToSys';
 
 import StudentLogin from './Components/StudentLogin';
 import StudentReg from './Components/StudentReg';
+import StudentLogin from './Components/StudentLogin';
+import StudentReg from './Components/StudentReg';
 
 function App() {
   return (
