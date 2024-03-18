@@ -163,32 +163,113 @@ function AdminsLogin() {
     //     </Grid>
     //   </Grid>
     // </ThemeProvider>
-    <Box width="100vw" height="100vh">
+    <Box width="100vw" height="100vh" position="relative" bgcolor="whitesmoke">
 
       <Box
         display="flex"
         flexDirection="column"
+        marginTop="80px"
+        position="absolute"
+        right="15%"
+        width="90%"
+        maxWidth="488px"
+        padding="50px"
+        bgcolor="white"
+        borderRadius="20px"
+        alignItems="center"
       >
-        <Avatar>
+        <Avatar sx={{
+          height: "70px",
+          width: "70px",
+        }}>
           I
         </Avatar>
-        <Typography>
-
+        <Typography variant="h4" marginBottom="20px">
+          Sign-in
         </Typography>
 
-        <TextField />
+        <Box
+          width="100%"
+          display="flex"
+          flexDirection="column"
+          rowGap="20px"
+        >
+          <TextField
+            fullWidth
+            placeholder='Email'
+            type='text'
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: "10px"
+              }
+            }}
+          />
 
-        <TextField />
+          <TextField
+            fullWidth
+            placeholder='Password'
+            type='password'
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: "10px"
+              }
+            }}
+          />
+        </Box>
 
-        <Grid container>
-          <Grid item></Grid>
-          <Grid item></Grid>
+        <Grid
+          container
+          display="flex"
+          alignItems="center"
+        >
+          <Grid item flexGrow={1}>
+            <FormControlLabel
+              control={<Checkbox size='small' />} label="Remember me"
+              sx={{
+                '& .MuiTypography-root': {
+                  fontSize: "12px"
+                }
+              }}
+            />
+          </Grid>
+
+          <Grid item>
+            <Button
+              disableRipple
+              sx={{
+                textTransform: "capitalize",
+                fontSize: "12px",
+                '&:hover': {
+                  bgcolor: "white"
+                }
+              }}
+            >
+              Forgot password ?
+            </Button>
+          </Grid>
 
         </Grid>
 
-        <Button>
-
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{
+            fontSize: "18px",
+            textTransform: "capitalize",
+            borderRadius: "10px",
+            marginTop: "25px",
+            marginBottom: "5px",
+          }}
+        >
+          Sign in
         </Button>
+
+        <Typography
+          width="100%"
+          fontSize="12px"
+        >
+          Don't have an account? <a href='#'>Sign up</a>
+        </Typography>
       </Box>
 
     </Box>
