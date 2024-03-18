@@ -7,6 +7,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+const proRoutes = require('../Controller/Routers/projectRegRoutes')
+const resRoutes = require('../Controller/Routers/resPaperRoute')
+
 const {SessionControl}=require('../Controller/SessionControl');
 const {RequireRole}=require('../Controller/Authentication');
 
@@ -53,10 +56,15 @@ app.use('/normalroutes',NormalRoutes);
 const SignAndLogout=require('../Controller/Routers/SignInAndLogOut');
 app.use('/loginAndSign',/*RequireRole([''])*/SignAndLogout);
 
+const StudentRoutes = require('../Controller/Routers/studentRoutes');
+app.use('/stRoutes', StudentRoutes);
+
 //student routes
 const studentRoutes = require('../Controller/Routers/studentRoutes')
 app.use("/student", studentRoutes);
 
+const StSignAndLogout=require('../Controller/Routers/StudentSigns');
+app.use('/stloginAndSign',/*RequireRole([''])*/StSignAndLogout);
 
 db.on('error',(err)=>{
     console.error(`Mongodb connection error ${err}`)
@@ -71,3 +79,6 @@ app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)
 })
 
+
+app.use('/projects', proRoutes)
+app.use('/research', resRoutes)
