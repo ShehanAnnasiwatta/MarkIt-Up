@@ -1,22 +1,23 @@
 import React from 'react';
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
 
-
-import Registraition from './components/Registraition';
-import AdminLogin from './components/AdminsLogin';
-import RequestTable from './components/RequestTable';
-import AdminHome from './components/adminhomePage';
-import AddAssi from './components/AddAsignment';
-import AddStudent from './components/AddStudentToSys';
-import Header from './components/headers/Header';
-import ShedulePresentation from './components/ShedulePresentation';
-import MarkingRubric from './components/MarkingRubric';
+import Registraition from './Components/Registraition'
+import AdminsLogin from './Components/AdminsLogin'
+import RequestTable from './Components/RequestTable'
+import AdminHomePage from './Components/AdminHomePage'
+import AddAsignment from './Components/AddAsignment'
+import AddStudentToSys from './Components/AddStudentToSys'
+import Header from './Components/headers/Header'
+import ShedulePresentation from './Components/ShedulePresentation'
+import MarkingRubric from './Components/MarkingRubric'
 import AddProject from './pages/projects/addProjects';
 import ManageProject from './pages/projects/manageProject';
 import AddResearch from './pages/Research/AddResearch';
 import ManageResearch from './pages/Research/ManageResearchPaper';
-import StudentLogin from './components/StudentLogin';
-import StudentReg from './components/StudentReg';
+import StudentLogin from './Components/AdminsLogin'
+
+import ViewStudent from './pages/Supervisor/viewStudentDetails';
+import ProgressBar from './Components/Progressbar';
 
 
 function App() {
@@ -24,23 +25,27 @@ function App() {
 
  <Router>  
 <Header />
+    
    <Routes>
-    <Route exact path="/" element={<AdminLogin/>}></Route>
+    <Route exact path="/" element={<AdminsLogin/>}></Route>
     <Route path="/register" element={<Registraition/>}></Route>
     <Route path="/requestTable" element={<RequestTable/>}></Route>
-    <Route path="/adminHome/:id" element={<AdminHome/>}></Route> 
-    <Route path="/addAssi" element={<AddAssi/>}></Route> 
-    <Route path="/addStudents" element={<AddStudent/>}></Route>
+    <Route path="/adminHome/:id" element={<AdminHomePage/>}></Route> 
+    <Route path="/addAssi" element={<AddAsignment/>}></Route> 
+    <Route path="/addStudents" element={<AddStudentToSys/>}></Route>
     <Route path="/shedulepresentaion" element={<ShedulePresentation/>}></Route> 
     <Route path="/rubric" element={<MarkingRubric/>}></Route> 
     <Route path="/stLog" element={<StudentLogin/>}></Route>
-    <Route path="/stReg" element={<StudentReg/>}></Route> 
     <Route path="/addPro" element={<AddProject/>}></Route> 
     <Route path="/managePro" element={<ManageProject/>}></Route> 
     <Route path="/addRes" element={<AddResearch/>}></Route> 
     <Route path="/manageRes" element={<ManageResearch/>}></Route> 
-   </Routes>
+    <Route path="/viewStudent" element={<ViewStudent/>}></Route>
 
+    <Route path="/progressBar" element={<ProgressBar futureDate={new Date(2024, 2, 31)} />}></Route>
+
+   </Routes>
+  
  </Router>   
   );
 }

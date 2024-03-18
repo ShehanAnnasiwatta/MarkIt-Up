@@ -5,8 +5,9 @@ import { ImSearch } from 'react-icons/im';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import { Switch } from 'antd'; // Import Switch component from antd library
+import ProgressBar from '../../Components/Progressbar';
 
-function ManageProject() {
+function ViewStudent() {
   const [projects, setProjects] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -49,26 +50,19 @@ function ManageProject() {
   };
 
   return (
-    <div className="container mt-5 " style={{ width: '80%', margin: 'auto' }}>
+    <div className="container mt-5">
       <div className="row">
         <div className="col-md-12">
           <div className="listContainer">
-            
+            <SearchBar />
             <table className="table table-hover" style={{ width: '80%', margin: 'auto' }}>
               <thead>
                 <tr>
                   <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Registration Number</th>
                   <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Student Name</th>
                   <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Telephone</th>
-                  <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Email</th>
-                  <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Batch</th>
                   <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Specialization</th>
-                  <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Project Title</th>
-                  <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Research Area</th>
-                  <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Classification</th>
-                  <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Supervisor</th>
-                  <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Co-Supervisor</th>
-                  <th style={{ backgroundColor: '#008DDA', fontWeight: 'bolder', fontSize: '10px' }}>Actions</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -77,14 +71,8 @@ function ManageProject() {
                     <td>{project.regNum}</td>
                     <td>{project.stName}</td>
                     <td>{project.telephone}</td>
-                    <td>{project.email}</td>
-                    <td>{project.batch}</td>
                     <td>{project.specialization}</td>
-                    <td>{project.proTitle}</td>
-                    <td>{project.resArea}</td>
-                    <td>{project.classification}</td>
-                    <td>{project.supervisor}</td>
-                    <td>{project.coSupervisor}</td>
+                   
                     <td>
                       <button className="btn btn-danger" onClick={() => handleDelete(project._id)}>Delete</button>
                     </td>
@@ -92,11 +80,12 @@ function ManageProject() {
                 ))}
               </tbody>
             </table>
-            <SearchBar />
           </div>
         </div>
       </div>
+     
     </div>
+    
   );
 }
 
@@ -127,7 +116,9 @@ const SearchBar = () => {
         <ImSearch className="search" />
       </button>
     </div>
+
+
   );
 };
 
-export default ManageProject;
+export default ViewStudent;
