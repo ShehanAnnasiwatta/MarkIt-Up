@@ -1,21 +1,21 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
 import { Stack } from '@mui/material';
-//import Alert from '@mui/material';
 import Alert from '@mui/material/Alert';
 
 import CheckIcon from '@mui/icons-material/Check';
@@ -52,6 +52,7 @@ function AdminsLogin() {
   const [email, setEmail] = useState('')
   const [Pass, setPassword] = useState('')
   const [loginmsg, setloginMsg] = useState([])
+  const [showPW, setShowPW] = useState(false)
 
   const UserdataSubmit = async (e) => {
     e.preventDefault();
@@ -72,6 +73,10 @@ function AdminsLogin() {
       console.log("data not send" + error.message)
       alert(loginmsg.data.message);
     }
+  }
+
+  const handleVisibility = () => {
+    setShowPW(!showPW)
   }
 
   return (
@@ -205,16 +210,24 @@ function AdminsLogin() {
             }}
           />
 
-          <TextField
+          <OutlinedInput
             fullWidth
             placeholder='Password'
-            type='password'
+            type={showPW ? 'text' : 'password'}
             sx={{
-              '& .MuiOutlinedInput-root': {
-                borderRadius: "10px"
-              }
+              borderRadius: "10px"
             }}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleVisibility}
+                >
+                  {showPW ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
+
         </Box>
 
         <Grid
