@@ -1,9 +1,13 @@
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import CssBaseline from '@mui/material/CssBaseline';
+import Paper from '@mui/material/Paper';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -17,8 +21,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Stack } from '@mui/material';
 import Alert from '@mui/material/Alert';
-
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CheckIcon from '@mui/icons-material/Check';
+import { loginSchema } from '../validations/formValidations';
 
 function Copyright(props) {
   return (
@@ -53,14 +58,18 @@ function AdminsLogin() {
   const [Pass, setPassword] = useState('')
   const [loginmsg, setloginMsg] = useState([])
   const [showPW, setShowPW] = useState(false)
+  const [validationError, setvalidationError] = useState(false)
+  const [validationErrorArray, setvalidationErrorArray] = useState([])
+
+  const loginCredentials = { email: email, password: Pass }
 
   const UserdataSubmit = async (e) => {
     e.preventDefault();
 
-    const sendData = { email: email, password: Pass }
-
     try {
-      const alldata = await axios.post("http://localhost:3005/loginAndSign/signIn", sendData)
+      await loginSchema.validate(loginCredentials, { abortEarly: false });
+
+      const alldata = await axios.post("http://localhost:3005/loginAndSign/signIn", loginCredentials)
       console.log(alldata.data);
       alert(alldata.data.message);
       setloginMsg(alldata)
@@ -70,8 +79,11 @@ function AdminsLogin() {
       }
 
     } catch (error) {
-      console.log("data not send" + error.message)
-      alert(loginmsg.data.message);
+      setvalidationError(true)
+      setvalidationErrorArray(error.inner)
+      console.log(error.inner)
+      console.log("data not send " + error.message)
+      // alert(loginmsg.data.message);
     }
   }
 
@@ -168,6 +180,7 @@ function AdminsLogin() {
     //     </Grid>
     //   </Grid>
     // </ThemeProvider>
+
     <Box width="100vw" height="100vh" position="relative" bgcolor="whitesmoke">
 
       <Box
@@ -200,6 +213,9 @@ function AdminsLogin() {
           rowGap="20px"
         >
           <TextField
+            onChange={(e) => setEmail(e.currentTarget)}
+            error={validationError}
+            helperText={validationError ? validationErrorArray[0].message : ''}
             fullWidth
             placeholder='Email'
             type='text'
@@ -209,25 +225,28 @@ function AdminsLogin() {
               }
             }}
           />
-
-          <OutlinedInput
-            fullWidth
-            placeholder='Password'
-            type={showPW ? 'text' : 'password'}
-            sx={{
-              borderRadius: "10px"
-            }}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={handleVisibility}
-                >
-                  {showPW ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-
+          <FormControl>
+            <OutlinedInput
+              onChange={(e) => setPassword(e.currentTarget)}
+              error={validationError}
+              fullWidth
+              placeholder='Password'
+              type={showPW ? 'text' : 'password'}
+              sx={{
+                borderRadius: "10px"
+              }}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleVisibility}
+                  >
+                    {showPW ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+            <FormHelperText sx={{ color: "#d32f2f" }}>{validationError ? validationErrorArray[1].message : ''}</FormHelperText>
+          </FormControl>
         </Box>
 
         <Grid
@@ -264,6 +283,7 @@ function AdminsLogin() {
         </Grid>
 
         <Button
+          onClick={UserdataSubmit}
           variant="contained"
           fullWidth
           sx={{

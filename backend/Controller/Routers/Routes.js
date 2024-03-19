@@ -2,7 +2,6 @@ const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
 const presentation = require('../../Models/presentationModel')
-const presentation = require('../../Models/presentationModel')
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");
