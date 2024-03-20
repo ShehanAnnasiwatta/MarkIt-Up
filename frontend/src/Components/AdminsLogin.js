@@ -17,55 +17,54 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Stack } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { loginSchema } from '../validations/formValidations';
+import { blue } from '@mui/material/colors';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright(props) {
+//   return (
+//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
+//       {'Copyright © '}
+//       <Link color="inherit" href="https://mui.com/">
+//         Your Website
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
-function Alerttheme() {
-  return (
+// function Alerttheme() {
+//   return (
 
-    <Stack sx={{ width: '100%' }} spacing={2}>
-      <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-        This success Alert has a custom icon.
-      </Alert>
-    </Stack>
+//     <Stack sx={{ width: '100%' }} spacing={2}>
+//       <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+//         This success Alert has a custom icon.
+//       </Alert>
+//     </Stack>
 
-  );
-}
+//   );
+// }
 
-const defaultTheme = createTheme();
+// const defaultTheme = createTheme();
 
 function AdminsLogin() {
 
   const [email, setEmail] = useState('')
-  const [Pass, setPassword] = useState('')
+  const [password, setPassword] = useState('')
   const [loginmsg, setloginMsg] = useState([])
   const [showPW, setShowPW] = useState(false)
-  const [validationError, setvalidationError] = useState(false)
-  const [validationErrorArray, setvalidationErrorArray] = useState([])
+  const [errors, setErrors] = useState({})
 
-  const loginCredentials = { email: email, password: Pass }
+  const loginCredentials = { email: email, password: password }
 
   const UserdataSubmit = async (e) => {
     e.preventDefault();
-
     try {
       await loginSchema.validate(loginCredentials, { abortEarly: false });
 
@@ -73,20 +72,35 @@ function AdminsLogin() {
       console.log(alldata.data);
       alert(alldata.data.message);
       setloginMsg(alldata)
-
+      setErrors({})
       if (alldata.data.message === "Login successful") {
         window.location.href = `/adminHome/${alldata.data.UserId}`;
       }
 
+
     } catch (error) {
-      setvalidationError(true)
-      setvalidationErrorArray(error.inner)
-      console.log(error.inner)
+      let err = {}
+
+      const errArray = error.inner
+
+      if (errArray && errArray.length > 0) {
+        errArray.forEach(error => {
+          err[error.path] = error.message
+        });
+      }
+      setErrors(err)
       console.log("data not send " + error.message)
       // alert(loginmsg.data.message);
     }
-  }
+    if (email && password) {
+      setEmail('')
+      setPassword('')
+    }
 
+  }
+  useEffect(() => {
+    console.log("Error object:", errors)
+  }, [errors])
   const handleVisibility = () => {
     setShowPW(!showPW)
   }
@@ -213,9 +227,10 @@ function AdminsLogin() {
           rowGap="20px"
         >
           <TextField
-            onChange={(e) => setEmail(e.currentTarget)}
-            error={validationError}
-            helperText={validationError ? validationErrorArray[0].message : ''}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={errors.email && true}
+            helperText={errors.email}
             fullWidth
             placeholder='Email'
             type='text'
@@ -227,8 +242,9 @@ function AdminsLogin() {
           />
           <FormControl>
             <OutlinedInput
-              onChange={(e) => setPassword(e.currentTarget)}
-              error={validationError}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={errors.password && true}
               fullWidth
               placeholder='Password'
               type={showPW ? 'text' : 'password'}
@@ -245,7 +261,7 @@ function AdminsLogin() {
                 </InputAdornment>
               }
             />
-            <FormHelperText sx={{ color: "#d32f2f" }}>{validationError ? validationErrorArray[1].message : ''}</FormHelperText>
+            <FormHelperText sx={{ color: "#d32f2f" }}>{errors.password}</FormHelperText>
           </FormControl>
         </Box>
 
@@ -272,7 +288,9 @@ function AdminsLogin() {
                 textTransform: "capitalize",
                 fontSize: "12px",
                 '&:hover': {
-                  bgcolor: "white"
+                  // fontWeight: "bold",
+                  bgcolor: "white",
+                  color: blue['900']
                 }
               }}
             >
