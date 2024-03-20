@@ -2,7 +2,7 @@ const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
 const presentation = require('../../Models/presentationModel')
-const presentation = require('../../Models/presentationModel')
+const Rubric = require('../../Models/rubricModel')
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");
@@ -314,6 +314,25 @@ router.route("/addpresentation").post((req,res)=>{
     })
 
 })
+
+//create marking rubric 
+router.route('/addrubric')
+  .post(async (req, res) => {
+    try {
+      const { specialization, criteria } = req.body;
+      
+      // Constructing the rubric object based on the model structure
+      const rubric = new Rubric({ specialization, criteria });
+
+      // Save the rubric to the database
+      await rubric.save();
+
+      res.status(201).json({ message: 'Rubric submitted successfully!' });
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
 
 
 

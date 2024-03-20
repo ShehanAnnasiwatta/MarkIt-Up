@@ -61,7 +61,7 @@ export default function ShedulePresentation() {
     const fetchExaminers = async () => {
       try {
         const response = await axios.get('http://localhost:3005/normalroutes/allExaminers');
-        console.log(response); // Log the response
+        console.log(response);
         if (response.status === 200) {
           setExaminers(response.data);
         }
@@ -83,7 +83,6 @@ export default function ShedulePresentation() {
       target: { value },
     } = event;
     setPersonName(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
   };
