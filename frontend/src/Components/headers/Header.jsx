@@ -63,7 +63,7 @@ const Header = () => {
                         <Tabs>
                             {
                                 navLabel.map(lableIndex => (
-                                    <Tab key={lableIndex} label={lableIndex} sx={tabStyle} />
+                                    <Tab key={lableIndex} label={lableIndex} sx={tabStyle} disableRipple/>
                                 ))
                             }
 
