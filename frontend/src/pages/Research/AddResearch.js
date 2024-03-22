@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import axios from "axios";
+import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function AddResearch() {
@@ -33,6 +34,7 @@ function AddResearch() {
     setVerLink('');
     setAcceptPhoto('');
     setSuccessPhoto('');
+    setSelectedCurrency('');
     setFee('');
   }
 
@@ -124,15 +126,20 @@ function AddResearch() {
             <input type="file" className="form-control" id="successPhoto" value={successPhoto} onChange={(e) => setSuccessPhoto(e.target.value)} />
             </div>
 
+          </div>
+          <div className="col">
             <div className="mb-3">
-            <label htmlFor="currency" className="form-label">Currency</label>
-            <select className="form-select" id="currency" value={selectedCurrency} onChange={(e) => setSelectedCurrency(e.target.value)}>
-                <option value="USD">USD</option>
-                <option value="LKR">LKR</option>
-            </select>
+              <label htmlFor="currency" className="form-label">Currency</label>
+              <Select
+                options={[
+                  { value: 'USD', label: 'USD' },
+                  { value: 'LKR', label: 'LKR' }
+                ]}
+                value={selectedCurrency ? { value: selectedCurrency, label: selectedCurrency } : null}
+                onChange={(selectedOption) => setSelectedCurrency(selectedOption.value)}
+              />
             </div>
-
-            <div className="mb-3">
+             <div className="mb-3">
               <label htmlFor="student" className="form-label">Fee</label>
               <input type="text" className="form-control" id="student" value={fee} onChange={(e) => setFee(e.target.value)} />
             </div>
@@ -145,7 +152,6 @@ function AddResearch() {
       </form>
     </div>
   ) 
-  
 }
 
 export default AddResearch;

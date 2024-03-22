@@ -18,6 +18,8 @@ import StudentLogin from './Components/AdminsLogin'
 
 import ViewStudent from './pages/Supervisor/viewStudentDetails';
 import ProgressBar from './Components/Progressbar';
+import EditProject from './pages/projects/editProjects';
+import EditResearch from './pages/projects/editProjects';
 
 
 function App() {
@@ -38,9 +40,11 @@ function App() {
     <Route path="/stLog" element={<StudentLogin/>}></Route>
     <Route path="/addPro" element={<AddProject/>}></Route> 
     <Route path="/managePro" element={<ManageProject/>}></Route> 
-    <Route path="/addRes" element={<AddResearch/>}></Route> 
+    <Route path="/addRes"element={<AddResearch/>}></Route> 
     <Route path="/manageRes" element={<ManageResearch/>}></Route> 
     <Route path="/viewStudent" element={<ViewStudent/>}></Route>
+    <Route path="/editPro/:id" element={<EditProject/>}></Route>
+    <Route path="/editRes/:id" element={<EditResearch/>}></Route>
 
     <Route path="/progressBar" element={<ProgressBar futureDate={new Date(2024, 2, 31)} />}></Route>
 
