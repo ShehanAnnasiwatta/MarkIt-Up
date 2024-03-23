@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -6,92 +5,123 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import Autocomplete from '@mui/material/Autocomplete';
 import Swal from 'sweetalert2';
 import axios from "axios";
-import Input from './cutomisedTags/Input';
-import { grey } from '@mui/material/colors';
+import { signupSchema } from '../validations/formValidations';
 
 function Registraition() {
 
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [password, setpass] = useState('');
-  const [Repassword, setRePass] = useState('');
-  const [Fname, setFname] = useState('');
-  const [Lname, setLname] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
   const [phone, setphone] = useState('');
   const [role, setRole] = useState('');
   const [matchpass, setMatchpass] = useState('');
   const [showPW, setShowPW] = useState(false)
   const [showConfirmPW, setShowConfirmPW] = useState(false)
+  const [errors, setErrors] = useState({})
 
-  const insertUsersData = async (e) => {
+  useEffect(() => {
+    console.log("Error :", errors)
+    console.log(Object.entries(errors).length)
+    if (Object.entries(errors).length == 0) {
+      setFname('')
+      setLname('')
+      setEmail('')
+      setPassword('')
+      setConfirmPassword('')
+      setphone('')
+      setRole('')
+    }
+    if (showPW || showConfirmPW) {
+      setShowPW(false);
+      setShowConfirmPW(false)
+    }
+
+  }, [errors])
+
+  const insertUserData = async (e) => {
     e.preventDefault();
 
-    const UsersData = {
-      Fname: Fname,
-      Lname: Lname,
+    const userData = {
+      fname: fname,
+      lname: lname,
       password: password,
+      confirmPW: confirmPassword,
       email: email,
       phone: phone,
       role: role
     }
 
-    console.log(UsersData);
+    const { confirmPW, ...userDataNew } = userData
+    console.log(userData);
 
     try {
-      const AllData = await axios.post("http://localhost:3005/loginAndSign/addReg", UsersData);
+      await signupSchema.validate(userData, { abortEarly: false })
+      const AllData = await axios.post("http://localhost:3005/loginAndSign/addReg", userDataNew);
       console.log(AllData.data);
       testAlert("success", "Registration sucess")
-
+      setErrors({})
       setTimeout(() => {
         window.location.href = '/';
       }, 1500);
 
     } catch (error) {
       console.log("Registration Error: " + error);
-      testAlert("error", "Not Registered")
+      console.log("Err :", error.inner);
+      // testAlert("error", "Not Registered")
+
+      let errorsObject = {}
+
+      const errorsArray = error.inner
+
+      if (errorsArray && errorsArray.length > 0) {
+        errorsArray.forEach(err => {
+          errorsObject[err.path] = err.message
+        })
+      }
+
+      setErrors(errorsObject)
     }
 
   }
 
-  const cheackTwoPass = (e) => {
+  // const cheackTwoPass = (e) => {
 
-    e.preventDefault();
+  //   e.preventDefault();
 
-    if (password === Repassword) {
-      insertUsersData();
-    } else {
-      setMatchpass("Re entered password is incorrect");
-    }
+  //   if (password === Repassword) {
+  //     insertUserData();
+  //   } else {
+  //     setMatchpass("Re entered password is incorrect");
+  //   }
 
-  }
+  // }
 
 
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    emailvalidation(e.target.value);
-  }
+  // const handleEmailChange = (e) => {
+  //   setEmail(e.target.value);
+  //   emailvalidation(e.target.value);
+  // }
 
-  const emailvalidation = (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // const emailvalidation = (value) => {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(value)) {
-      setEmailError("Please enter a valid email");
-    }
-  }
+  //   if (!emailRegex.test(value)) {
+  //     setEmailError("Please enter a valid email");
+  //   }
+  // }
   const handleVisibility = () => {
     setShowPW(!showPW)
   }
@@ -110,29 +140,13 @@ function Registraition() {
 
   }
 
-  const countries = [
-    { label: 'Examinar' },
-    { label: 'Member' },
-    { label: 'Supervisor' },
-    { label: 'Co-Supervisor' },
-  ];
-
   const textStyle = {
     '& .MuiOutlinedInput-root': {
       height: "45px",
       borderRadius: "10px"
     }
   }
-  const root = {
-    '& -webkit-outer-spin-button': {
-      '-webkit-appearance': 'none',
-      margin: 0,
-    },
-    ' & -webkit-inner-spin-button': {
-      '-webkit-appearance': 'none'
-    }
 
-  }
   const roles = [
     'Examinar',
     'Member',
@@ -277,7 +291,14 @@ function Registraition() {
 
     //   </Box>
 
-    <Box width="100vw" height="100vh" position="relative" bgcolor="whitesmoke">
+    <Box
+      width="100vw"
+      height="100vh"
+      position="relative"
+      bgcolor="whitesmoke"
+      sx={{
+        overflowY: "scroll"
+      }}>
       <Box
         display="flex"
         flexDirection="column"
@@ -309,11 +330,19 @@ function Registraition() {
         >
           <Box display="flex" flexDirection="row" columnGap="15px">
             <TextField
+              value={fname}
+              error={errors && errors.fname}
+              helperText={errors && errors.fname}
+              onChange={(e) => setFname(e.target.value)}
               type='text'
               placeholder='First Name'
               sx={textStyle}
             />
             <TextField
+              value={lname}
+              error={errors && errors.lname}
+              helperText={errors && errors.lname}
+              onChange={(e) => setLname(e.target.value)}
               type='text'
               placeholder='Last Name'
               sx={textStyle}
@@ -321,6 +350,10 @@ function Registraition() {
           </Box>
 
           <TextField
+            value={email}
+            error={errors && errors.email}
+            helperText={errors && errors.email}
+            onChange={(e) => setEmail(e.target.value)}
             type='email'
             placeholder='Email'
             fullWidth
@@ -330,15 +363,20 @@ function Registraition() {
           <TextField
             type='number'
             placeholder='Phone Number'
+            value={phone}
+            onChange={(e) => setphone(e.target.value)}
             fullWidth
             sx={textStyle}
             inputProps={{
-              className:"input"
+              className: "input"
             }}
           />
 
           <FormControl fullWidth>
             <OutlinedInput
+              value={password}
+              error={errors && errors.password}
+              onChange={(e) => setPassword(e.target.value)}
               type={showPW ? 'text' : 'password'}
               placeholder='Password'
               fullWidth
@@ -354,10 +392,14 @@ function Registraition() {
                 height: "45px"
               }}
             />
+            <FormHelperText sx={{ color: "#d32f2f" }}>{errors.password}</FormHelperText>
           </FormControl>
 
           <FormControl fullWidth>
             <OutlinedInput
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              error={errors && errors.confirmPW}
               type={showConfirmPW ? 'text' : 'password'}
               placeholder='Confirm password'
               fullWidth
@@ -374,9 +416,14 @@ function Registraition() {
                 width: "100%"
               }}
             />
+            <FormHelperText sx={{ color: "#d32f2f" }}>{errors.confirmPW}</FormHelperText>
           </FormControl>
 
           <TextField
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            error={errors && errors.role}
+            helperText={errors && errors.role}
             label="Select Role"
             select
             sx={textStyle}
@@ -397,6 +444,7 @@ function Registraition() {
         </Box>
 
         <Button
+          onClick={insertUserData}
           variant="contained"
           fullWidth
           sx={{
