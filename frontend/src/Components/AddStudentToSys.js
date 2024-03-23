@@ -1,4 +1,3 @@
-import { margin } from '@mui/system';
 import axios from 'axios';
 import React from 'react'
 import { useState } from "react";
@@ -10,10 +9,9 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
 import { Hourglass } from 'react-loader-spinner'
+import {RotatingLines} from 'react-loader-spinner';
 
 
 
@@ -29,6 +27,7 @@ function AddStudentToSys() {
   const [Semester, setPersonName] = useState([]);
 
   const [uploading, setUploading] = useState(false);
+  const [ErrUpload, setErruploading] = useState(false);
 
   // onchange event
   const handleFile = (e) => {
@@ -70,12 +69,18 @@ function AddStudentToSys() {
   const addStudentdata = async () => {
     try {
       if (excelData !== null) {
-        setUploading(true);
         // console.log('Uploading:',uploading);
         for (const item of excelData) {
-          await axios.post('http://localhost:3005/normalroutes/addStudent', item);
-          console.log("StudentData added to the System");
-
+          await axios.post('http://localhost:3005/normalroutes/addStudent', item).then((res)=>{
+            console.log(res.data.error);
+            if (res.data.error){
+              setErruploading(true);
+            }
+            else{
+              setUploading(true);
+            }
+            console.log("StudentData added to the System");
+          })
         }
         setUploading(false);
         // console.log('Uploading:',uploading);
@@ -83,6 +88,8 @@ function AddStudentToSys() {
         console.log("No data to add");
       }
     } catch (error) {
+      setUploading(false);
+      setErruploading(true);
       console.log("Error adding student data to the System");
       console.error(error.message);
     }
@@ -100,7 +107,8 @@ function AddStudentToSys() {
     },
   };
 
-  const names = ["Semester 1", "Semester 2"];
+  const semester = ["Semester 1", "Semester 2"];
+  const speacialization=["Sofware Enginearing (SE)","Information Technology (IT)","Information System (IS)","Computer Science (CS)","Data science (DS)","Computer Science & Network Enginearing (CSNE)"]  //it,se,is,cs,ds,csne
 
   const handleChange = (event) => {
     const {
@@ -115,10 +123,10 @@ function AddStudentToSys() {
     <div>
 
 <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-    {uploading && (
+    {uploading &&(
       <div style={{ margin: 'auto', textAlign: 'center' }}>
         <Hourglass 
-          visible={true}
+          visible={uploading}
           height="150px"
           width="100px"
           ariaLabel="hourglass-loading"
@@ -126,9 +134,27 @@ function AddStudentToSys() {
           wrapperClass=""
           colors={['#306cce', '#72a1ed']}
         />
-        <p style={{background:'red',fontWeight:'bold'}}>Data processing...</p>
+        <p style={{background:'red',fontWeight:'bold'}}>Data Adding...</p>
       </div>
     )}
+  </div>
+
+  <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+   {ErrUpload &&(<div> 
+    <RotatingLines
+  visible={ErrUpload}
+  height="96"
+  width="96"
+  color='#306cce'
+  strokeWidth="5"
+  animationDuration="0.75"
+  ariaLabel="rotating-lines-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />
+  <p style={{background:'red',fontWeight:'bold'}}>Data Adding Error!!.</p>
+   </div>)}
+
   </div>
 
       <div className="wrapper">
@@ -180,7 +206,30 @@ function AddStudentToSys() {
                 renderValue={(selected) => selected.join(', ')}
                 MenuProps={MenuProps}
               >
-                {names.map((name) => (
+                {semester.map((name) => (
+                  <MenuItem key={name} value={name}>
+                    {name}
+                  </MenuItem>
+                ))}
+
+              </Select>
+            </FormControl>
+          </div>
+
+          <div style={{ marginLeft: '80px' }}>
+            <FormControl sx={{ width: 350 }}>
+              <InputLabel id="demo-multiple-checkbox-label">Select Current Specialization</InputLabel>
+              <Select
+
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={Semester}
+                onChange={handleChange}
+                input={<OutlinedInput label="Select Student Current Specialization" />}
+                renderValue={(selected) => selected.join(', ')}
+                MenuProps={MenuProps}
+              >
+                {speacialization.map((name) => (
                   <MenuItem key={name} value={name}>
                     {name}
                   </MenuItem>
@@ -194,7 +243,7 @@ function AddStudentToSys() {
         </div>
 
         {/* view data */}
-        <div className="viewer">
+        <div className="viewer" style={{ margin: '80px' }}>
           {excelData && (
             <div className="table-responsive">
               <table className="table">
