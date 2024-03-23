@@ -333,16 +333,9 @@ function Registraition() {
             fullWidth
             sx={textStyle}
             inputProps={{
-              classes: {
-                root: root
-              }
+              className:"input"
             }}
           />
-          {/* <Input /> */}
-          {/* <input
-            type='number'
-            placeholder='Phone Number (optional)'
-            style={root} /> */}
 
           <FormControl fullWidth>
             <OutlinedInput
@@ -389,7 +382,8 @@ function Registraition() {
             sx={textStyle}
             InputLabelProps={{
               style: {
-                color: grey['500']
+                color: "#bdbdbd"
+
               }
             }}
           >
