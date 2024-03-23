@@ -10,7 +10,7 @@ const nodemailer = require("nodemailer");
 const app=express()
 
 //Data add in register user
-router.route("/add").post((req,res)=>{
+router.route("/add").post(async(req,res)=>{
 
 
      const Fname=req.body.Fname
@@ -28,6 +28,12 @@ router.route("/add").post((req,res)=>{
         email:email,
         phone:phone
       })
+
+      const existingAdmin = await dataModel.findOne({ email:email });
+
+        if (existingAdmin) {
+            return res.send({error: `Already Used this email` });
+        }
 
      addingData.save().then(()=>{
         res.send("data added")
@@ -50,25 +56,36 @@ router.route("/allData").get(async(req,res)=>{
 
 
 //Data add in Students
-router.route("/addStudent").post((req,res)=>{
+router.route("/addStudent").post(async (req, res) => {
 
-    const Email=req.body.Email;
-    const GroupNumber=req.body.GroupNumber;
-    const IdNumber=req.body.IdNumber;
-    const StudentName=req.body.StudentName;
+    const { Email, GroupNumber, IdNumber, StudentName } = req.body;
 
-    const addDataStudent=new studentDatamodel({
-        Email:Email,GroupNumber:GroupNumber,IdNumber:IdNumber,StudentName:StudentName  //Semester:Semester
-     })
+    try {
+        const existingStudent = await studentDatamodel.findOne({ Email: Email });
 
-    addDataStudent.save().then(()=>{
-       res.send("data added")
-       console.log('Student data added');
-    }).catch((err)=>{
-       console.log('Student Data Added Error '+err.message);
-    })
+        if (existingStudent) {
+            return res.send({ error: `Student already exists: ${existingStudent}` });
+        }
 
-})
+        const addDataStudent = new studentDatamodel({
+            Email: Email,
+            GroupNumber: GroupNumber,
+            IdNumber: IdNumber,
+            StudentName: StudentName
+        });
+
+        addDataStudent.save().then(() => {
+            res.send("Data added");
+            console.log('Student data added');
+        });
+
+    } catch (err) {
+        console.log('Error adding student data: ' + err.message);
+        res.status(500).send("Error adding student data");
+    }
+
+});
+
 
 //data read in adminUsers
 router.route("/allData").get(async(req,res)=>{
@@ -82,25 +99,25 @@ router.route("/allData").get(async(req,res)=>{
 
 
 //Data add in Students
-router.route("/addStudent").post((req,res)=>{
+// router.route("/addStudent").post((req,res)=>{
 
-    const Email=req.body.Email;
-    const GroupNumber=req.body.GroupNumber;
-    const IdNumber=req.body.IdNumber;
-    const StudentName=req.body.StudentName;
+//     const Email=req.body.Email;
+//     const GroupNumber=req.body.GroupNumber;
+//     const IdNumber=req.body.IdNumber;
+//     const StudentName=req.body.StudentName;
 
-    const addDataStudent=new studentDatamodel({
-        Email:Email,GroupNumber:GroupNumber,IdNumber:IdNumber,StudentName:StudentName  //Semester:Semester
-     })
+//     const addDataStudent=new studentDatamodel({
+//         Email:Email,GroupNumber:GroupNumber,IdNumber:IdNumber,StudentName:StudentName  //Semester:Semester
+//      })
 
-    addDataStudent.save().then(()=>{
-       res.send("data added")
-       console.log('Student data added');
-    }).catch((err)=>{
-       console.log('Student Data Added Error '+err.message);
-    })
+//     addDataStudent.save().then(()=>{
+//        res.send("data added")
+//        console.log('Student data added');
+//     }).catch((err)=>{
+//        console.log('Student Data Added Error '+err.message);
+//     })
 
-})
+// })
 
 //data read in adminUsers
 router.route("/allData").get(async(req,res)=>{
