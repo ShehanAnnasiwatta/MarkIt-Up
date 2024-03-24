@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   Table,
   TableBody,
@@ -11,11 +12,16 @@ import {
   Button,
   Box,
   Typography,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
 } from '@mui/material';
 
 const MarkingRubric = () => {
-  const [criteria, setCriteria] = useState([['Criterion 1'], ['Criterion 2'], ['Criterion 3'], ['Criterion 4'], ['Criterion 5']]);
+  const [criteria, setCriteria] = useState([]);
   const [scores, setScores] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('');
 
   const handleCriteriaChange = (rowIndex, colIndex, event) => {
     const newCriteria = [...criteria];
@@ -30,7 +36,7 @@ const MarkingRubric = () => {
   };
 
   const addRow = () => {
-    const newRow = new Array(criteria[0].length).fill('');
+    const newRow = new Array(criteria[0] ? criteria[0].length : 1).fill('');
     setCriteria([...criteria, newRow]);
     setScores([...scores, '']);
   };
@@ -40,17 +46,62 @@ const MarkingRubric = () => {
     setCriteria(newCriteria);
   };
 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    if (criteria.some(row => row.some(cell => cell === '')) || scores.some(score => score === '') || !selectedOption) {
+      alert("Please fill all fields.");
+      return;
+    }
+  
+    const newRubric = {
+      specialization: selectedOption,
+      criteria,
+      scores,
+    };
+    console.log(newRubric);
+  
+    axios.post("http://localhost:3005/normalroutes/addrubric", newRubric)
+      .then(() => {
+        alert('Rubric submitted successfully!');
+      })
+      .catch((err) => {
+        console.error('Error submitting rubric:', err);
+        alert('Error submitting rubric: ' + err);
+      });
+  }
+  
+
   return (
     <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-      <Paper elevation={3} style={{ padding: 20 }}>
-        <Typography variant="h5" gutterBottom>
+      <Paper elevation={3} style={{ padding: 20, maxHeight: '80vh', overflow: 'auto', width: '80%' }}>
+        <Typography variant="h5" gutterBottom style={{marginBottom:'25px'}}>
           Marking Rubric
         </Typography>
+        <Box display="flex" alignItems="center" mb={2}>
+          <FormControl sx={{ minWidth: '200px', marginRight: '10px' }}>
+            <InputLabel id="select-option-label">Specialization</InputLabel>
+            <Select
+              labelId="select-option-label"
+              label="Specialization"
+              id="select-option"
+              value={selectedOption}
+              size="small"
+              onChange={(e) => setSelectedOption(e.target.value)}
+              sx={{ paddingTop: '10px' }}
+            >
+              <MenuItem value="option1">Information Technology</MenuItem>
+              <MenuItem value="option2">Software Engineering</MenuItem>
+              <MenuItem value="option3">Data Science</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
         <TableContainer>
           <Table aria-label="marking rubric table">
             <TableHead>
               <TableRow>
-                {criteria[0].map((_, index) => (
+                {criteria[0] && criteria[0].map((_, index) => (
                   <TableCell key={index}>Criterion {index + 1}</TableCell>
                 ))}
                 <TableCell align="right">Score</TableCell>
@@ -76,6 +127,7 @@ const MarkingRubric = () => {
                       onChange={(e) => handleScoreChange(rowIndex, e)}
                       variant="outlined"
                       size="small"
+                      sx={{width:'100px'}}
                     />
                   </TableCell>
                 </TableRow>
@@ -89,6 +141,11 @@ const MarkingRubric = () => {
           </Button>
           <Button variant="contained" color="primary" onClick={addColumn}>
             Add Column
+          </Button>
+        </Box>
+        <Box mt={2} display="flex" justifyContent="center">
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Submit
           </Button>
         </Box>
       </Paper>

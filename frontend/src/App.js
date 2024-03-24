@@ -2,21 +2,21 @@ import React from 'react';
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
 
 
-import Registraition from './components/Registraition';
-import AdminLogin from './components/AdminsLogin';
-import RequestTable from './components/RequestTable';
-import AdminHome from './components/adminhomePage';
-import AddAssi from './components/AddAsignment';
-import AddStudent from './components/AddStudentToSys';
-import Header from './components/headers/Header';
-import ShedulePresentation from './components/ShedulePresentation';
-import MarkingRubric from './components/MarkingRubric';
+import Registraition from './Components/Registraition';
+import AdminLogin from './Components/AdminsLogin';
+import RequestTable from './Components/RequestTable';
+import AdminHome from './Components/AdminHomePage';
+import AddAssi from './Components/AddAsignment';
+import AddStudent from './Components/AddStudentToSys';
+import Header from './Components/headers/Header';
+import ShedulePresentation from './Components/ShedulePresentation';
+import MarkingRubric from './Components/MarkingRubric';
 import AddProject from './pages/projects/addProjects';
 import ManageProject from './pages/projects/manageProject';
 import AddResearch from './pages/Research/AddResearch';
 import ManageResearch from './pages/Research/ManageResearchPaper';
-import StudentLogin from './components/StudentLogin';
-import StudentReg from './components/StudentReg';
+import StudentLogin from './Components/StudentLogin';
+import StudentReg from './Components/StudentReg';
 
 
 function App() {
