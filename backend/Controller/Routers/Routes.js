@@ -2,6 +2,7 @@ const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
 const presentation = require('../../Models/presentationModel')
+const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
 const router=require('express').Router()
 const express=require('express')
@@ -52,6 +53,35 @@ router.route("/allData").get(async(req,res)=>{
         console.log(err.message);
         res.send({message:"Data not found"})
     })
+})
+
+
+//Add assignment 
+router.route("/addAssignmet").post(async(req,res)=>{
+
+    const{ description,url,sdate,edate}=req.body;
+
+ console.log(sdate)
+ console.log(edate)
+    try {
+
+        const AddAssi=new assignment({
+            description:description,
+            url:url,
+            sdate:sdate,
+            edate:edate
+        })
+
+        AddAssi.save().then(()=>{
+            console.log("assignment data Added");
+            res.json("Assignment submitted")
+        })
+        
+    } catch (error) {
+        
+        console.log("assignment data Added Error");
+        res.json("Assignment submitted")
+    }
 })
 
 
