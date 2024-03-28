@@ -57,20 +57,25 @@ const MarkingRubric = () => {
   
     const newRubric = {
       specialization: selectedOption,
-      criteria,
-      scores,
+      criteria: criteria.map((row, index) => ({
+        name: row,
+        score: scores[index]
+      }))
     };
-    console.log(newRubric);
+    
+    console.log(newRubric); // Log the newRubric object before sending it
   
     axios.post("http://localhost:3005/normalroutes/addrubric", newRubric)
       .then(() => {
         alert('Rubric submitted successfully!');
+        window.location.reload();
       })
       .catch((err) => {
         console.error('Error submitting rubric:', err);
         alert('Error submitting rubric: ' + err);
       });
   }
+  
   
 
   return (
