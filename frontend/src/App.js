@@ -10,6 +10,7 @@ import AddAssi from './Components/AddAsignment';
 import AddStudent from './Components/AddStudentToSys';
 import Header from './Components/headers/Header';
 import ShedulePresentation from './Components/ShedulePresentation';
+import ViewPresentations from './Components/Presentations';
 import MarkingRubric from './Components/MarkingRubric';
 import AddProject from './pages/projects/addProjects';
 import ManageProject from './pages/projects/manageProject';
@@ -31,8 +32,9 @@ function App() {
     <Route path="/adminHome/:id" element={<AdminHome/>}></Route> 
     <Route path="/addAssi" element={<AddAssi/>}></Route> 
     <Route path="/addStudents" element={<AddStudent/>}></Route>
-    <Route path="/shedulepresentaion" element={<ShedulePresentation/>}></Route> 
-    <Route path="/rubric" element={<MarkingRubric/>}></Route> 
+    <Route path="/shedulepresentaion" element={<ShedulePresentation/>}></Route>
+    <Route path="/presentations" element={<ViewPresentations/>}></Route>
+    <Route path="/createrubric" element={<MarkingRubric/>}></Route> 
     <Route path="/stLog" element={<StudentLogin/>}></Route>
     <Route path="/stReg" element={<StudentReg/>}></Route> 
     <Route path="/addPro" element={<AddProject/>}></Route> 
