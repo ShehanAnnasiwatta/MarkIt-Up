@@ -334,6 +334,17 @@ router.route("/addpresentation").post((req,res)=>{
 
 })
 
+//read all presentations
+router.route("/presentations/all").get(async(req,res)=>{
+    presentation.find().then((data)=>{
+        res.send(data)
+    }).catch((err)=>{
+        console.log(err.message);
+        res.send({message:"Data not found"})
+    })
+ })
+
+
 //create marking rubric 
 router.route('/addrubric')
   .post(async (req, res) => {
