@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Grid, FormControl, InputLabel, Select, MenuItem, Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import axios from 'axios';
@@ -12,16 +13,50 @@ const StyledItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-export default function SchedulePresentation() {
+export default function EditPresentation() {
+  const [presentation, setPresentation] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
+  const [type, setType] = React.useState('');
+  const [group, setGroup] = React.useState('');
+  const [date, setDate] = React.useState(null);
+  const [startTime, setStartTime] = React.useState(null);
+  const [endTime, setEndTime] = React.useState(null);
+  const [location, setLocation] = React.useState('');
+  const [examiners, setExaminers] = React.useState([]);
+  const [selectedExaminers, setSelectedExaminers] = React.useState([]);
+  const params = useParams();
+  const { id: ID } = params;
+
+  useEffect(() => {
+    async function GetPresentation() {
+      try {
+        const res = await axios.get(`http://localhost:3005/normalroutes/presentation/${ID}`);
+        setLoading(true);
+        const presentationData = res.data;
+        
+        // // Parse date and time strings to Date objects
+        // presentationData.date = new Date(presentationData.date);
+        // presentationData.startTime = new Date(presentationData.startTime);
+        // presentationData.endTime = new Date(presentationData.endTime);
   
-  const [type, setType] = useState('');
-  const [group, setGroup] = useState('');
-  const [date, setDate] = useState(null);
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
-  const [location, setLocation] = useState('');
-  const [examiners, setExaminers] = useState([]);
-  const [selectedExaminers, setSelectedExaminers] = useState([]);
+        setPresentation(presentationData);
+        setType(presentationData.type);
+        setGroup(presentationData.group);
+        // setDate(presentationData.date);
+        setStartTime(presentationData.startTime);
+        setEndTime(presentationData.endTime);
+        setLocation(presentationData.location);
+        setExaminers(presentationData.examiners);
+        setSelectedExaminers(presentationData.examiners); // Assuming already selected examiners need to be pre-populated
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        alert(err.message);
+      }
+    }
+    GetPresentation();
+  }, [ID]);
+  
 
   useEffect(() => {
     const fetchExaminers = async () => {
@@ -34,7 +69,6 @@ export default function SchedulePresentation() {
         console.error('Error fetching examiners:', error);
       }
     };
-
     fetchExaminers();
   }, []);
 
@@ -48,13 +82,11 @@ export default function SchedulePresentation() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!type || !group || !date || !startTime || !endTime || !location || !selectedExaminers.length) {
       alert("Please fill all fields");
       return;
     }
-
-    const newPresentation = {
+    const updatePresentation = {
       type,
       group,
       date,
@@ -63,10 +95,9 @@ export default function SchedulePresentation() {
       location,
       examiners: selectedExaminers
     };
-
-    axios.post("http://localhost:3005/normalroutes/addpresentation", newPresentation)
+    axios.put(`http://localhost:3005/normalroutes/update/${ID}`, updatePresentation) // Fix endpoint URL
       .then(() => {
-        alert('Presentation added');
+        alert('Presentation updated');
         window.location.href = '/presentations';
       })
       .catch((err) => {
@@ -150,7 +181,7 @@ export default function SchedulePresentation() {
               </Select>
             </FormControl>
             <br /><br />
-            <Button variant="contained" onClick={handleSubmit}>Create Presentation</Button>
+            <Button variant="contained" onClick={handleSubmit}>Update Presentation</Button>
           </StyledItem>
         </Grid>
 

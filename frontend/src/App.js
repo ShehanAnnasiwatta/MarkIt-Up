@@ -18,6 +18,7 @@ import AddResearch from './pages/Research/AddResearch';
 import ManageResearch from './pages/Research/ManageResearchPaper';
 import StudentLogin from './Components/StudentLogin';
 import StudentReg from './Components/StudentReg';
+import EditPresentation from './Components/EditPresentation';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     <Route path="/addStudents" element={<AddStudent/>}></Route>
     <Route path="/shedulepresentation" element={<ShedulePresentation/>}></Route>
     <Route path="/presentations" element={<ViewPresentations/>}></Route>
+    <Route path="/presentation/:id" element={<EditPresentation/>}></Route>
     <Route path="/createrubric" element={<MarkingRubric/>}></Route> 
     <Route path="/stLog" element={<StudentLogin/>}></Route>
     <Route path="/stReg" element={<StudentReg/>}></Route> 

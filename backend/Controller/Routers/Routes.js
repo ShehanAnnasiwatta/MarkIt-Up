@@ -1,7 +1,7 @@
 const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
-const presentation = require('../../Models/presentationModel')
+const Presentation = require('../../Models/presentationModel')
 const Rubric = require('../../Models/rubricModel')
 const router=require('express').Router()
 const express=require('express')
@@ -303,57 +303,85 @@ router.route("/update/:id").put(async(req,res)=>{
     }
 })
 
-//create presentation
-router.route("/addpresentation").post((req,res)=>{
+router.route("/addpresentation").post((req, res) => {
+    const type = req.body.type;
+    const group = req.body.group;
+    const date = new Date(req.body.date); // Convert date string to Date object
+    const startTime = new Date(req.body.startTime); // Convert start time string to Date object
+    const endTime = new Date(req.body.endTime); // Convert end time string to Date object
+    const location = req.body.location;
+    const examiners = req.body.examiners;
 
+    const addPresentation = new Presentation({
+        type,
+        group,
+        date,
+        startTime,
+        endTime,
+        location,
+        examiners
+    });
 
-    const type = req.body.type
-    const group = req.body.group
-    const date = req.body.date
-    const startTime = req.body.startTime
-    const endTime = req.body.endTime
-    const location = req.body.location
-    const examiners = req.body.examiners
+    addPresentation.save()
+        .then(() => {
+            res.send("Presentation added successfully");
+            console.log('Presentation added');
+        })
+        .catch((err) => {
+            res.status(400).send("Error adding presentation: " + err.message);
+            console.error('Error adding presentation:', err);
+        });
+});
 
-    const addPresentation = new presentation({
-       type,
-       group,
-       date,
-       startTime,
-       endTime,
-       location,
-       examiners
-     })
-
-     addPresentation.save().then(()=>{
-       res.send("data added")
-       console.log('data added');
-    }).catch((err)=>{
-       console.log('data added error '+err.message);
-    })
-
-})
 
 //read all presentations
 router.route("/presentations/all").get(async(req, res)=>{
-    presentation.find().then((data)=>{
+    Presentation.find().then((data)=>{
         res.send(data)
     }).catch((err)=>{
         console.log(err.message);
         res.send({message:"Data not found"})
     })
- })
+ });
+
+ // Get only one presentation
+router.get('/presentation/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const presentation = await Presentation.findById(id);
+      res.send(presentation);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  });
+
+ //update presentation
+ router.put('/update/presentation/:id', async (req, res) => {
+    const { id } = req.params;
+    const { type, group, date, startTime, endTime, location,examiners} = req.body;
+  
+    try {
+      const presentation = await Presentation.findByIdAndUpdate(id, { type, group, date, startTime, endTime, location,examiners }, { new: true });
+      res.send(presentation);
+      console.log("updated successfully!")
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  });
+
 
  //Delete presentations
-router.route("/deletepresentation/:id").delete(async(req, res)=>{
+router.route("/delete/presentation/:id").delete(async(req, res)=>{
     let id=req.params.id;
 
-    await presentation.findByIdAndDelete(id).then(()=>{
+    await Presentation.findByIdAndDelete(id).then(()=>{
          res.send("data deleted");
     }).catch((err)=>{
         res.send("presentation not delete" + err)
     })
-})
+});
 
 
 //create marking rubric 
