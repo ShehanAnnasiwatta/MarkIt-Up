@@ -339,6 +339,7 @@ router.route("/addpresentation").post((req,res)=>{
 
 
     const type = req.body.type
+    const group = req.body.group
     const date = req.body.date
     const startTime = req.body.startTime
     const endTime = req.body.endTime
@@ -347,6 +348,7 @@ router.route("/addpresentation").post((req,res)=>{
 
     const addPresentation = new presentation({
        type,
+       group,
        date,
        startTime,
        endTime,
@@ -362,6 +364,17 @@ router.route("/addpresentation").post((req,res)=>{
     })
 
 })
+
+//read all presentations
+router.route("/presentations/all").get(async(req,res)=>{
+    presentation.find().then((data)=>{
+        res.send(data)
+    }).catch((err)=>{
+        console.log(err.message);
+        res.send({message:"Data not found"})
+    })
+ })
+
 
 //create marking rubric 
 router.route('/addrubric')
@@ -381,7 +394,31 @@ router.route('/addrubric')
     }
   });
 
+//read all marking rubrics
+router.route("/rubrics/all").get(async(req,res)=>{
+    Rubric.find().then((data)=>{
+        res.send(data)
+    }).catch((err)=>{
+        console.log(err.message);
+        res.send({message:"Data not found"})
+    })
+ })
 
+
+//read one marking rubric
+router.route("/rubrics/:id").get(async(req,res)=>{
+    const rid=req.params.id;
+    console.log(rid);
+
+   try {      
+    Rubric.findById(rid).then((data)=>{
+        res.json(data)
+    })
+
+   } catch (error) {
+     console.log("Can not get rubric!" + error)
+   }
+})
 
 
 module.exports = router;

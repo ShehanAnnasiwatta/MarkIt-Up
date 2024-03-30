@@ -6,6 +6,11 @@ const presentationSchema = new mongoose.Schema({
         required: true
     },
 
+    group: {
+        type: String,
+        required: true
+    },
+
     date: {
         type: Date,
         required: true
