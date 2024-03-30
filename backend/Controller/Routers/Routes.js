@@ -88,7 +88,7 @@ router.route("/addAssignmet").post(async(req,res)=>{
 //Data add in Students
 router.route("/addStudent").post(async (req, res) => {
 
-    const { Email, GroupNumber, IdNumber, StudentName } = req.body;
+    const { StudentName,Email,/*GroupNumber*/ IdNumber,RegistrationNo} = req.body;
 
     try {
         const existingStudent = await studentDatamodel.findOne({ Email: Email });
@@ -98,10 +98,11 @@ router.route("/addStudent").post(async (req, res) => {
         }
 
         const addDataStudent = new studentDatamodel({
+            StudentName: StudentName,
             Email: Email,
-            GroupNumber: GroupNumber,
-            IdNumber: IdNumber,
-            StudentName: StudentName
+            //GroupNumber: GroupNumber,
+            IdNumber: IdNumber, 
+            RegNo:RegistrationNo   
         });
 
         addDataStudent.save().then(() => {
