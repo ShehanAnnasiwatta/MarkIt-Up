@@ -303,6 +303,7 @@ router.route("/update/:id").put(async(req,res)=>{
     }
 })
 
+//create presentation
 router.route("/addpresentation").post((req, res) => {
     const type = req.body.type;
     const group = req.body.group;
@@ -413,20 +414,30 @@ router.route("/rubrics/all").get(async(req,res)=>{
  })
 
 
-//read one marking rubric
-router.route("/rubrics/:id").get(async(req,res)=>{
-    const rid=req.params.id;
-    console.log(rid);
+//Delete rubrics
+router.route("/delete/rubric/:id").delete(async(req, res)=>{
+    let id = req.params.id;
 
-   try {      
-    Rubric.findById(rid).then((data)=>{
-        res.json(data)
+    await Rubric.findByIdAndDelete(id).then(()=>{
+         res.send("Rubric deleted");
+    }).catch((err)=>{
+        res.send("Rubric not deleted " + err)
     })
+});
 
-   } catch (error) {
-     console.log("Can not get rubric!" + error)
-   }
-})
+
+// Get only one rubric
+router.get('/rubric/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const rub = await Rubric.findById(id);
+      res.send(rub);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  });
+
 
 
 module.exports = router;
