@@ -6,6 +6,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import dayjs from 'dayjs'; // Import dayjs library
+
 
 const StyledItem = styled(Grid)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -46,24 +48,28 @@ export default function SchedulePresentation() {
     setSelectedExaminers(event.target.value);
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!type || !group || !date || !startTime || !endTime || !location || !selectedExaminers.length) {
       alert("Please fill all fields");
       return;
     }
-
+  
+    // Extracting date portion from selected date
+    const dateOnly = date.toISOString().split('T')[0];
+  
     const newPresentation = {
       type,
       group,
-      date,
-      startTime,
-      endTime,
+      date: dateOnly,
+      startTime: startTime.toDate().toLocaleTimeString(),
+      endTime: endTime.toDate().toLocaleTimeString(),
       location,
       examiners: selectedExaminers
     };
-
+  
     axios.post("http://localhost:3005/normalroutes/addpresentation", newPresentation)
       .then(() => {
         alert('Presentation added');
@@ -73,7 +79,10 @@ export default function SchedulePresentation() {
         alert(err);
       });
   };
-
+  
+  
+  
+  
   return (
     <div>
     <h2 style={{marginLeft:'220px', marginTop:'20px'}}>Shedule  a presentation</h2>

@@ -366,7 +366,7 @@ router.route("/addpresentation").post((req,res)=>{
 })
 
 //read all presentations
-router.route("/presentations/all").get(async(req,res)=>{
+router.route("/presentations/all").get(async(req, res)=>{
     presentation.find().then((data)=>{
         res.send(data)
     }).catch((err)=>{
@@ -374,6 +374,17 @@ router.route("/presentations/all").get(async(req,res)=>{
         res.send({message:"Data not found"})
     })
  })
+
+ //Delete presentations
+router.route("/deletepresentation/:id").delete(async(req, res)=>{
+    let id=req.params.id;
+
+    await presentation.findByIdAndDelete(id).then(()=>{
+         res.send("data deleted");
+    }).catch((err)=>{
+        res.send("presentation not delete" + err)
+    })
+})
 
 
 //create marking rubric 
