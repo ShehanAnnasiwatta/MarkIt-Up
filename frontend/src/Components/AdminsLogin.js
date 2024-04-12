@@ -60,8 +60,22 @@ function AdminsLogin() {
   const [loginmsg, setloginMsg] = useState([])
   const [showPW, setShowPW] = useState(false)
   const [errors, setErrors] = useState({})
+  const [reqtableData,setReqtableData]=useState([])
 
   const loginCredentials = { email: email, password: password }
+
+
+    const reqTableData=()=>{
+      axios.get(`http://localhost:3005/RequestTUserEmail/${email}`).then((res)=>{
+      console.log("request table data read")
+      console.log(res.data)
+      setReqtableData(res.data)
+    }).catch((err)=>{
+       console.log("Request table data fetching error")
+       console.log(err)
+    })
+    }
+
 
   const UserdataSubmit = async (e) => {
     e.preventDefault();
@@ -73,7 +87,10 @@ function AdminsLogin() {
       alert(alldata.data.message);
       setloginMsg(alldata)
       setErrors({})
+
+     
       if (alldata.data.message === "Login successful") {
+         reqTableData()
         window.location.href = `/adminHome/${alldata.data.UserId}`;
       }
 
@@ -319,7 +336,7 @@ function AdminsLogin() {
           width="100%"
           fontSize="12px"
         >
-          Don't have an account? <a href='#'>Sign up</a>
+          Don't have an account? <a href='/register'>Sign up</a>
         </Typography>
       </Box>
 

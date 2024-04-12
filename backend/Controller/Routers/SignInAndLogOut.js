@@ -87,8 +87,8 @@ router.post('/signout',AuthorizedUser,(req,res) =>{
 
 router.route("/addReg").post((req,res)=>{
 
-    const Fname=req.body.Fname
-    const Lname=req.body.Lname
+    const Fname=req.body.fname
+    const Lname=req.body.lname
     const pass=req.body.password
     const role=req.body.role
     const email=req.body.email

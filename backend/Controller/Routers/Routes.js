@@ -2,6 +2,7 @@ const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
 const presentation = require('../../Models/presentationModel')
+const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
 const router=require('express').Router()
 const express=require('express')
@@ -55,10 +56,39 @@ router.route("/allData").get(async(req,res)=>{
 })
 
 
+//Add assignment 
+router.route("/addAssignmet").post(async(req,res)=>{
+
+    const{ description,url,sdate,edate}=req.body;
+
+ console.log(sdate)
+ console.log(edate)
+    try {
+
+        const AddAssi=new assignment({
+            description:description,
+            url:url,
+            sdate:sdate,
+            edate:edate
+        })
+
+        AddAssi.save().then(()=>{
+            console.log("assignment data Added");
+            res.json("Assignment submitted")
+        })
+        
+    } catch (error) {
+        
+        console.log("assignment data Added Error");
+        res.json("Assignment submitted")
+    }
+})
+
+
 //Data add in Students
 router.route("/addStudent").post(async (req, res) => {
 
-    const { Email, GroupNumber, IdNumber, StudentName } = req.body;
+    const { StudentName,Email,/*GroupNumber*/ IdNumber,RegistrationNo} = req.body;
 
     try {
         const existingStudent = await studentDatamodel.findOne({ Email: Email });
@@ -68,10 +98,11 @@ router.route("/addStudent").post(async (req, res) => {
         }
 
         const addDataStudent = new studentDatamodel({
+            StudentName: StudentName,
             Email: Email,
-            GroupNumber: GroupNumber,
-            IdNumber: IdNumber,
-            StudentName: StudentName
+            //GroupNumber: GroupNumber,
+            IdNumber: IdNumber, 
+            RegNo:RegistrationNo   
         });
 
         addDataStudent.save().then(() => {
@@ -176,6 +207,23 @@ router.route("/oneUserEmail/:id").get(async(req,res)=>{
 
    try {      
     dataModel.findById(Uid).then((data)=>{
+        res.json(data)
+    })
+
+   } catch (error) {
+     console.log("One data are read error "+error)
+   }
+})
+
+
+
+//get one person details using email in requesttable
+router.route("/RequestTUserEmail/:email").get(async(req,res)=>{
+    const email=req.params.email;
+    console.log(email);
+
+   try {      
+    requestTable.findById(email).then((data)=>{
         res.json(data)
     })
 

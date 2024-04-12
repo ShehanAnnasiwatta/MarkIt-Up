@@ -18,6 +18,7 @@ import AddResearch from './pages/Research/AddResearch';
 import ManageResearch from './pages/Research/ManageResearchPaper';
 import StudentLogin from './Components/StudentLogin';
 import StudentReg from './Components/StudentReg';
+import ProfileMenuAdmin from './Components/menus/ProfileMenuForAdmin'
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
     <Route path="/managePro" element={<ManageProject/>}></Route> 
     <Route path="/addRes" element={<AddResearch/>}></Route> 
     <Route path="/manageRes" element={<ManageResearch/>}></Route> 
+    <Route path="/adminProMenu" element={<ProfileMenuAdmin/>}></Route>
    </Routes>
 
  </Router>   
