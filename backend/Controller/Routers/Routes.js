@@ -216,6 +216,23 @@ router.route("/oneUserEmail/:id").get(async(req,res)=>{
 })
 
 
+
+//get one person details using email in requesttable
+router.route("/RequestTUserEmail/:email").get(async(req,res)=>{
+    const email=req.params.email;
+    console.log(email);
+
+   try {      
+    requestTable.findById(email).then((data)=>{
+        res.json(data)
+    })
+
+   } catch (error) {
+     console.log("One data are read error "+error)
+   }
+})
+
+
 //data delete
 router.route("/delete/:id").delete(async(req,res)=>{
     let id=req.params.id;
