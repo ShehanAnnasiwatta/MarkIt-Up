@@ -18,8 +18,20 @@ import AddResearch from './pages/Research/AddResearch';
 import ManageResearch from './pages/Research/ManageResearchPaper';
 import StudentLogin from './Components/StudentLogin';
 import StudentReg from './Components/StudentReg';
-import ProfileMenuAdmin from './Components/menus/ProfileMenuForAdmin'
+import SpeciaSelect from './Components/SpecializationSelect'
 
+import SeSem1 from './Components/AdminSpeacializationHomePages/SeSem1';
+import SeSem2 from './Components/AdminSpeacializationHomePages/SeSem2';
+import ItSem1 from './Components/AdminSpeacializationHomePages/ItSem1';
+import ItSem2 from './Components/AdminSpeacializationHomePages/ItSem2';
+import IsSem1 from './Components/AdminSpeacializationHomePages/IsSem1';
+import IsSem2 from './Components/AdminSpeacializationHomePages/IsSem2';
+import DsSem1 from './Components/AdminSpeacializationHomePages/DsSem1';
+import DsSem2 from './Components/AdminSpeacializationHomePages/DsSem2';
+import CsSem1 from './Components/AdminSpeacializationHomePages/CsSem1';
+import CsSem2 from './Components/AdminSpeacializationHomePages/CsSem2';
+import CSNESem1 from './Components/AdminSpeacializationHomePages/CSNESem1';
+import CSNESem2 from './Components/AdminSpeacializationHomePages/CSNESem2';
 
 function App() {
   return (
@@ -31,7 +43,7 @@ function App() {
     <Route path="/register" element={<Registraition/>}></Route>
     <Route path="/requestTable" element={<RequestTable/>}></Route>
     <Route path="/adminHome/:id" element={<AdminHome/>}></Route> 
-    <Route path="/addAssi" element={<AddAssi/>}></Route> 
+    <Route path="/addAssi/:id" element={<AddAssi/>}></Route> 
     <Route path="/addStudents" element={<AddStudent/>}></Route>
     <Route path="/shedulepresentation" element={<ShedulePresentation/>}></Route>
     <Route path="/presentations" element={<ViewPresentations/>}></Route>
@@ -42,7 +54,20 @@ function App() {
     <Route path="/managePro" element={<ManageProject/>}></Route> 
     <Route path="/addRes" element={<AddResearch/>}></Route> 
     <Route path="/manageRes" element={<ManageResearch/>}></Route> 
-    <Route path="/adminProMenu" element={<ProfileMenuAdmin/>}></Route>
+    <Route path="/SpecializationSelect" element={<SpeciaSelect/>}></Route>
+
+    <Route path="/CSNESem1" element={<CSNESem1/>}></Route>
+    <Route path="/CSNESem2" element={<CSNESem2/>}></Route>
+    <Route path="/CsSem1" element={<CsSem1/>}></Route>
+    <Route path="/CsSem2" element={<CsSem2/>}></Route>
+    <Route path="/DsSem1" element={<DsSem1/>}></Route>
+    <Route path="/DsSem2" element={<DsSem2/>}></Route>
+    <Route path="/IsSem1" element={<IsSem1/>}></Route>
+    <Route path="/IsSem2" element={<IsSem2/>}></Route>
+    <Route path="/ItSem1" element={<ItSem1/>}></Route>
+    <Route path="/ItSem2" element={<ItSem2/>}></Route>
+    <Route path="/SeSem1" element={<SeSem1/>}></Route>
+    <Route path="/SeSem2" element={<SeSem2/>}></Route>
    </Routes>
 
  </Router>   

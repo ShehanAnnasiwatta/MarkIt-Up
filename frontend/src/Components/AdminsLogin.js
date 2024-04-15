@@ -91,7 +91,7 @@ function AdminsLogin() {
      
       if (alldata.data.message === "Login successful") {
          reqTableData()
-        window.location.href = `/adminHome/${alldata.data.UserId}`;
+        window.location.href = `/SpecializationSelect`;
       }
 
 

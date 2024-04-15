@@ -14,6 +14,7 @@ function AddAsignment() {
   const[endDate,setEnddate]=useState('');
   const[startDate,setStartdate]=useState('');
   console.log(startDate);
+  const[UploadFile,setFile]=useState([]);
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -26,6 +27,10 @@ function AddAsignment() {
     whiteSpace: 'nowrap',
     width: 1,
   });
+
+  const HandleFileChange=(e)=>{
+       setFile([...e.target.files]);
+  };
 
   const submitAss=async(e)=>{
 
@@ -92,10 +97,19 @@ function AddAsignment() {
   variant="contained"
   tabIndex={-1}
   startIcon={<CloudUploadIcon />}
+  onChange={HandleFileChange}
 >
   Upload file
   <VisuallyHiddenInput type="file" />
 </Button>
+
+<div>
+        {UploadFile.map((file, index) => (
+          <div key={index}>
+            {file.name} - {file.size} bytes
+          </div>
+        ))}
+  </div>
 
   <div class="row justify-content-center" style={{direction:'flex'}}>
     <div class="col-auto">
