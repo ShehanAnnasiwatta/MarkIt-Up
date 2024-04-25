@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from 'axios';
+import { useParams} from 'react-router-dom'
 
 
 function AddAsignment() {
@@ -15,6 +16,10 @@ function AddAsignment() {
   const[startDate,setStartdate]=useState('');
   console.log(startDate);
   const[UploadFile,setFile]=useState([]);
+
+  const{id}=useParams();
+  console.log(id);
+
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -32,6 +37,7 @@ function AddAsignment() {
        setFile([...e.target.files]);
   };
 
+
   const submitAss=async(e)=>{
 
     e.preventDefault();
@@ -44,10 +50,11 @@ function AddAsignment() {
     const assigmentData={
           description:Desvalu,
           sdate:sDate,
-          edate:eDate
+          edate:eDate,
+          week:id
     }
 
-    axios.post("http://localhost:3005/normalroutes/addAssignmet",assigmentData).then((res)=>{
+    axios.post("http://localhost:3005/AddAssi/SeSem1",assigmentData).then((res)=>{
          console.log(res.data);
          console.log("Assignment data added Success");
     }).catch((err)=>{

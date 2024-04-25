@@ -6,7 +6,7 @@ import Registraition from './Components/Registraition';
 import AdminLogin from './Components/AdminsLogin';
 import RequestTable from './Components/RequestTable';
 import AdminHome from './Components/AdminHomePage';
-import AddAssi from './Components/AddAsignment';
+//import AddAssi from './Components/AddAsignment';
 import AddStudent from './Components/AddStudentToSys';
 import Header from './Components/headers/Header';
 import ShedulePresentation from './Components/ShedulePresentation';
@@ -33,6 +33,19 @@ import CsSem2 from './Components/AdminSpeacializationHomePages/CsSem2';
 import CSNESem1 from './Components/AdminSpeacializationHomePages/CSNESem1';
 import CSNESem2 from './Components/AdminSpeacializationHomePages/CSNESem2';
 
+import SeSem1Add from './Components/AdminAssignmentAdd/SeSem1Add';
+import SeSem2Add from './Components/AdminAssignmentAdd/SeSem2Add';
+import DsSem1Add from './Components/AdminAssignmentAdd/DSSem1Add';
+import DsSem2Add from './Components/AdminAssignmentAdd/DSSem2Add';
+import CSNESem1Add from './Components/AdminAssignmentAdd/CSNESem1Add';
+import CSNESem2Add from './Components/AdminAssignmentAdd/CSNESem2Add';
+import IsSem1Add from './Components/AdminAssignmentAdd/IsSem1Add';
+import IsSem2Add from './Components/AdminAssignmentAdd/IsSem2Add';
+import ItSem1Add from './Components/AdminAssignmentAdd/ItSem1Add';
+import ItSem2Add from './Components/AdminAssignmentAdd/ItSem2Add';
+import CsSem1Add from './Components/AdminAssignmentAdd/CSSem1Add';
+import CsSem2Add from './Components/AdminAssignmentAdd/CSSem2Add';
+
 function App() {
   return (
 
@@ -43,7 +56,6 @@ function App() {
     <Route path="/register" element={<Registraition/>}></Route>
     <Route path="/requestTable" element={<RequestTable/>}></Route>
     <Route path="/adminHome/:id" element={<AdminHome/>}></Route> 
-    <Route path="/addAssi/:id" element={<AddAssi/>}></Route> 
     <Route path="/addStudents" element={<AddStudent/>}></Route>
     <Route path="/shedulepresentation" element={<ShedulePresentation/>}></Route>
     <Route path="/presentations" element={<ViewPresentations/>}></Route>
@@ -68,6 +80,20 @@ function App() {
     <Route path="/ItSem2" element={<ItSem2/>}></Route>
     <Route path="/SeSem1" element={<SeSem1/>}></Route>
     <Route path="/SeSem2" element={<SeSem2/>}></Route>
+
+    <Route path="/CSNESem1Add/:id" element={<CSNESem2Add/>}></Route>
+    <Route path="/CSNESem2Add/:id" element={<CSNESem1Add/>}></Route>
+    <Route path="/CsSem2Add/:id" element={<CsSem2Add/>}></Route>
+    <Route path="/CsSem2Add/:id" element={<CsSem1Add/>}></Route>
+    <Route path="/DsSem2Add/:id" element={<DsSem2Add/>}></Route>
+    <Route path="/DsSem1Add/:id" element={<DsSem1Add/>}></Route>
+    <Route path="/IsSem2Add/:id" element={<IsSem2Add/>}></Route>
+    <Route path="/IsSem1Add/:id" element={<IsSem1Add/>}></Route>
+    <Route path="/ItSem2Add/:id" element={<ItSem2Add/>}></Route>
+    <Route path="/ItSem1Add/:id" element={<ItSem1Add/>}></Route>
+    <Route path="/SeSem2Add/:id" element={<SeSem2Add/>}></Route>
+    <Route path="/SeSem1Add/:id" element={<SeSem1Add/>}></Route>
+
    </Routes>
 
  </Router>   

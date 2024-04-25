@@ -107,7 +107,7 @@ function SeSem2() {
                             <tr>
                                 <td>
                                     <div>
-                                        <Button href={`/addAssi/${i}`} startIcon={<Add />} color="primary">+ Add Assignment</Button>
+                                        <Button href={`/SeSem2Add/${i}`} startIcon={<Add />} color="primary"> Add Assignment</Button>
                                     </div>
                                 </td>
                             </tr>

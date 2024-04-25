@@ -56,34 +56,6 @@ router.route("/allData").get(async(req,res)=>{
 })
 
 
-//Add assignment 
-router.route("/addAssignmet").post(async(req,res)=>{
-
-    const{ description,url,sdate,edate}=req.body;
-
- console.log(sdate)
- console.log(edate)
-    try {
-
-        const AddAssi=new assignment({
-            description:description,
-            url:url,
-            sdate:sdate,
-            edate:edate
-        })
-
-        AddAssi.save().then(()=>{
-            console.log("assignment data Added");
-            res.json("Assignment submitted")
-        })
-        
-    } catch (error) {
-        
-        console.log("assignment data Added Error");
-        res.json("Assignment submitted")
-    }
-})
-
 
 //Data add in Students
 router.route("/addStudent").post(async (req, res) => {

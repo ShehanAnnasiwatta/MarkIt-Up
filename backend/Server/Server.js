@@ -66,6 +66,9 @@ app.use("/student", studentRoutes);
 const StSignAndLogout=require('../Controller/Routers/StudentSigns');
 app.use('/stloginAndSign',/*RequireRole([''])*/StSignAndLogout);
 
+const AssignmentAdd=require('../Controller/Routers/AdminAssigmentAddRoute')
+app.use("/AddAssi",AssignmentAdd);
+
 db.on('error',(err)=>{
     console.error(`Mongodb connection error ${err}`)
 })

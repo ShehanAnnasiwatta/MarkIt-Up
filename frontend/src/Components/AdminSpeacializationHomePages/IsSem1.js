@@ -107,7 +107,7 @@ function ItSem1() {
                             <tr>
                                 <td>
                                     <div>
-                                        <Button href={`/addAssi/${i}`} startIcon={<Add />} color="primary">+ Add Assignment</Button>
+                                        <Button href={`/IsSem1Add/${i}`} startIcon={<Add />} color="primary"> Add Assignment</Button>
                                     </div>
                                 </td>
                             </tr>
