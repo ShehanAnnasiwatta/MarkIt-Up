@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from 'axios';
+import { useParams} from 'react-router-dom'
 
 
 function AddAsignment() {
@@ -14,6 +15,11 @@ function AddAsignment() {
   const[endDate,setEnddate]=useState('');
   const[startDate,setStartdate]=useState('');
   console.log(startDate);
+  const[UploadFile,setFile]=useState([]);
+
+  const{id}=useParams();
+  console.log(id);
+
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -27,6 +33,11 @@ function AddAsignment() {
     width: 1,
   });
 
+  const HandleFileChange=(e)=>{
+       setFile([...e.target.files]);
+  };
+
+
   const submitAss=async(e)=>{
 
     e.preventDefault();
@@ -39,10 +50,11 @@ function AddAsignment() {
     const assigmentData={
           description:Desvalu,
           sdate:sDate,
-          edate:eDate
+          edate:eDate,
+          week:id
     }
 
-    axios.post("http://localhost:3005/normalroutes/addAssignmet",assigmentData).then((res)=>{
+    axios.post("http://localhost:3005/AddAssi/SeSem1",assigmentData).then((res)=>{
          console.log(res.data);
          console.log("Assignment data added Success");
     }).catch((err)=>{
@@ -92,10 +104,19 @@ function AddAsignment() {
   variant="contained"
   tabIndex={-1}
   startIcon={<CloudUploadIcon />}
+  onChange={HandleFileChange}
 >
   Upload file
   <VisuallyHiddenInput type="file" />
 </Button>
+
+<div>
+        {UploadFile.map((file, index) => (
+          <div key={index}>
+            {file.name} - {file.size} bytes
+          </div>
+        ))}
+  </div>
 
   <div class="row justify-content-center" style={{direction:'flex'}}>
     <div class="col-auto">
