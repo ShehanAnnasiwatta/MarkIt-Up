@@ -145,6 +145,7 @@ function DSSem2Add() {
   
       const assigmentData={
             description:Desvalu,
+            url:FilesUrls,
             sdate:sDate,
             edate:eDate,
             week:id
