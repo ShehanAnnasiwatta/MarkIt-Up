@@ -2,8 +2,11 @@ const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
 const presentation = require('../../Models/presentationModel')
+<<<<<<< HEAD
+=======
 const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
+>>>>>>> ab3051941dcd4d91b9fada2a4fd72498c5f346b1
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");

@@ -51,12 +51,12 @@ const resPaperSchema = mongoose.Schema({
     },
     selectedCurrency: {
         type: String,
-        required: [true, 'Please add usd']
+        required: [false, 'Please add usd']
     },
    
     fee: {
         type: String,
-        required: [true, 'Please add fee']
+        required: [false, 'Please add fee']
     },
 }, {
     timestamps: true

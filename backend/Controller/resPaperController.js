@@ -49,6 +49,11 @@ const createResearch = asyncHandler(async (req, res) => {
     
     const { groupId, title, student, supervisor, coSupervisor, conference, journal, issnNum, conJouLink, verLink, acceptPhoto, successPhoto, selectedCurrency, fee} = req.body;
 
+    // Ensure that selectedCurrency is either 'USD' or 'LKR'
+    if (selectedCurrency !== 'USD' && selectedCurrency !== 'LKR') {
+        return res.status(400).json({ error: 'Invalid currency selection. Please select either USD or LKR.' });
+    }
+
     const research = new Resrch({
         groupId: groupId,
         title: title,
@@ -80,6 +85,11 @@ const updateResearch = asyncHandler(async (req, res) => {
   
     if (research) {
   
+        // Ensure that selectedCurrency is either 'USD' or 'LKR'
+        if (req.body.selectedCurrency && req.body.selectedCurrency !== 'USD' && req.body.selectedCurrency !== 'LKR') {
+            return res.status(400).json({ error: 'Invalid currency selection. Please select either USD or LKR.' });
+        }
+
         const updateResearch = await Resrch.findByIdAndUpdate(req.params.id, { $set: req.body },{ 
             new: true,
         });
@@ -90,7 +100,7 @@ const updateResearch = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Research not found')
     }
-  })
+})
 
 // @desc    Delete vet
 // @route   DELETE /api/vetstv/:id
