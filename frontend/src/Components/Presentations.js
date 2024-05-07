@@ -88,7 +88,7 @@ export default function Presentations() {
                 <TableCell>{row.location}</TableCell>
                 <TableCell>{row.examiners.join(', ')}</TableCell>
                 <TableCell style={{width:'150px'}}>
-                  <Link to={`/presentation/${row._id}`}><Button variant="contained" size='small'>Edit</Button></Link>
+                  <Link to={`update/presentation/${row._id}`}><Button variant="contained" size='small'>Edit</Button></Link>
                   <IconButton style={{marginLeft:'10px'}} aria-label="delete" onClick={() => handleDelete(row._id)}><DeleteIcon /></IconButton>
                 </TableCell>
               </TableRow>
