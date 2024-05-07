@@ -46,6 +46,20 @@ import ItSem2Add from './Components/AdminAssignmentAdd/ItSem2Add';
 import CsSem1Add from './Components/AdminAssignmentAdd/CSSem1Add';
 import CsSem2Add from './Components/AdminAssignmentAdd/CSSem2Add';
 
+import StudentSeSem1 from './Components/Students/SeSem1Student';
+import StudentSeSem2 from './Components/Students/SeSem2Student';
+import StudentDsSem1 from './Components/Students/DsSem1Student';
+import StudentDsSem2 from './Components/Students/DsSem2Student';
+import StudentCSNESem1 from './Components/Students/CSNESem1Student';
+import StudentCSNESem2 from './Components/Students/CSNESem2Student';
+import StudentIsSem1 from './Components/Students/IsSem1Student';
+import StudentIsSem2 from './Components/Students/IsSem2Student';
+import StudentItSem1 from './Components/Students/ItSem1Student';
+import StudentItSem2 from './Components/Students/ItSem2Student';
+import StudentCsSem1 from './Components/Students/CsSem1Student';
+import StudentCsSem2 from './Components/Students/CsSem2Student';
+
+
 function App() {
   return (
 
@@ -93,6 +107,20 @@ function App() {
     <Route path="/ItSem1Add/:id" element={<ItSem1Add/>}></Route>
     <Route path="/SeSem2Add/:id" element={<SeSem2Add/>}></Route>
     <Route path="/SeSem1Add/:id" element={<SeSem1Add/>}></Route>
+
+    <Route path="/StudentSeSem1" element={<StudentSeSem1/>}></Route>
+    <Route path="/StudentSeSem2" element={<StudentSeSem2/>}></Route>
+    <Route path="/StudentDsSem1" element={<StudentDsSem1/>}></Route>
+    <Route path="/StudentDsSem2" element={<StudentDsSem2/>}></Route>
+    <Route path="/StudentCSNESem1" element={<StudentCSNESem1/>}></Route>
+    <Route path="/StudentCSNESem2" element={<StudentCSNESem2/>}></Route>
+    <Route path="/StudentIsSem1" element={<StudentIsSem1/>}></Route>
+    <Route path="/StudentIsSem2" element={<StudentIsSem2/>}></Route>
+    <Route path="/StudentItSem1" element={<StudentItSem1/>}></Route>
+    <Route path="/StudentItSem2" element={<StudentItSem2/>}></Route>
+    <Route path="/StudentCsSem1" element={<StudentCsSem1/>}></Route>
+    <Route path="/StudentCsSem2" element={<StudentCsSem2/>}></Route>
+    
 
    </Routes>
 
