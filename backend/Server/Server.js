@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 
 const proRoutes = require('../Controller/Routers/projectRegRoutes')
 const resRoutes = require('../Controller/Routers/resPaperRoute')
+const markRoutes = require('../Controller/Routers/MarkRoutes')
+const exRoutes = require('../Controller/Routers/ExaminerMarkRoutes')
 
 const {SessionControl}=require('../Controller/SessionControl');
 const {RequireRole}=require('../Controller/Authentication');
@@ -66,6 +68,9 @@ app.use("/student", studentRoutes);
 const StSignAndLogout=require('../Controller/Routers/StudentSigns');
 app.use('/stloginAndSign',/*RequireRole([''])*/StSignAndLogout);
 
+const AssignmentAdd=require('../Controller/Routers/AdminAssigmentAddRoute')
+app.use("/AddAssi",AssignmentAdd);
+
 db.on('error',(err)=>{
     console.error(`Mongodb connection error ${err}`)
 })
@@ -82,3 +87,5 @@ app.listen(PORT,()=>{
 
 app.use('/projects', proRoutes)
 app.use('/research', resRoutes)
+app.use('/mark', markRoutes)
+app.use('/examiner', exRoutes)

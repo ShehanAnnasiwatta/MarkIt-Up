@@ -15,6 +15,7 @@ import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
 import axios from "axios";
 import { signupSchema } from '../validations/formValidations';
+import Logo from './Images/Logo.jpeg'
 
 function Registraition() {
 
@@ -30,6 +31,10 @@ function Registraition() {
   const [showPW, setShowPW] = useState(false)
   const [showConfirmPW, setShowConfirmPW] = useState(false)
   const [errors, setErrors] = useState({})
+
+  console.log(fname);
+  console.log(lname);
+  console.log(confirmPassword);
 
   useEffect(() => {
     console.log("Error :", errors)
@@ -58,9 +63,10 @@ function Registraition() {
       lname: lname,
       password: password,
       confirmPW: confirmPassword,
+      role: role,
       email: email,
-      phone: phone,
-      role: role
+      phone: phone
+     
     }
 
     const { confirmPW, ...userDataNew } = userData
@@ -291,6 +297,16 @@ function Registraition() {
 
     //   </Box>
 
+    <div>
+
+    <div style={{display:'flex',flexDirection:"row"}}>
+
+   <div>
+     <image src={Logo} alt='Alt' style={{height:'100px',width:'100px'}}/>
+   </div>
+    
+    
+
     <Box
       width="100vw"
       height="100vh"
@@ -468,6 +484,10 @@ function Registraition() {
       </Box>
 
     </Box>
+
+    </div>
+
+    </div>
 
   )
 

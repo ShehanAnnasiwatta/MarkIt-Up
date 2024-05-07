@@ -4,12 +4,22 @@ import 'react-quill/dist/quill.snow.css';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import axios from 'axios';
+import { useParams} from 'react-router-dom'
 
 
 function AddAsignment() {
 
   const[Desvalu,setDesValue] =useState('');
   console.log(Desvalu);
+  const[endDate,setEnddate]=useState('');
+  const[startDate,setStartdate]=useState('');
+  console.log(startDate);
+  const[UploadFile,setFile]=useState([]);
+
+  const{id}=useParams();
+  console.log(id);
+
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -22,6 +32,36 @@ function AddAsignment() {
     whiteSpace: 'nowrap',
     width: 1,
   });
+
+  const HandleFileChange=(e)=>{
+       setFile([...e.target.files]);
+  };
+
+
+  const submitAss=async(e)=>{
+
+    e.preventDefault();
+
+    const sDate = new Date(startDate);
+    console.log(sDate);
+    const eDate = new Date(endDate);
+    console.log(eDate);
+
+    const assigmentData={
+          description:Desvalu,
+          sdate:sDate,
+          edate:eDate,
+          week:id
+    }
+
+    axios.post("http://localhost:3005/AddAssi/SeSem1",assigmentData).then((res)=>{
+         console.log(res.data);
+         console.log("Assignment data added Success");
+    }).catch((err)=>{
+      console.log(err);
+      console.log("assignment data not addedd");
+    })
+  }
   
 
   return (
@@ -29,7 +69,7 @@ function AddAsignment() {
 
     <div style={{margin:'5%'}}>
 <div class="container">
-  <form class="border">
+  <form class="border" onSubmit={submitAss}>
     
     <div>
       <div style={{margin:'20px',fontSize:'20px'}}>
@@ -48,12 +88,12 @@ function AddAsignment() {
 
     <div class="form-group" style={{margin:'20px'}}>
       <label for="formGroupExampleInput" style={{marginTop:'10px',fontSize:'20px'}}>Start Date/Time</label>
-      <input type="datetime-local" class="form-control" id="formGroupExampleInput" placeholder="Example input"/>
+      <input type="datetime-local" class="form-control" id="formGroupExampleInput" placeholder="Example input" onChange={(e)=>{setStartdate(e.target.value)}}/>
     </div>
 
     <div class="form-group" style={{margin:'20px'}}>
       <label for="formGroupExampleInput" style={{marginTop:'10px',fontSize:'20px'}}>End Date/Time</label>
-      <input type="datetime-local" class="form-control" id="formGroupExampleInput" placeholder="Example input"/>
+      <input type="datetime-local" class="form-control" id="formGroupExampleInput" placeholder="Example input" onChange={(e)=>{setEnddate(e.target.value)}}/>
     </div>
 
   </div>
@@ -64,14 +104,23 @@ function AddAsignment() {
   variant="contained"
   tabIndex={-1}
   startIcon={<CloudUploadIcon />}
+  onChange={HandleFileChange}
 >
   Upload file
   <VisuallyHiddenInput type="file" />
 </Button>
 
+<div>
+        {UploadFile.map((file, index) => (
+          <div key={index}>
+            {file.name} - {file.size} bytes
+          </div>
+        ))}
+  </div>
+
   <div class="row justify-content-center" style={{direction:'flex'}}>
     <div class="col-auto">
-      <input class="btn btn-primary mt-5" type="submit" value="Submit" style={{margin:'15px'}}/>
+      <input class="btn btn-primary mt-5" type="submit" value="Submit" style={{margin:'15px'}} />
     </div>
 
     <div class="col-auto">

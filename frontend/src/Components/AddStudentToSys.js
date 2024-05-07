@@ -13,6 +13,7 @@ import Select from '@mui/material/Select';
 import { Hourglass } from 'react-loader-spinner'
 import {RotatingLines} from 'react-loader-spinner';
 
+import ExcellHeadingImage from './Images/ExcellModel.png'
 
 
 function AddStudentToSys() {
@@ -25,6 +26,7 @@ function AddStudentToSys() {
   const [excelData, setExcelData] = useState(null);
 
   const [Semester, setPersonName] = useState([]);
+  const[specia,setSpeacialization]= useState([]);
 
   const [uploading, setUploading] = useState(false);
   const [ErrUpload, setErruploading] = useState(false);
@@ -107,14 +109,21 @@ function AddStudentToSys() {
     },
   };
 
-  const semester = ["Semester 1", "Semester 2"];
-  const speacialization=["Sofware Enginearing (SE)","Information Technology (IT)","Information System (IS)","Computer Science (CS)","Data science (DS)","Computer Science & Network Enginearing (CSNE)"]  //it,se,is,cs,ds,csne
-
+ 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     setPersonName(
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+
+  const handleChangeSpe= (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSpeacialization(
       typeof value === 'string' ? value.split(',') : value,
     );
   };
@@ -159,7 +168,7 @@ function AddStudentToSys() {
 
       <div className="wrapper">
 
-        <h3 style={{ margin: '20px', textAlign: 'center' }}>Add All Students to System</h3>
+        <h3 style={{ margin: '20px', textAlign: 'center' }}>Add Students To System</h3>
 
         {/* form */}
 
@@ -179,7 +188,12 @@ function AddStudentToSys() {
             <h3 style={{ background: 'red', margin: '10px' }}>
               Note
             </h3>
-            <p>Please data insert</p>
+            <p style={{textAlign:'center'}}>Your Data Heading Should Me As Follows</p>
+            <div>
+              <div style={{textAlign:'center', margin:'20px'}}>
+                <img src={ExcellHeadingImage}></img>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -193,53 +207,11 @@ function AddStudentToSys() {
             </Button>
           </Stack>
 
-          <div style={{ marginLeft: '80px' }}>
-            <FormControl sx={{ width: 300 }}>
-              <InputLabel id="demo-multiple-checkbox-label">Select Students Current semester</InputLabel>
-              <Select
-
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={Semester}
-                onChange={handleChange}
-                input={<OutlinedInput label="Select Students Current semester" />}
-                renderValue={(selected) => selected.join(', ')}
-                MenuProps={MenuProps}
-              >
-                {semester.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
-
-              </Select>
-            </FormControl>
-          </div>
-
-          <div style={{ marginLeft: '80px' }}>
-            <FormControl sx={{ width: 350 }}>
-              <InputLabel id="demo-multiple-checkbox-label">Select Current Specialization</InputLabel>
-              <Select
-
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={Semester}
-                onChange={handleChange}
-                input={<OutlinedInput label="Select Student Current Specialization" />}
-                renderValue={(selected) => selected.join(', ')}
-                MenuProps={MenuProps}
-              >
-                {speacialization.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
-
-              </Select>
-            </FormControl>
-          </div>
-
-
+          <Stack direction="row" spacing={2} style={{marginLeft:'20px'}}>
+            <Button variant="contained" endIcon={<SendIcon />} onClick={addStudentdata}>
+              Add Students Manually
+            </Button>
+          </Stack>
         </div>
 
         {/* view data */}
