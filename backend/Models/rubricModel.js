@@ -1,24 +1,22 @@
-// models/Rubric.js
-
 const mongoose = require('mongoose');
 
+const criterionSchema = new mongoose.Schema({
+  name: [{
+    type: String,
+    required: true,
+  }],
+  score: {
+    type: Number,
+    default: 0,
+  },
+});
+
 const rubricSchema = new mongoose.Schema({
-  title: {
+  specialization: {
     type: String,
     required: true,
   },
-  criteria: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  scores: [
-    {
-      type: Number,
-      default: 0,
-    },
-  ],
+  criteria: [criterionSchema],
 });
 
 module.exports = mongoose.model('Rubric', rubricSchema);

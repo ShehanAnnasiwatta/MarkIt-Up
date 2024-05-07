@@ -1,4 +1,3 @@
-import { margin } from '@mui/system';
 import axios from 'axios';
 import React from 'react'
 import { useState } from "react";
@@ -10,11 +9,11 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
 import { Hourglass } from 'react-loader-spinner'
+import {RotatingLines} from 'react-loader-spinner';
 
+import ExcellHeadingImage from './Images/ExcellModel.png'
 
 
 function AddStudentToSys() {
@@ -27,8 +26,10 @@ function AddStudentToSys() {
   const [excelData, setExcelData] = useState(null);
 
   const [Semester, setPersonName] = useState([]);
+  const[specia,setSpeacialization]= useState([]);
 
   const [uploading, setUploading] = useState(false);
+  const [ErrUpload, setErruploading] = useState(false);
 
   // onchange event
   const handleFile = (e) => {
@@ -70,12 +71,18 @@ function AddStudentToSys() {
   const addStudentdata = async () => {
     try {
       if (excelData !== null) {
-        setUploading(true);
         // console.log('Uploading:',uploading);
         for (const item of excelData) {
-          await axios.post('http://localhost:3005/normalroutes/addStudent', item);
-          console.log("StudentData added to the System");
-
+          await axios.post('http://localhost:3005/normalroutes/addStudent', item).then((res)=>{
+            console.log(res.data.error);
+            if (res.data.error){
+              setErruploading(true);
+            }
+            else{
+              setUploading(true);
+            }
+            console.log("StudentData added to the System");
+          })
         }
         setUploading(false);
         // console.log('Uploading:',uploading);
@@ -83,6 +90,8 @@ function AddStudentToSys() {
         console.log("No data to add");
       }
     } catch (error) {
+      setUploading(false);
+      setErruploading(true);
       console.log("Error adding student data to the System");
       console.error(error.message);
     }
@@ -100,8 +109,7 @@ function AddStudentToSys() {
     },
   };
 
-  const names = ["Semester 1", "Semester 2"];
-
+ 
   const handleChange = (event) => {
     const {
       target: { value },
@@ -111,14 +119,23 @@ function AddStudentToSys() {
     );
   };
 
+  const handleChangeSpe= (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSpeacialization(
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+
   return (
     <div>
 
 <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-    {uploading && (
+    {uploading &&(
       <div style={{ margin: 'auto', textAlign: 'center' }}>
         <Hourglass 
-          visible={true}
+          visible={uploading}
           height="150px"
           width="100px"
           ariaLabel="hourglass-loading"
@@ -126,14 +143,32 @@ function AddStudentToSys() {
           wrapperClass=""
           colors={['#306cce', '#72a1ed']}
         />
-        <p style={{background:'red',fontWeight:'bold'}}>Data processing...</p>
+        <p style={{background:'red',fontWeight:'bold'}}>Data Adding...</p>
       </div>
     )}
   </div>
 
+  <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+   {ErrUpload &&(<div> 
+    <RotatingLines
+  visible={ErrUpload}
+  height="96"
+  width="96"
+  color='#306cce'
+  strokeWidth="5"
+  animationDuration="0.75"
+  ariaLabel="rotating-lines-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />
+  <p style={{background:'red',fontWeight:'bold'}}>Data Adding Error!!.</p>
+   </div>)}
+
+  </div>
+
       <div className="wrapper">
 
-        <h3 style={{ margin: '20px', textAlign: 'center' }}>Add All Students to System</h3>
+        <h3 style={{ margin: '20px', textAlign: 'center' }}>Add Students To System</h3>
 
         {/* form */}
 
@@ -153,7 +188,12 @@ function AddStudentToSys() {
             <h3 style={{ background: 'red', margin: '10px' }}>
               Note
             </h3>
-            <p>Please data insert</p>
+            <p style={{textAlign:'center'}}>Your Data Heading Should Me As Follows</p>
+            <div>
+              <div style={{textAlign:'center', margin:'20px'}}>
+                <img src={ExcellHeadingImage}></img>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -167,34 +207,15 @@ function AddStudentToSys() {
             </Button>
           </Stack>
 
-          <div style={{ marginLeft: '80px' }}>
-            <FormControl sx={{ width: 300 }}>
-              <InputLabel id="demo-multiple-checkbox-label">Select Students Current semester</InputLabel>
-              <Select
-
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={Semester}
-                onChange={handleChange}
-                input={<OutlinedInput label="Select Students Current semester" />}
-                renderValue={(selected) => selected.join(', ')}
-                MenuProps={MenuProps}
-              >
-                {names.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
-
-              </Select>
-            </FormControl>
-          </div>
-
-
+          <Stack direction="row" spacing={2} style={{marginLeft:'20px'}}>
+            <Button variant="contained" endIcon={<SendIcon />} onClick={addStudentdata}>
+              Add Students Manually
+            </Button>
+          </Stack>
         </div>
 
         {/* view data */}
-        <div className="viewer">
+        <div className="viewer" style={{ margin: '80px' }}>
           {excelData && (
             <div className="table-responsive">
               <table className="table">

@@ -2,7 +2,7 @@ import { AppBar, Avatar, Box, IconButton, Toolbar, Tab, Tabs, Badge } from '@mui
 import { grey, red } from '@mui/material/colors';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useState } from 'react'
-import ProfileMenu from '../menus/ProfileMenu';
+import ProfileMenu from '../menus/ProfileMenuForAdmin';
 
 const Header = () => {
     const [value, setValue] = useState('1');
@@ -63,7 +63,7 @@ const Header = () => {
                         <Tabs>
                             {
                                 navLabel.map(lableIndex => (
-                                    <Tab key={lableIndex} label={lableIndex} sx={tabStyle} />
+                                    <Tab key={lableIndex} label={lableIndex} sx={tabStyle} disableRipple/>
                                 ))
                             }
 

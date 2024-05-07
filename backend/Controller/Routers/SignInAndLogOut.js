@@ -14,6 +14,9 @@ app.use(cors());
 
 const UserActivation = require('../../Models/AdminUsers');
 
+//get students data model
+const StudentData = require('../../Models/StudentDataModel');
+
 //If have the Problem time format and time value 
 const options = { timeZone: 'Asia/Colombo', hour12:true};
 const CurrentDate = new Date().toLocaleString('en-US', options);
@@ -42,53 +45,83 @@ const AuthorizedUser=(req,res,next)=>{
 }
 
 
-router.post('/signin',async(req, res)=>{
+router.post('/signin', async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
-    const email=req.body.email
-    const password=req.body.password
+  // check username and pass with database data
+  const user = await UserActivation.findOne({ email });
+  console.log(user);
 
-    //check username and pass with database data
-    const user=await UserActivation.findOne({email});
-    console.log(user);
+  // check username and pass with database data
+  const userStudent = await StudentData.findOne({ Email: email });
+  console.log(userStudent);
 
-    if (!user|| password !== user.password) {
-        return res.json({message: "Invalid credentials" });
-      }
-    
-    //Create JWT Token 
-    const jwt_key=process.env.JWT_KEY;
+  if (user && password === user.password) {
+      // Create JWT Token
+      const jwt_key = process.env.JWT_KEY;
+      const token = jwt.sign({ email: user.email, role: user.role }, jwt_key, { expiresIn: '1h' });
 
-    const token=jwt.sign({email:user.email,role:user.role}, jwt_key,{expiresIn:'1h'});
+      // set token as a cookie
+      res.cookie('token', token, { httpOnly: true, secure: false });
 
-    //set token as a cookie
-    res.cookie('token',token,{httpOnly:true,secure:false});
+      req.session.user = { userEmail: user.email, role: user.role };
 
-    req.session.user={useEmail: user.email, role: user.role };
+      console.log({ message: 'Login successful' });
 
-    res.json({ message: 'Login successful',UserId:user._id});
+      return res.json({ message: 'Login success as admin', user:user});
+  } else if (userStudent && password === userStudent.IdNumber) {
+      // Create JWT Token
+      const jwt_key = process.env.JWT_KEY;
+      const token = jwt.sign(
+          { email: userStudent.Email, role: userStudent.Specialization },
+          jwt_key,
+          { expiresIn: '1h' }
+      );
 
-    console.log({message: 'Login successful'});
+      // set token as a cookie
+      res.cookie('token', token, { httpOnly: true, secure: false });
+
+      req.session.user = { userEmail: userStudent.Email, role: userStudent.Specialization };
+
+      console.log({ message: 'Login successful' });
+
+      return res.json({ message: 'Login success as student',user:userStudent});
+  } else {
+      // If no user found or incorrect password
+      return res.json({ message: 'Login failed' });
+  }
+});
+
+
+//Create student registration
+
+router.post('/StudentRegister',async(req, res)=>{
+
+  
+  //Create JWT Token 
+  const jwt_key=process.env.JWT_KEY;
+
+  const token=jwt.sign({email:user.Email}, jwt_key,{expiresIn:'1h'});
+
+  //set token as a cookie
+  res.cookie('token',token,{httpOnly:true,secure:false});
+
+  req.session.user={useEmail: user.Email};
+
+  res.json({ message: 'Login successful',UserId:user._id});
+
+  console.log({message: 'Login successful'});
 
 })
 
 
-//sign out route
-router.post('/signout',AuthorizedUser,(req,res) =>{
 
-    //kill the session
-    req.session.destroy();
-
-    //Clear the jwt token by expiring the cookie
-    res.cookie('token','',{expires:new Date(),httpOnly:true,secure:false});
-
-    res.json({message:"logout successfull"});
-    console.log("logout Success");
-})
 
 router.route("/addReg").post((req,res)=>{
 
-    const Fname=req.body.Fname
-    const Lname=req.body.Lname
+    const Fname=req.body.fname
+    const Lname=req.body.lname
     const pass=req.body.password
     const role=req.body.role
     const email=req.body.email

@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast';
 import axios from "axios";
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { addfile } from '../../services/services/backendServices';
 
 function AddResearch() {
 
@@ -38,9 +39,19 @@ function AddResearch() {
     setFee('');
   }
 
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0]
+
+    if (!file) return
+
+    const imageFileURL = await addfile(file)
+    console.log(imageFileURL)
+    setSuccessPhoto(imageFileURL)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-   
+
     const researchData = {
       groupId,
       title,
@@ -57,17 +68,17 @@ function AddResearch() {
       selectedCurrency,
       fee
     };
-    
+
     axios.post("http://localhost:3005/research/", researchData)
-    .then(res => {
-      toast.success('research added');
-      console.log('research added');
-      handleReset();
-    }).catch(err => {
-      toast.error(err.message);
-      console.log(err.message);
-    })
-  }  
+      .then(res => {
+        toast.success('research added');
+        console.log('research added');
+        handleReset();
+      }).catch(err => {
+        toast.error(err.message);
+        console.log(err.message);
+      })
+  }
 
   return (
     <div className="container">
@@ -118,18 +129,19 @@ function AddResearch() {
               <input type="text" className="form-control" id="groupId" value={verLink} onChange={(e) => setVerLink(e.target.value)} />
             </div>
             <div className="mb-3">
-            <label htmlFor="acceptPhoto" className="form-label">Acceptance Photo</label>
-            <input type="file" className="form-control" id="acceptPhoto" value={acceptPhoto} onChange={(e) => setAcceptPhoto(e.target.value)} />
+              <label htmlFor="acceptPhoto" className="form-label">Acceptance Photo</label>
+              <input type="file" className="form-control" id="acceptPhoto" onChange={handleFileUpload} />
             </div>
             <div className="mb-3">
-            <label htmlFor="successPhoto" className="form-label">Success Photo</label>
-            <input type="file" className="form-control" id="successPhoto" value={successPhoto} onChange={(e) => setSuccessPhoto(e.target.value)} />
+              <label htmlFor="successPhoto" className="form-label">Success Photo</label>
+              <input type="file" className="form-control" id="successPhoto" onChange={handleFileUpload} />
             </div>
 
           </div>
           <div className="col">
             <div className="mb-3">
               <label htmlFor="currency" className="form-label">Currency</label>
+<<<<<<< HEAD
               <Select
                 options={[
                   { value: 'USD', label: 'USD' },
@@ -138,6 +150,12 @@ function AddResearch() {
                 value={selectedCurrency ? { value: selectedCurrency, label: selectedCurrency } : null}
                 onChange={(selectedOption) => setSelectedCurrency(selectedOption.value)}
               />
+=======
+              <select className="form-select" id="currency" value={selectedCurrency} onChange={(e) => setSelectedCurrency(e.target.value)}>
+                <option value="USD">USD</option>
+                <option value="LKR">LKR</option>
+              </select>
+>>>>>>> ab3051941dcd4d91b9fada2a4fd72498c5f346b1
             </div>
              <div className="mb-3">
               <label htmlFor="student" className="form-label">Fee</label>
@@ -151,7 +169,12 @@ function AddResearch() {
         </div>
       </form>
     </div>
+<<<<<<< HEAD
   ) 
+=======
+  )
+
+>>>>>>> ab3051941dcd4d91b9fada2a4fd72498c5f346b1
 }
 
 export default AddResearch;
