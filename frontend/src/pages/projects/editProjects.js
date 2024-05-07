@@ -1,158 +1,247 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
 import axios from "axios";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from '@mui/material/Button';
+import { toast } from 'react-hot-toast';
+import { Input, Button } from 'antd';
 
 function EditProject() {
-    const { id } = useParams();
 
-    const [regNum, setRegNum] = useState('');
-    const [stName, setStName] = useState('');
-    const [telephone, setTelephone] = useState('');
-    const [email, setEmail] = useState('');
-    const [batch, setBatch] = useState('');
-    const [specialization, setSpecialization] = useState('');
-    const [proTitle, setProTitle] = useState('');
-    const [resArea, setResArea] = useState('');
-    const [classification, setClassification] = useState('');
-    const [supervisor, setSupervisor] = useState('');
-    const [coSupervisor, setCoSupervisor] = useState('');
-    
-    useEffect(() => {
-        fetchDataForEditing(id);
-    }, [id]);
-    
-    const fetchDataForEditing = async (id) => {
-        try {
-            const response = await axios.get(`http://localhost:3005/projects/${id}`);
-            const projectData = response.data;
-            setRegNum(projectData.regNum);
-            setStName(projectData.stName);
-            setTelephone(projectData.telephone);
-            setEmail(projectData.email);
-            setBatch(projectData.batch);
-            setSpecialization(projectData.specialization);
-            setProTitle(projectData.proTitle);
-            setResArea(projectData.resArea);
-            setClassification(projectData.classification);
-            setSupervisor(projectData.supervisor);
-            setCoSupervisor(projectData.coSupervisor);
-        } catch (error) {
-            toast.error('Failed to fetch project data for editing.');
-            console.error('Error fetching project data:', error);
-        }
-    };
-    
-    const handleReset = () => {
-        setRegNum('');
-        setStName('');
-        setTelephone('');
-        setEmail('');
-        setBatch('');
-        setSpecialization('');
-        setProTitle('');
-        setResArea('');
-        setClassification('');
-        setSupervisor('');
-        setCoSupervisor('');
-    };
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const projectData = {
-            regNum,
-            stName,
-            telephone,
-            email,
-            batch,
-            specialization,
-            proTitle,
-            resArea,
-            classification,
-            supervisor,
-            coSupervisor
-        };
-        try {
-            await axios.put(`http://localhost:3005/projects/${id}`, projectData);
-            toast.success('Project updated successfully');
-            handleReset();
-        } catch (error) {
-            toast.error('Failed to update project.');
-            console.error('Error updating project:', error);
-        }
-    };
-    
+const [regNum, setRegNum] = useState('');
+const [leader, setLeader] = useState('');
+const [students, setStudents] = useState('');
+const [telephone, setTelephone] = useState('');
+const [email, setEmail] = useState('');
+const [batch, setBatch] = useState('');
+const [specialization, setSpecialization] = useState('');
+const [proTitle, setProTitle] = useState('');
+const [resArea, setResArea] = useState('');
+const [classification, setClassification] = useState('');
+const [supervisor, setSupervisor] = useState('');
+const [coSupervisor, setCoSupervisor] = useState('');
 
-    return (
-        <div className="container">
-            <form onSubmit={handleSubmit}>
-                <h3>Edit Project</h3>
-                <div className="row">
-                     <div className="col">
-                        <div className="mb-3">
-                            <label htmlFor="regNum" className="form-label">Registration Number</label>
-                            <input type="text" className="form-control" id="regNum" name="regNum" value={regNum} onChange={(e) => setRegNum(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="stName" className="form-label">Leader Name</label>
-                            <input type="text" className="form-control" id="stName" name="stName" value={stName} onChange={(e) => setStName(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="telephone" className="form-label">Telephone</label>
-                            <input type="tel" className="form-control" id="telephone" name="telephone" value={telephone} onChange={(e) => setTelephone(e.target.value)} pattern="[0-9]{10}" placeholder="0123456789" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Email</label>
-                            <input type="email" className="form-control" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="batch" className="form-label">Batch</label>
-                            <input type="text" className="form-control" id="batch" name="batch" value={batch} onChange={(e) => setBatch(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="specialization" className="form-label">Specialization</label>
-                            <input type="text" className="form-control" id="specialization" name="specialization" value={specialization} onChange={(e) => setSpecialization(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="mb-3">
-                            <label htmlFor="proTitle" className="form-label">Project Title</label>
-                            <input type="text" className="form-control" id="proTitle" name="proTitle" value={proTitle} onChange={(e) => setProTitle(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="resArea" className="form-label">Research Area</label>
-                            <input type="text" className="form-control" id="resArea" name="resArea" value={resArea} onChange={(e) => setResArea(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="classification" className="form-label">Classification</label>
-                            <input type="text" className="form-control" id="classification" name="classification" value={classification} onChange={(e) => setClassification(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="supervisor" className="form-label">Supervisor</label>
-                            <input type="text" className="form-control" id="supervisor" name="supervisor" value={supervisor} onChange={(e) => setSupervisor(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="coSupervisor" className="form-label">Co-Supervisor</label>
-                            <input type="text" className="form-control" id="coSupervisor" name="coSupervisor" value={coSupervisor} onChange={(e) => setCoSupervisor(e.target.value)} />
-                        </div>
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    fetchData(id);
+  }, [id]);
+
+  const fetchData = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:3005/projects/${id}`);
+      const data = response.data;
+      setRegNum(data.regNum);
+      setLeader(data.leader);
+      setStudents(data.students);
+      setTelephone(data.telephone);
+      setEmail(data.email);
+      setBatch(data.batch);
+      setSpecialization(data.specialization);
+      setProTitle(data.proTitle);
+      setResArea(data.resArea);
+      setClassification(data.classification);
+      setSupervisor(data.supervisor);
+      setCoSupervisor(data.coSupervisor);
+      } catch (error) {
+      toast.error(error.message);
+      console.error(error);
+    }
+  }
+
+  const updateUserData = async (e) => {
+    e.preventDefault();
+    const userData = {
+      regNum: regNum,
+      leader: leader,
+      students: students,
+      telephone: telephone,
+      email: email,
+      batch: batch,
+      specialization: specialization,
+      proTitle: proTitle,
+      resArea: resArea,
+      classification: classification,
+      supervisor: supervisor,
+    };
+
+    try {
+        const response = await axios.put(`http://localhost:3005/projects/${id}`, userData);
+        if (response.status === 200) {
+            toast.success('Data updated successfully');
+            console.log('Data updated successfully');
+        }
+    } catch (error) {
+        toast.error(error.message);
+        console.error(error);
+    }
+}
+
+return (
+  <div className="container">
+    <div className='container2' style={{ marginTop: '100px' }}>
+        <div className="row justify-content-center">
+            <div className="col-md-8">
+                <div className="card mt-5">
+                    <div className="card-body">
+                        <h2 className='row justify-content-center'>Edit Project Information</h2><br />
+                        <form onSubmit={updateUserData}>
+                            <div className="mb-3">
+                                <label htmlFor="regNum">Registration Number</label>
+                                <input
+                                    type="text"
+                                    id="regNum"
+                                    className="form-control"
+                                    placeholder="Registration Number"
+                                    value={regNum}
+                                    onChange={(e) => setRegNum(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="leader">Leader Name</label>
+                                <input
+                                    type="text"
+                                    id="leader"
+                                    className="form-control"
+                                    placeholder="Leader Name"
+                                    value={leader}
+                                    onChange={(e) => setLeader(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="students">Student Name</label>
+                                <input
+                                    type="text"
+                                    id="students"
+                                    className="form-control"
+                                    placeholder="Student Name"
+                                    value={students}
+                                    onChange={(e) => setStudents(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="telephone">Telephone</label>
+                                <input
+                                    type="text"
+                                    id="telephone"
+                                    className="form-control"
+                                    placeholder="Telephone"
+                                    value={telephone}
+                                    onChange={(e) => setTelephone(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    className="form-control"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="batch">Batch</label>
+                                <input
+                                    type="text"
+                                    id="batch"
+                                    className="form-control"
+                                    placeholder="Batch"
+                                    value={batch}
+                                    onChange={(e) => setBatch(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="specialization">Specialization</label>
+                                <input
+                                    type="text"
+                                    id="specialization"
+                                    className="form-control"
+                                    placeholder="Specialization"
+                                    value={specialization}
+                                    onChange={(e) => setSpecialization(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="proTitle">Project Title</label>
+                                <input
+                                    type="text"
+                                    id="proTitle"
+                                    className="form-control"
+                                    placeholder="Project Title"
+                                    value={proTitle}
+                                    onChange={(e) => setProTitle(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="resArea">Research Area</label>
+                                <input
+                                    type="text"
+                                    id="resArea"
+                                    className="form-control"
+                                    placeholder="Research Area"
+                                    value={resArea}
+                                    onChange={(e) => setResArea(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="classification">Classification</label>
+                                <input
+                                    type="text"
+                                    id="classification"
+                                    className="form-control"
+                                    placeholder="Classification"
+                                    value={classification}
+                                    onChange={(e) => setClassification(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="supervisor">Supervisor</label>
+                                <input
+                                    type="text"
+                                    id="supervisor"
+                                    className="form-control"
+                                    placeholder="Supervisor"
+                                    value={supervisor}
+                                    onChange={(e) => setSupervisor(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="coSupervisor">Co-Supervisor</label>
+                                <input
+                                    type="text"
+                                    id="coSupervisor"
+                                    className="form-control"
+                                    placeholder="Co-Supervisor"
+                                    value={coSupervisor}
+                                    onChange={(e) => setCoSupervisor(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <button type="submit" className="btn btn-primary" style={{ marginRight: '10px' }}>Submit</button>
+                                <button type="reset" className="btn btn-secondary">Reset</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div className="d-grid gap-2">
-                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Update</Button>
-                {/* <Link to={`/managePro/`}>
-            <Button  type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, width: '100px', margin: '10px' }}>Update</Button>
-                  </Link> */}
-                    <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Cancel</Button>
-                </div>
-            </form>
+            </div>
         </div>
-    );
+    </div>
+</div>
+
+)
 }
 
 export default EditProject;
-

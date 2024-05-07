@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const proRoutes = require('../Controller/Routers/projectRegRoutes')
 const resRoutes = require('../Controller/Routers/resPaperRoute')
 const markRoutes = require('../Controller/Routers/MarkRoutes')
+const exRoutes = require('../Controller/Routers/ExaminerMarkRoutes')
 
 const {SessionControl}=require('../Controller/SessionControl');
 const {RequireRole}=require('../Controller/Authentication');
@@ -84,3 +85,4 @@ app.listen(PORT,()=>{
 app.use('/projects', proRoutes)
 app.use('/research', resRoutes)
 app.use('/mark', markRoutes)
+app.use('/examiner', exRoutes)

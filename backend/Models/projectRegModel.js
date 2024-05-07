@@ -5,45 +5,49 @@ const proSchema = mongoose.Schema({
         type: String,
         unique: true,
     },
-    stName: {
+    leader: {
         type: String,
-        required: [true, 'Please add student name']
+        required: [false, 'Please add leader']
+    },
+    students: {
+        type: [String],
+        default: [],
     },
     telephone: {
         type: String,
-        required: [true, 'Please add telephone number']
+        required: [false, 'Please add telephone number']
     },
     email: {
         type: String,
-        required: [true, 'Please add email address']
+        required: [false, 'Please add email address']
     },
     batch: {
         type: String,
-        required: [true, 'Please add the batch']
+        required: [false, 'Please add the batch']
     },
     specialization: {
         type: String,
-        required: [true, 'Please add specialization']
+        required: [false, 'Please add specialization']
     },
     proTitle: {
         type: String,
-        required: [true, 'Please add project title']
+        required: [false, 'Please add project title']
     },
     resArea: {
         type: String,
-        required: [true, 'Please add research area']
+        required: [false, 'Please add research area']
     },
     classification: {
         type: String,
-        required: [true, 'Please add classification']
+        required: [false, 'Please add classification']
     },
     supervisor: {
         type: String,
-        required: [true, 'Please add supervisor']
+        required: [false, 'Please add supervisor']
     },
     coSupervisor: {
         type: String,
-        required: [true, 'Please add profile co-supervisor']
+        required: [false, 'Please add profile co-supervisor']
     },
 }, {
     timestamps: true
@@ -51,7 +55,7 @@ const proSchema = mongoose.Schema({
 
 proSchema.index({
     regNum: 'text',
-    stName: 'text',
+    students: 'text',
     telephone: 'text',
     email: 'text',
     batch: 'text',
