@@ -69,7 +69,7 @@ router.post('/signin', async (req, res) => {
 
       console.log({ message: 'Login successful' });
 
-      return res.json({ message: 'Login success as admin', UserId: user._id });
+      return res.json({ message: 'Login success as admin', user:user});
   } else if (userStudent && password === userStudent.IdNumber) {
       // Create JWT Token
       const jwt_key = process.env.JWT_KEY;
@@ -86,7 +86,7 @@ router.post('/signin', async (req, res) => {
 
       console.log({ message: 'Login successful' });
 
-      return res.json({ message: 'Login success as student', UserId: userStudent._id });
+      return res.json({ message: 'Login success as student',user:userStudent});
   } else {
       // If no user found or incorrect password
       return res.json({ message: 'Login failed' });
