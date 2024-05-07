@@ -4,7 +4,7 @@ import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Select from 'react-select';
 
-function AddProject() {
+function AddProjectS() {
     const [regNum, setRegNum] = useState("");
     const [leader, setLeader] = useState("");
     const [students, setStudents] = useState([{ name: '' }]);
@@ -154,4 +154,4 @@ function AddProject() {
     );
 }
 
-export default AddProject;
+export default AddProjectS;
