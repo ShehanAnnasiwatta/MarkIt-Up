@@ -60,7 +60,7 @@ router.route("/allData").get(async(req,res)=>{
 //Data add in Students
 router.route("/addStudent").post(async (req, res) => {
 
-    const { StudentName,Email,/*GroupNumber*/ IdNumber,RegistrationNo} = req.body;
+    const { StudentName,Email,IdNumber,RegistrationNo,Specialization,Semester} = req.body;
 
     try {
         const existingStudent = await studentDatamodel.findOne({ Email: Email });
@@ -72,15 +72,44 @@ router.route("/addStudent").post(async (req, res) => {
         const addDataStudent = new studentDatamodel({
             StudentName: StudentName,
             Email: Email,
-            //GroupNumber: GroupNumber,
             IdNumber: IdNumber, 
-            RegNo:RegistrationNo   
+            RegistrationNo:RegistrationNo,
+            Specialization:Specialization,
+            Semester:Semester
         });
 
         addDataStudent.save().then(() => {
             res.send("Data added");
             console.log('Student data added');
         });
+
+            const transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 587,
+                secure: false, // Use `true` for port 465, `false` for all other ports
+                auth: {
+                  user: "itpm322@gmail.com",
+                  pass: "uipa omfn jvrt eatd",
+                },
+              });
+              
+              // async..await is not allowed in global scope, must use a wrapper
+              async function main() {
+                // send mail with defined transport object
+                const info = await transporter.sendMail({
+                  from: "itpm322@gmail.com" , // sender address
+                  to:Email,
+                  subject: "[MarkitUp] Student Registered", // Subject line
+                  text: "Hello world1", // plain text body
+                  html: "<b> This is your final year projects working platform..Now your details registration was success.your password is :- Your Id card number and Your username is :- Your Student Registration number </b>", // html body
+                });
+              
+               
+                console.log("Message sent: %s", info.messageId,nodemailer.getTestMessageUrl(info));
+                // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+              }
+                 
+              main().catch(console.error);
 
     } catch (err) {
         console.log('Error adding student data: ' + err.message);
@@ -100,27 +129,6 @@ router.route("/allData").get(async(req,res)=>{
    })
 })
 
-
-//Data add in Students
-// router.route("/addStudent").post((req,res)=>{
-
-//     const Email=req.body.Email;
-//     const GroupNumber=req.body.GroupNumber;
-//     const IdNumber=req.body.IdNumber;
-//     const StudentName=req.body.StudentName;
-
-//     const addDataStudent=new studentDatamodel({
-//         Email:Email,GroupNumber:GroupNumber,IdNumber:IdNumber,StudentName:StudentName  //Semester:Semester
-//      })
-
-//     addDataStudent.save().then(()=>{
-//        res.send("data added")
-//        console.log('Student data added');
-//     }).catch((err)=>{
-//        console.log('Student Data Added Error '+err.message);
-//     })
-
-// })
 
 //data read in adminUsers
 router.route("/allData").get(async(req,res)=>{

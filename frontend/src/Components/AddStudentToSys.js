@@ -109,9 +109,7 @@ function AddStudentToSys() {
     },
   };
 
-  const semester = ["Semester 1", "Semester 2"];
-  const speacialization=["Sofware Enginearing (SE)","Information Technology (IT)","Information System (IS)","Computer Science (CS)","Data science (DS)","Computer Science & Network Enginearing (CSNE)"];  //it,se,is,cs,ds,csne
-
+ 
   const handleChange = (event) => {
     const {
       target: { value },
@@ -214,53 +212,6 @@ function AddStudentToSys() {
               Add Students Manually
             </Button>
           </Stack>
-
-          <div style={{ marginLeft: '80px' }}>
-            <FormControl sx={{ width: 300 }}>
-              <InputLabel id="demo-multiple-checkbox-label">Select Students Current semester</InputLabel>
-              <Select
-
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={Semester}
-                onChange={handleChange}
-                input={<OutlinedInput label="Select Students Current semester" />}
-                renderValue={(selected) => selected.join(', ')}
-                MenuProps={MenuProps}
-              >
-                {semester.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
-
-              </Select>
-            </FormControl>
-          </div>
-
-                    <div style={{ marginLeft: '80px' }}>
-            <FormControl sx={{ width: 300 }}>
-              <InputLabel id="demo-multiple-checkbox-label">Select Student speacialization</InputLabel>
-              <Select
-
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={specia}
-                onChange={handleChangeSpe}
-                input={<OutlinedInput label="Select Students Current specialization" />}
-                renderValue={(selected) => selected.join(', ')}
-                MenuProps={MenuProps}
-              >
-                {speacialization.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
-
-              </Select>
-            </FormControl>
-          </div>
-
         </div>
 
         {/* view data */}

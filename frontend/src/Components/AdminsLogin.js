@@ -59,14 +59,17 @@ function AdminsLogin() {
 
       const alldata = await axios.post("http://localhost:3005/loginAndSign/signIn", loginCredentials)
       console.log(alldata.data);
-      alert(alldata.data.message);
+     alert(alldata.data.message);
       setloginMsg(alldata)
       setErrors({})
 
      
-      if (alldata.data.message === "Login successful") {
+      if (alldata.data.message === "Login success as admin" ) {
          reqTableData()
         window.location.href = `/SpecializationSelect`;
+      }
+      else if (alldata.data.message === "Login success as student") {
+       // window.location.href = `/StudentDashboard`;
       }
 
 
