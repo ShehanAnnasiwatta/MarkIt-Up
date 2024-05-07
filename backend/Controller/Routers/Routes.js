@@ -275,7 +275,6 @@ router.route("/updateReq/:id").put(async(req,res)=>{
             }
             else if(CurrentUser.RequestData===true){
 
-
                 const transporter = nodemailer.createTransport({
                     host: "smtp.gmail.com",
                     port: 587,
@@ -342,7 +341,7 @@ router.route("/addpresentation").post((req, res) => {
     const location = req.body.location;
     const examiners = req.body.examiners;
 
-    const addPresentation = new Presentation({
+    const addPresentation = new presentation({
         type,
         group,
         date,
@@ -366,7 +365,7 @@ router.route("/addpresentation").post((req, res) => {
 
 //read all presentations
 router.route("/presentations/all").get(async(req, res)=>{
-    Presentation.find().then((data)=>{
+    presentation.find().then((data)=>{
         res.send(data)
     }).catch((err)=>{
         console.log(err.message);
@@ -378,7 +377,7 @@ router.route("/presentations/all").get(async(req, res)=>{
 router.get('/presentation/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const presentation = await Presentation.findById(id);
+      const presentation = await presentation.findById(id);
       res.send(presentation);
     } catch (error) {
       console.error(error);
@@ -392,7 +391,7 @@ router.get('/presentation/:id', async (req, res) => {
     const { type, group, date, startTime, endTime, location,examiners} = req.body;
   
     try {
-      const presentation = await Presentation.findByIdAndUpdate(id, { type, group, date, startTime, endTime, location,examiners }, { new: true });
+      const presentation = await presentation.findByIdAndUpdate(id, { type, group, date, startTime, endTime, location,examiners }, { new: true });
       res.send(presentation);
       console.log("updated successfully!")
     } catch (error) {
@@ -406,7 +405,7 @@ router.get('/presentation/:id', async (req, res) => {
 router.route("/delete/presentation/:id").delete(async(req, res)=>{
     let id=req.params.id;
 
-    await Presentation.findByIdAndDelete(id).then(()=>{
+    await presentation.findByIdAndDelete(id).then(()=>{
          res.send("data deleted");
     }).catch((err)=>{
         res.send("presentation not delete" + err)
