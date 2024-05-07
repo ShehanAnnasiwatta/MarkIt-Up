@@ -50,7 +50,7 @@ export default function Presentations() {
   
 
   return (
-    <div>
+    <div style={{marginTop:'100px'}}>
       <h2 style={{padding:'10px'}}>Scheduled Presentations</h2>
       <Link to="/shedulepresentation" style={{marginLeft:'10px'}}>
         <Button variant="contained" size='small' >Add New</Button>

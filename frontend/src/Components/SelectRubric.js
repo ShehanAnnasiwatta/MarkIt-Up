@@ -35,7 +35,7 @@ function SelectRubric() {
   }
 
   return (
-    <div>
+    <div style={{marginTop:'70px'}}>
       <Typography variant="h4" align="center" gutterBottom style={{ marginTop: '50px', float: 'left', marginLeft: '130px' }}>Select the Specialization</Typography>
       <Grid container spacing={3} justifyContent="center">
         {rubrics.map(rubric => (
@@ -55,7 +55,7 @@ function SelectRubric() {
               <CardContent>
                 <Typography variant="h6" gutterBottom>{rubric.specialization}</Typography>
                 <Button variant="contained" endIcon={<SendIcon />} component={Link} to={`/marking/${rubric._id}`} style={{ marginTop: '20px' }}>
-                  Go to
+                  Get Rubric
                 </Button><br></br>
                 <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => handleDelete(rubric._id)} style={{ marginTop: '10px' }}>
                   Delete

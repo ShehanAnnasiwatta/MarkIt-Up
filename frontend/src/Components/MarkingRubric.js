@@ -38,32 +38,45 @@ const MarkingRubric = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-  
-    if (!selectedOption) {
-      alert("Please select a specialization.");
-      return;
+  e.preventDefault();
+
+  // Check if a specialization is selected
+  if (!selectedOption) {
+    alert("Please select a specialization.");
+    return;
+  }
+
+  // Check if any criterion is empty
+  for (let i = 0; i < rubric.length; i++) {
+    for (let j = 0; j < rubric[i].length; j++) {
+      if (!rubric[i][j]) {
+        alert("Please fill out all fields.");
+        return;
+      }
     }
-  
-    const criteria = rubric.map(row => ({ name: row }));
-  
-    const newRubric = {
-      specialization: selectedOption,
-      criteria: criteria
-    };
-  
-    console.log(newRubric);
-  
-    axios.post("http://localhost:3005/normalroutes/addrubric", newRubric)
-      .then(() => {
-        alert('Rubric submitted successfully!');
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.error('Error submitting rubric:', err);
-        alert('Error submitting rubric: ' + err);
-      });
+  }
+
+  // Proceed with form submission
+  const criteria = rubric.map(row => ({ name: row }));
+
+  const newRubric = {
+    specialization: selectedOption,
+    criteria: criteria
   };
+
+  console.log(newRubric);
+
+  axios.post("http://localhost:3005/normalroutes/addrubric", newRubric)
+    .then(() => {
+      alert('Rubric submitted successfully!');
+      window.location.reload();
+    })
+    .catch((err) => {
+      console.error('Error submitting rubric:', err);
+      alert('Error submitting rubric: ' + err);
+    });
+};
+
   
 
   return (
@@ -73,7 +86,7 @@ const MarkingRubric = () => {
           Marking Rubric
         </Typography>
         <Box display="flex" alignItems="center" mb={2}>
-          <FormControl sx={{ minWidth: '200px', marginRight: '10px' }}>
+          <FormControl sx={{ minWidth: '200px', marginRight: '10px' }} required>
             <InputLabel id="select-option-label">Specialization</InputLabel>
             <Select
               labelId="select-option-label"

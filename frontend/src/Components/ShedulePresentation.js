@@ -12,6 +12,24 @@ const StyledItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
+
+const SelectContainer = styled(FormControl)(({ theme }) => ({
+  width: '100%',
+}));
+
+const examinersData = [
+  { id: 1, Fname: 'John', Lname: 'Doe' },
+  { id: 2, Fname: 'Jane', Lname: 'Smith' },
+  { id: 3, Fname: 'Alice', Lname: 'Johnson' },
+  { id: 4, Fname: 'Michael', Lname: 'Brown' },
+  { id: 5, Fname: 'Emily', Lname: 'Jones' },
+  { id: 6, Fname: 'William', Lname: 'Davis' },
+  { id: 7, Fname: 'Olivia', Lname: 'Miller' },
+  { id: 8, Fname: 'James', Lname: 'Wilson' },
+  { id: 9, Fname: 'Sophia', Lname: 'Taylor' },
+  { id: 10, Fname: 'Benjamin', Lname: 'Anderson' }
+];
+
 export default function SchedulePresentation() {
   
   const [type, setType] = useState('');
@@ -20,23 +38,26 @@ export default function SchedulePresentation() {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [location, setLocation] = useState('');
-  const [examiners, setExaminers] = useState([]);
+  const [examiners, setExaminers] = useState(examinersData);
   const [selectedExaminers, setSelectedExaminers] = useState([]);
 
-  useEffect(() => {
-    const fetchExaminers = async () => {
-      try {
-        const response = await axios.get('http://localhost:3005/normalroutes/allExaminers');
-        if (response.status === 200) {
-          setExaminers(response.data);
-        }
-      } catch (error) {
-        console.error('Error fetching examiners:', error);
-      }
-    };
+//   useEffect(() => {
+//   const fetchExaminers = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:3005/normalroutes/allExaminers');
+//       if (response.status === 200) {
+//         setExaminers(response.data);
+//         console.log(response.data)
+//       } else {
+//         console.error('Failed to fetch examiners:', response.statusText);
+//       }
+//     } catch (error) {
+//       console.error('Error fetching examiners:', error);
+//     }
+//   };
 
-    fetchExaminers();
-  }, []);
+//   fetchExaminers();
+// }, []);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
@@ -75,12 +96,12 @@ export default function SchedulePresentation() {
   };
 
   return (
-    <div>
-      <h2 style={{ marginLeft: '220px', marginTop: '20px' }}>Schedule a presentation</h2>
+    <div style={{marginTop:'100px'}}>
+      <h2 style={{ marginLeft: '220px', marginTop: '10px' }}>Schedule a presentation</h2>
       <Grid container spacing={5} sx={{ margin: '0 auto', maxWidth: '1200px' }}>
         <Grid item xs={12} sm={6} >
           <StyledItem>
-            <FormControl fullWidth size='small'>
+            <FormControl fullWidth>
               <InputLabel id="presentation-type-label">Presentation Type</InputLabel>
               <Select
                 labelId="presentation-type-label"
@@ -94,7 +115,7 @@ export default function SchedulePresentation() {
               </Select>
             </FormControl>
             <br /><br />
-            <FormControl fullWidth size='small'>
+            <FormControl fullWidth >
               <InputLabel id="presentation-group-label">Group</InputLabel>
               <Select
                 labelId="presentation-group-label"
@@ -136,7 +157,7 @@ export default function SchedulePresentation() {
               />
             </LocalizationProvider>
             <br /><br />
-            <FormControl fullWidth size='small'>
+            <SelectContainer fullWidth>
               <InputLabel id="location-label">Location</InputLabel>
               <Select
                 labelId="location-label"
@@ -145,10 +166,13 @@ export default function SchedulePresentation() {
                 label="Location"
                 onChange={handleLocationChange}
               >
-                <MenuItem value="room1">Room 1</MenuItem>
-                <MenuItem value="room2">Room 2</MenuItem>
+                <MenuItem value="room1">F_501</MenuItem>
+                <MenuItem value="room2">F_502</MenuItem>
+                <MenuItem value="room2">F_503</MenuItem>
+                <MenuItem value="room2">F_504</MenuItem>
+
               </Select>
-            </FormControl>
+            </SelectContainer>
             <br /><br />
             <Button variant="contained" onClick={handleSubmit}>Create Presentation</Button>
           </StyledItem>
@@ -156,7 +180,7 @@ export default function SchedulePresentation() {
 
         <Grid item xs={12} sm={6}>
           <StyledItem>
-            <FormControl fullWidth size='small'>
+            <FormControl fullWidth >
               <InputLabel id="examiners-label">Select Examiners</InputLabel>
               <Select
                 labelId="examiners-label"

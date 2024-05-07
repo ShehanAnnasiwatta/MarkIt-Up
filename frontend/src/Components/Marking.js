@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { Table, TableHead, TableBody, TableRow, TableCell, Typography, TextField } from '@mui/material';
 
 function Marking() {
   const [rubric, setRubric] = useState(null);
@@ -27,30 +28,37 @@ function Marking() {
     return <div>Loading...</div>;
   }
 
-  // Extracting headers from the first criterion object
-  const headers = Object.keys(rubric.criteria[0]);
-
   return (
-    <div>
-      <h2>{rubric.specialization}</h2>
-      <table>
-        <thead>
-          <tr>
-            {headers.map(header => (
-              <th key={header}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rubric.criteria.map((criterion, index) => (
-            <tr key={index}>
-              {headers.map(header => (
-                <td key={header}>{criterion[header]}</td>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div style={{ textAlign: 'center' }}>
+        <h3>{rubric.specialization + " Marking Rubric"}</h3>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {rubric.criteria[0].name.map((header, index) => (
+                <TableCell key={index}>
+                  <Typography variant="h6" style={{ fontWeight: '400' }}>{header}</Typography>
+                </TableCell>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              <TableCell>
+                <Typography variant="h6" style={{ fontWeight: '400' }}>Marks</Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rubric.criteria.slice(1).map((criterion, index) => (
+              <TableRow key={index}>
+                {criterion.name.map((cell, cellIndex) => (
+                  <TableCell key={cellIndex}>{cell}</TableCell>
+                ))}
+                <TableCell>
+                  <TextField type='number' id={`marks-${index}`} variant="outlined" size="small" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

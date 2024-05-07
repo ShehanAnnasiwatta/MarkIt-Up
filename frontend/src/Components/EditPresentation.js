@@ -13,6 +13,19 @@ const StyledItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
+const examinersData = [
+  { id: 1, Fname: 'John', Lname: 'Doe' },
+  { id: 2, Fname: 'Jane', Lname: 'Smith' },
+  { id: 3, Fname: 'Alice', Lname: 'Johnson' },
+  { id: 4, Fname: 'Michael', Lname: 'Brown' },
+  { id: 5, Fname: 'Emily', Lname: 'Jones' },
+  { id: 6, Fname: 'William', Lname: 'Davis' },
+  { id: 7, Fname: 'Olivia', Lname: 'Miller' },
+  { id: 8, Fname: 'James', Lname: 'Wilson' },
+  { id: 9, Fname: 'Sophia', Lname: 'Taylor' },
+  { id: 10, Fname: 'Benjamin', Lname: 'Anderson' }
+];
+
 export default function EditPresentation() {
   const [presentation, setPresentation] = React.useState({});
   const [loading, setLoading] = React.useState(false);
@@ -22,7 +35,7 @@ export default function EditPresentation() {
   const [startTime, setStartTime] = React.useState(null);
   const [endTime, setEndTime] = React.useState(null);
   const [location, setLocation] = React.useState('');
-  const [examiners, setExaminers] = React.useState([]);
+  const [examiners, setExaminers] = React.useState(examinersData);
   const [selectedExaminers, setSelectedExaminers] = React.useState([]);
   const params = useParams();
   const { id: ID } = params;
@@ -58,19 +71,19 @@ export default function EditPresentation() {
   }, [ID]);
   
 
-  useEffect(() => {
-    const fetchExaminers = async () => {
-      try {
-        const response = await axios.get('http://localhost:3005/normalroutes/allExaminers');
-        if (response.status === 200) {
-          setExaminers(response.data);
-        }
-      } catch (error) {
-        console.error('Error fetching examiners:', error);
-      }
-    };
-    fetchExaminers();
-  }, []);
+  // useEffect(() => {
+  //   const fetchExaminers = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3005/normalroutes/allExaminers');
+  //       if (response.status === 200) {
+  //         setExaminers(response.data);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching examiners:', error);
+  //     }
+  //   };
+  //   fetchExaminers();
+  // }, []);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
@@ -106,12 +119,12 @@ export default function EditPresentation() {
   };
 
   return (
-    <div>
-      <h2 style={{ marginLeft: '220px', marginTop: '20px' }}>Schedule a presentation</h2>
+    <div style={{marginTop:'100px'}}>
+      <h2 style={{ marginLeft: '220px', marginTop: '10px' }}>Edit Presentation</h2>
       <Grid container spacing={5} sx={{ margin: '0 auto', maxWidth: '1200px' }}>
         <Grid item xs={12} sm={6} >
           <StyledItem>
-            <FormControl fullWidth size='small'>
+            <FormControl fullWidth >
               <InputLabel id="presentation-type-label">Presentation Type</InputLabel>
               <Select
                 labelId="presentation-type-label"
@@ -125,7 +138,7 @@ export default function EditPresentation() {
               </Select>
             </FormControl>
             <br /><br />
-            <FormControl fullWidth size='small'>
+            <FormControl fullWidth>
               <InputLabel id="presentation-group-label">Group</InputLabel>
               <Select
                 labelId="presentation-group-label"
@@ -167,7 +180,7 @@ export default function EditPresentation() {
               />
             </LocalizationProvider>
             <br /><br />
-            <FormControl fullWidth size='small'>
+            <FormControl fullWidth>
               <InputLabel id="location-label">Location</InputLabel>
               <Select
                 labelId="location-label"
@@ -187,7 +200,7 @@ export default function EditPresentation() {
 
         <Grid item xs={12} sm={6}>
           <StyledItem>
-            <FormControl fullWidth size='small'>
+            <FormControl fullWidth >
               <InputLabel id="examiners-label">Select Examiners</InputLabel>
               <Select
                 labelId="examiners-label"
