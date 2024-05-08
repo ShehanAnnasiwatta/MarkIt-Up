@@ -2,21 +2,24 @@ import { AppBar, Avatar, Box, IconButton, Toolbar, Tab, Tabs, Badge } from '@mui
 import { grey, red } from '@mui/material/colors';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useState } from 'react'
-import ProfileMenu from '../menus/ProfileMenuForAdmin';
+import ProfileMenu from '../menus/ProfileMenu';
+import Staff from '../menus/Staff';
 
 const Header = () => {
     const [value, setValue] = useState('1');
     const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorElStaff, setAnchorElStaff] = useState(null);
 
     const open = Boolean(anchorEl)
+    const openStaff = Boolean(anchorElStaff)
 
-    const handleOpen = (e) => {
+    const handleOpenIcon = (e) => {
         setAnchorEl(e.currentTarget)
     }
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleOpenTabs = (e) => {
+        setAnchorElStaff(e.currentTarget)
+    }
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
@@ -63,7 +66,15 @@ const Header = () => {
                         <Tabs>
                             {
                                 navLabel.map(lableIndex => (
-                                    <Tab key={lableIndex} label={lableIndex} sx={tabStyle} disableRipple/>
+                                    <Tab
+                                        key={lableIndex}
+                                        label={lableIndex}
+                                        sx={tabStyle}
+                                        disableRipple
+                                        aria-controls={open ? 'staff-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={handleOpenTabs} />
                                 ))
                             }
 
@@ -88,7 +99,7 @@ const Header = () => {
 
 
                         <IconButton
-                            onClick={handleOpen}
+                            onClick={handleOpenIcon}
                             id='icon-menu'
                             aria-controls={open ? 'iocn-menu' : undefined}
                             aria-haspopup={true}
@@ -106,7 +117,9 @@ const Header = () => {
                                 S
                             </Avatar>
                         </IconButton>
-                        <ProfileMenu anchorEl={anchorEl} open={open} onClose={handleClose}/>
+                        <ProfileMenu anchorEl={anchorEl} open={open} setAnchorEl={setAnchorEl}/>
+                        <Staff anchorEl={anchorElStaff} open={openStaff} setAnchorElStaff={setAnchorElStaff} />
+
                     </Box>
                 </Box>
 

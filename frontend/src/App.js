@@ -81,9 +81,7 @@ function App() {
   return (
 
  <Router>  
- <Header />
-    
-{/* <Header /> */}
+<Header />
    <Routes>
     <Route exact path="/" element={<AdminsLogin/>}></Route>
     <Route path="/register" element={<Registraition/>}></Route>
