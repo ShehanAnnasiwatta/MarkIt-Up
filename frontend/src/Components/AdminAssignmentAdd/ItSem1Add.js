@@ -144,9 +144,10 @@ function ItSem1Add() {
 
     const assigmentData={
           description:Desvalu,
+          url:FilesUrls,
           sdate:sDate,
           edate:eDate,
-          week:id
+          week:id 
     }
 
     axios.post("http://localhost:3005/AddAssi/ItSem1",assigmentData).then((res)=>{

@@ -138,6 +138,7 @@ function SeSem2Add() {
     const assignmentData = {
       description: Desvalu,
       url:FilesUrls,
+      url:FilesUrls,
       sdate: sDate,
       edate: eDate,
       week: id,
