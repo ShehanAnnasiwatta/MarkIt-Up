@@ -1,6 +1,7 @@
 const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
+const staffData=require('../../Models/StaffModel')
 const presentation = require('../../Models/presentationModel')
 const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
@@ -121,6 +122,72 @@ router.route("/addStudent").post(async (req, res) => {
      }
 
 })
+
+
+//Data add in Staff
+
+router.route("/addStaff").post(async (req, res) => { 
+    const { name, email, IdNumber, role1, role2, role3, role4 } = req.body;
+    const existingStaff = await staffData.findOne({ email: email });
+
+    if (existingStaff) {
+        console.log('Staff already exists');
+        res.send({ message: `Member already exist` });
+    }
+    else{
+        try {
+            const addDataStaff = new staffData({
+                name: name,
+                email: email,
+                IdNumber: IdNumber,
+                role1: role1,
+                role2: role2,
+                role3: role3,
+                role4: role4
+            });
+
+            addDataStaff.save().then(() => {
+                res.send({ message: "Staff data added" });
+                console.log('Staff data added');
+            });
+
+            const transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 587,
+                secure: false, // Use `true` for port 465, `false` for all other ports
+                auth: {
+                  user: "itpm322@gmail.com",
+                  pass: "uipa omfn jvrt eatd",
+                },
+              });
+              
+              // async..await is not allowed in global scope, must use a wrapper
+              async function main() {
+                // send mail with defined transport object
+                const info = await transporter.sendMail({
+                  from: "itpm322@gmail.com" , // sender address
+                  to:email,
+                  subject: "[MarkitUp] Staff Registered", // Subject line
+                  text: "Hello world1", // plain text body
+                  html: `<b> Hellow ${name} Now you can work on final year research project platform
+                  .You can work ${role1} ${role2} ${role3} ${role4} roles. your username is ${email} and password is ${IdNumber}  </b>`, // html body
+                });
+              
+               
+                console.log("Message sent: %s", info.messageId,nodemailer.getTestMessageUrl(info));
+                // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+              }
+                 
+              main().catch(console.error);
+
+    }
+    catch (err) {
+        console.log('Error adding student data: ' + err.message);
+        res.status(500).send("Error adding staff data");
+       }
+    }
+});
+
 
 //data read in adminUsers
 router.route("/allData").get(async(req,res)=>{

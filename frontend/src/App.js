@@ -36,6 +36,7 @@ import AddProjectS from './pages/projects/addProjectSample';
 // import StudentReg from './Components/StudentReg';
 import SpeciaSelect from './Components/SpecializationSelect'
 import ManualStudentAdd from './Components/AddStudentsManually'
+import AddStaff from './Components/AddStaffToSystem'
 
 import SeSem1 from './Components/AdminSpeacializationHomePages/SeSem1';
 import SeSem2 from './Components/AdminSpeacializationHomePages/SeSem2';
@@ -101,6 +102,7 @@ function App() {
     <Route path="/createrubric" element={<MarkingRubric/>}></Route>
     <Route path="/selectrubric" element={<SelectRubric/>}></Route>
     <Route path="/marking/:id" element={<Marking/>}></Route>
+    <Route path="/AddStaff" element={<AddStaff/>}></Route>
 
     <Route path="/stLog" element={<StudentLogin/>}></Route>
     <Route path="/addPro" element={<AddProject/>}></Route> 
