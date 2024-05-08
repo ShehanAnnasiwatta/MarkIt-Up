@@ -1,8 +1,10 @@
 import { Menu, MenuItem, Box, Avatar, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useNavigate } from 'react-router-dom';
 
 const Staff = ({ anchorEl, open, setAnchorElStaff }) => {
 
+    const navigate = useNavigate()
     const handleClose = () => {
         setAnchorElStaff(null);
     }
@@ -10,7 +12,8 @@ const Staff = ({ anchorEl, open, setAnchorElStaff }) => {
     const menuList = [
         {
             label: "Add Staff",
-            icon: <AddCircleOutlineIcon />
+            icon: <AddCircleOutlineIcon />,
+            route: '/AddStaff'
         },
     ]
 
@@ -39,10 +42,11 @@ const Staff = ({ anchorEl, open, setAnchorElStaff }) => {
                         <MenuItem
                             key={menu.label}
                             sx={{
-                                flexDirection:"row",
-                                columnGap:"10px",
+                                flexDirection: "row",
+                                columnGap: "10px",
                                 borderRadius: "10px"
                             }}
+                            onClick={() => navigate(menu.route)}
                         >
                             {menu.icon}
                             {menu.label}
