@@ -4,6 +4,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Add from '@mui/icons-material/Add';
+import axios from 'axios';
+import { useEffect } from 'react';
+import PdfIcon from '../Images/PdfICON.png'
+import Card from '@mui/material/Card';
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -78,6 +82,7 @@ const ProfileMenu = (props) => {
 
 function CSNESem1() {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [assignmentData,setAssignmentData]=useState([]);
     const open = Boolean(anchorEl);
 
     const handleOpen = (e) => {
@@ -88,11 +93,27 @@ function CSNESem1() {
         setAnchorEl(null);
     };
 
+    const Datagetting=async()=>{
+        axios.get('http://localhost:3005/AddAssi/GetCSNESem1').then((res)=>{
+          setAssignmentData(res.data);
+          console.log(res.data);
+          console.log("Assignment data get Success");
+        }).catch((err)=>{
+          console.log(err);
+          console.log("assignment data not get");
+        })
+      }
+    
+      useEffect(()=>{ 
+        Datagetting();
+      })
+
     const renderTables = () => {
         const tables = [];
 
         // Loop to create 15 tables
         for (let i = 1; i <= 15; i++) {
+            const weekData= assignmentData.filter(datas => datas.week === i.toString());
             tables.push(
                 <div key={i}>
                     <table style={{ width: '100%', marginTop: '150px' }}>
@@ -107,6 +128,47 @@ function CSNESem1() {
                             <tr>
                                 <td>
                                     <div>
+
+                                    <div>
+                                     {weekData.length===0 ? (
+                                        <div> </div>
+                                     ):(<Box sx={{ minWidth: 275 ,border:2,margin:1}}>
+                                        <Card variant="outlined">
+                                  
+                                        {weekData.map((data, key) => (
+                                                                              <div key={key}>
+                                                                                  <div dangerouslySetInnerHTML={{ __html: data.description }} />
+                                  
+                                                                                  {data.url && (
+                                              <div style={{margin:'10px'}}>
+                                                  <img
+                                                      src={PdfIcon}
+                                                      alt="Pdf Icon"
+                                                      style={{ width: '50px', height: '50px', cursor: 'pointer' }}
+                                                      onClick={() => window.open(data.url, '_blank')}
+                                                  />
+                                              </div>
+                                          )}
+                                  
+                                  <div style={{margin:'10px'}}>
+                                  {data.sdate && (
+                                      <p>End Date: {new Date(data.edate).toLocaleString()}</p>
+                                  )}
+                                  </div>
+                            
+                                  
+                                                                              </div>
+                                  
+                                  
+                                                                              
+                                                                          ))}
+                                  
+                                        </Card>
+                                      </Box>)}    
+
+                                    </div>
+
+
                                     <a href={`/CSNESem1Add/${i}`}> <Button startIcon={<Add />} color="primary">Add Assignment</Button></a>
                                     </div>
                                 </td>

@@ -134,7 +134,7 @@ function App() {
     <Route path="/CSNESem1Add/:id" element={<CSNESem2Add/>}></Route>
     <Route path="/CSNESem2Add/:id" element={<CSNESem1Add/>}></Route>
     <Route path="/CsSem2Add/:id" element={<CsSem2Add/>}></Route>
-    <Route path="/CsSem2Add/:id" element={<CsSem1Add/>}></Route>
+    <Route path="/CsSem1Add/:id" element={<CsSem1Add/>}></Route>
     <Route path="/DsSem2Add/:id" element={<DsSem2Add/>}></Route>
     <Route path="/DsSem1Add/:id" element={<DsSem1Add/>}></Route>
     <Route path="/IsSem2Add/:id" element={<IsSem2Add/>}></Route>

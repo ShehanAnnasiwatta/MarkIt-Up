@@ -71,7 +71,9 @@ function AdminsLogin() {
          reqTableData()
         window.location.href = `/SpecializationSelect`;
       }
+
       else if (alldata.data.message === "Login success as student") {
+
          if(alldata.data.user.Semester===1 && alldata.data.user.Specialization==="IT"){
             window.location.href = `/StudentItSem1`;
          }
@@ -81,10 +83,10 @@ function AdminsLogin() {
        else if(alldata.data.user.Semester===1 && alldata.data.user.Specialization==="CSNE"){
         window.location.href = `/StudentCSNESem1`;
      }
-     else if(alldata.data.user.Semester===1 && alldata.data.user.Specialization==="CS"){
+     else if(alldata.data.Semester===1 && alldata.data.user.Specialization==="CS"){
       window.location.href = `/StudentCsSem1`;
    }
-   else if(alldata.data.user.Semester===1 && alldata.data.user.Specialization==="DS"){
+   else if(alldata.data.Semester===1 && alldata.data.user.Specialization==="DS"){
     window.location.href = `/StudentDsSem1`;
  }
  else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="SE"){
@@ -93,7 +95,8 @@ function AdminsLogin() {
 else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="DS"){
   window.location.href = `/StudentDsSem2`;
 }
-else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="CS"){
+else if(alldata.data.Semester===2 && alldata.data.user.Specialization==="CS"){
+  console.log("CS sem2 trigger")
   window.location.href = `/StudentCsSem2`;
 }
 else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="CSNE"){
