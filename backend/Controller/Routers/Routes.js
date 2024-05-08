@@ -1,6 +1,7 @@
 const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
+const staffData=require('../../Models/StaffModel')
 const presentation = require('../../Models/presentationModel')
 const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
@@ -62,26 +63,93 @@ router.route("/addStudent").post(async (req, res) => {
 
     const { StudentName,Email,IdNumber,RegistrationNo,Specialization,Semester} = req.body;
 
-    try {
         const existingStudent = await studentDatamodel.findOne({ Email: Email });
 
         if (existingStudent) {
-            return res.send({ error: `Student already exists: ${existingStudent}` });
+            console.log('Student already exists')
+            res.send({ message: `Student already exists`});
         }
+        else {
+           try{
+            const addDataStudent = new studentDatamodel({
+                StudentName: StudentName,
+                Email: Email,
+                IdNumber: IdNumber, 
+                RegistrationNo:RegistrationNo,
+                Specialization:Specialization,
+                Semester:Semester
+            });
+    
+            addDataStudent.save().then(() => {
+                res.send({message: "Student data added"});
+                console.log('Student data added');
+            });
+    
+                const transporter = nodemailer.createTransport({
+                    host: "smtp.gmail.com",
+                    port: 587,
+                    secure: false, // Use `true` for port 465, `false` for all other ports
+                    auth: {
+                      user: "itpm322@gmail.com",
+                      pass: "uipa omfn jvrt eatd",
+                    },
+                  });
+                  
+                  // async..await is not allowed in global scope, must use a wrapper
+                  async function main() {
+                    // send mail with defined transport object
+                    const info = await transporter.sendMail({
+                      from: "itpm322@gmail.com" , // sender address
+                      to:Email,
+                      subject: "[MarkitUp] Student Registered", // Subject line
+                      text: "Hello world1", // plain text body
+                      html: "<b> This is your final year projects working platform..Now your details registration was success.your password is :- Your Id card number and Your username is :- Your Student Registration number </b>", // html body
+                    });
+                  
+                   
+                    console.log("Message sent: %s", info.messageId,nodemailer.getTestMessageUrl(info));
+                    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+                  }
+                     
+                  main().catch(console.error);
+    
+        }
+        catch (err) {
+            console.log('Error adding student data: ' + err.message);
+            res.status(500).send("Error adding student data");
+           }
+       
+     }
 
-        const addDataStudent = new studentDatamodel({
-            StudentName: StudentName,
-            Email: Email,
-            IdNumber: IdNumber, 
-            RegistrationNo:RegistrationNo,
-            Specialization:Specialization,
-            Semester:Semester
-        });
+})
 
-        addDataStudent.save().then(() => {
-            res.send("Data added");
-            console.log('Student data added');
-        });
+
+//Data add in Staff
+
+router.route("/addStaff").post(async (req, res) => { 
+    const { name, email, IdNumber, role1, role2, role3, role4 } = req.body;
+    const existingStaff = await staffData.findOne({ email: email });
+
+    if (existingStaff) {
+        console.log('Staff already exists');
+        res.send({ message: `Member already exist` });
+    }
+    else{
+        try {
+            const addDataStaff = new staffData({
+                name: name,
+                email: email,
+                IdNumber: IdNumber,
+                role1: role1,
+                role2: role2,
+                role3: role3,
+                role4: role4
+            });
+
+            addDataStaff.save().then(() => {
+                res.send({ message: "Staff data added" });
+                console.log('Staff data added');
+            });
 
             const transporter = nodemailer.createTransport({
                 host: "smtp.gmail.com",
@@ -98,10 +166,11 @@ router.route("/addStudent").post(async (req, res) => {
                 // send mail with defined transport object
                 const info = await transporter.sendMail({
                   from: "itpm322@gmail.com" , // sender address
-                  to:Email,
-                  subject: "[MarkitUp] Student Registered", // Subject line
+                  to:email,
+                  subject: "[MarkitUp] Staff Registered", // Subject line
                   text: "Hello world1", // plain text body
-                  html: "<b> This is your final year projects working platform..Now your details registration was success.your password is :- Your Id card number and Your username is :- Your Student Registration number </b>", // html body
+                  html: `<b> Hellow ${name} Now you can work on final year research project platform
+                  .You can work ${role1} ${role2} ${role3} ${role4} roles. your username is ${email} and password is ${IdNumber}  </b>`, // html body
                 });
               
                
@@ -111,11 +180,12 @@ router.route("/addStudent").post(async (req, res) => {
                  
               main().catch(console.error);
 
-    } catch (err) {
-        console.log('Error adding student data: ' + err.message);
-        res.status(500).send("Error adding student data");
     }
-
+    catch (err) {
+        console.log('Error adding student data: ' + err.message);
+        res.status(500).send("Error adding staff data");
+       }
+    }
 });
 
 

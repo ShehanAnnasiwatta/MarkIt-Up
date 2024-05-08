@@ -35,6 +35,8 @@ import AddProjectS from './pages/projects/addProjectSample';
 // import StudentLogin from './Components/StudentLogin';
 // import StudentReg from './Components/StudentReg';
 import SpeciaSelect from './Components/SpecializationSelect'
+import ManualStudentAdd from './Components/AddStudentsManually'
+import AddStaff from './Components/AddStaffToSystem'
 
 import SeSem1 from './Components/AdminSpeacializationHomePages/SeSem1';
 import SeSem2 from './Components/AdminSpeacializationHomePages/SeSem2';
@@ -81,9 +83,11 @@ function App() {
   return (
 
  <Router>  
+
 <Header />
+    
    <Routes>
-    <Route exact path="/" element={<AdminsLogin/>}></Route>
+    <Route exact path="/" element={<AdminLogin/>}></Route>
     <Route path="/register" element={<Registraition/>}></Route>
     <Route path="/requestTable" element={<RequestTable/>}></Route>
     {/* <Route path="/adminHome/:id" element={<AdminHomePage/>}></Route>  */}
@@ -91,6 +95,7 @@ function App() {
     <Route path="/addStudents" element={<AddStudentToSys/>}></Route>
     {/* <Route path="/adminHome/:id" element={<AdminHome/>}></Route>  */}
     <Route path="/addStudents" element={<AddStudent/>}></Route>
+    <Route path="/manualStudents" element={<ManualStudentAdd/>}></Route>
 
     <Route path="/shedulepresentation" element={<ShedulePresentation/>}></Route>
     <Route path="/presentations" element={<ViewPresentations/>}></Route>
@@ -98,12 +103,12 @@ function App() {
     <Route path="/createrubric" element={<MarkingRubric/>}></Route>
     <Route path="/selectrubric" element={<SelectRubric/>}></Route>
     <Route path="/marking/:id" element={<Marking/>}></Route>
+    <Route path="/AddStaff" element={<AddStaff/>}></Route>
 
     <Route path="/stLog" element={<StudentLogin/>}></Route>
     <Route path="/addPro" element={<AddProject/>}></Route> 
     <Route path="/managePro" element={<ManageProject/>}></Route> 
     <Route path="/addRes"element={<AddResearch/>}></Route> 
-    <Route path="/manageMark"element={<ManageMark/>}></Route> 
     <Route path="/manageRes" element={<ManageResearch/>}></Route> 
     <Route path="/editMark/:id" element={<EditMarks/>}></Route> 
     <Route path="/viewStudent" element={<ViewStudent/>}></Route>
