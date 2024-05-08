@@ -57,7 +57,7 @@ router.post('/signin', async (req, res) => {
   const userStudent = await StudentData.findOne({ Email: email });
   console.log(userStudent);
 
-  if (user && password === user.password) {
+  if (user && (password === user.password) ) {
       // Create JWT Token
       const jwt_key = process.env.JWT_KEY;
       const token = jwt.sign({ email: user.email, role: user.role }, jwt_key, { expiresIn: '1h' });
