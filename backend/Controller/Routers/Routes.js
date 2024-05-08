@@ -1,7 +1,13 @@
 const dataModel=require('../../Models/AdminUsers');
 const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
+const staffData=require('../../Models/StaffModel')
 const presentation = require('../../Models/presentationModel')
+<<<<<<< HEAD
+=======
+const assignment=require('../../Models/AddAssignmentModel')
+const Rubric = require('../../Models/rubricModel')
+>>>>>>> cd73807eb7e850d53d8515071de563d7ea1d75c7
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");
@@ -60,26 +66,93 @@ router.route("/addStudent").post(async (req, res) => {
 
     const { StudentName,Email,IdNumber,RegistrationNo,Specialization,Semester} = req.body;
 
-    try {
         const existingStudent = await studentDatamodel.findOne({ Email: Email });
 
         if (existingStudent) {
-            return res.send({ error: `Student already exists: ${existingStudent}` });
+            console.log('Student already exists')
+            res.send({ message: `Student already exists`});
         }
+        else {
+           try{
+            const addDataStudent = new studentDatamodel({
+                StudentName: StudentName,
+                Email: Email,
+                IdNumber: IdNumber, 
+                RegistrationNo:RegistrationNo,
+                Specialization:Specialization,
+                Semester:Semester
+            });
+    
+            addDataStudent.save().then(() => {
+                res.send({message: "Student data added"});
+                console.log('Student data added');
+            });
+    
+                const transporter = nodemailer.createTransport({
+                    host: "smtp.gmail.com",
+                    port: 587,
+                    secure: false, // Use `true` for port 465, `false` for all other ports
+                    auth: {
+                      user: "itpm322@gmail.com",
+                      pass: "uipa omfn jvrt eatd",
+                    },
+                  });
+                  
+                  // async..await is not allowed in global scope, must use a wrapper
+                  async function main() {
+                    // send mail with defined transport object
+                    const info = await transporter.sendMail({
+                      from: "itpm322@gmail.com" , // sender address
+                      to:Email,
+                      subject: "[MarkitUp] Student Registered", // Subject line
+                      text: "Hello world1", // plain text body
+                      html: "<b> This is your final year projects working platform..Now your details registration was success.your password is :- Your Id card number and Your username is :- Your Student Registration number </b>", // html body
+                    });
+                  
+                   
+                    console.log("Message sent: %s", info.messageId,nodemailer.getTestMessageUrl(info));
+                    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+                  }
+                     
+                  main().catch(console.error);
+    
+        }
+        catch (err) {
+            console.log('Error adding student data: ' + err.message);
+            res.status(500).send("Error adding student data");
+           }
+       
+     }
 
-        const addDataStudent = new studentDatamodel({
-            StudentName: StudentName,
-            Email: Email,
-            IdNumber: IdNumber, 
-            RegistrationNo:RegistrationNo,
-            Specialization:Specialization,
-            Semester:Semester
-        });
+})
 
-        addDataStudent.save().then(() => {
-            res.send("Data added");
-            console.log('Student data added');
-        });
+
+//Data add in Staff
+
+router.route("/addStaff").post(async (req, res) => { 
+    const { name, email, IdNumber, role1, role2, role3, role4 } = req.body;
+    const existingStaff = await staffData.findOne({ email: email });
+
+    if (existingStaff) {
+        console.log('Staff already exists');
+        res.send({ message: `Member already exist` });
+    }
+    else{
+        try {
+            const addDataStaff = new staffData({
+                name: name,
+                email: email,
+                IdNumber: IdNumber,
+                role1: role1,
+                role2: role2,
+                role3: role3,
+                role4: role4
+            });
+
+            addDataStaff.save().then(() => {
+                res.send({ message: "Staff data added" });
+                console.log('Staff data added');
+            });
 
             const transporter = nodemailer.createTransport({
                 host: "smtp.gmail.com",
@@ -96,10 +169,11 @@ router.route("/addStudent").post(async (req, res) => {
                 // send mail with defined transport object
                 const info = await transporter.sendMail({
                   from: "itpm322@gmail.com" , // sender address
-                  to:Email,
-                  subject: "[MarkitUp] Student Registered", // Subject line
+                  to:email,
+                  subject: "[MarkitUp] Staff Registered", // Subject line
                   text: "Hello world1", // plain text body
-                  html: "<b> This is your final year projects working platform..Now your details registration was success.your password is :- Your Id card number and Your username is :- Your Student Registration number </b>", // html body
+                  html: `<b> Hellow ${name} Now you can work on final year research project platform
+                  .You can work ${role1} ${role2} ${role3} ${role4} roles. your username is ${email} and password is ${IdNumber}  </b>`, // html body
                 });
               
                
@@ -109,11 +183,12 @@ router.route("/addStudent").post(async (req, res) => {
                  
               main().catch(console.error);
 
-    } catch (err) {
-        console.log('Error adding student data: ' + err.message);
-        res.status(500).send("Error adding student data");
     }
-
+    catch (err) {
+        console.log('Error adding student data: ' + err.message);
+        res.status(500).send("Error adding staff data");
+       }
+    }
 });
 
 
@@ -273,7 +348,6 @@ router.route("/updateReq/:id").put(async(req,res)=>{
             }
             else if(CurrentUser.RequestData===true){
 
-
                 const transporter = nodemailer.createTransport({
                     host: "smtp.gmail.com",
                     port: 587,
@@ -329,36 +403,38 @@ router.route("/update/:id").put(async(req,res)=>{
     }
 })
 
+//VIRAJ
 //create presentation
-router.route("/addpresentation").post((req,res)=>{
-
-
-    const type = req.body.type
-    const group = req.body.group
-    const date = req.body.date
-    const startTime = req.body.startTime
-    const endTime = req.body.endTime
-    const location = req.body.location
-    const examiners = req.body.examiners
+router.route("/addpresentation").post((req, res) => {
+    const type = req.body.type;
+    const group = req.body.group;
+    const date = new Date(req.body.date); // Convert date string to Date object
+    const startTime = new Date(req.body.startTime); // Convert start time string to Date object
+    const endTime = new Date(req.body.endTime); // Convert end time string to Date object
+    const location = req.body.location;
+    const examiners = req.body.examiners;
 
     const addPresentation = new presentation({
-       type,
-       group,
-       date,
-       startTime,
-       endTime,
-       location,
-       examiners
-     })
+        type,
+        group,
+        date,
+        startTime,
+        endTime,
+        location,
+        examiners
+    });
 
-     addPresentation.save().then(()=>{
-       res.send("data added")
-       console.log('data added');
-    }).catch((err)=>{
-       console.log('data added error '+err.message);
-    })
+    addPresentation.save()
+        .then(() => {
+            res.send("Presentation added successfully");
+            console.log('Presentation added');
+        })
+        .catch((err) => {
+            res.status(400).send("Error adding presentation: " + err.message);
+            console.error('Error adding presentation:', err);
+        });
+});
 
-})
 
 //read all presentations
 router.route("/presentations/all").get(async(req, res)=>{
@@ -368,10 +444,38 @@ router.route("/presentations/all").get(async(req, res)=>{
         console.log(err.message);
         res.send({message:"Data not found"})
     })
- })
+ });
+
+ // Get only one presentation
+router.get('/presentation/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const presentation = await presentation.findById(id);
+      res.send(presentation);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  });
+
+ //update presentation
+ router.put('/update/presentation/:id', async (req, res) => {
+    const { id } = req.params;
+    const { type, group, date, startTime, endTime, location,examiners} = req.body;
+  
+    try {
+      const presentation = await presentation.findByIdAndUpdate(id, { type, group, date, startTime, endTime, location,examiners }, { new: true });
+      res.send(presentation);
+      console.log("updated successfully!")
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  });
+
 
  //Delete presentations
-router.route("/deletepresentation/:id").delete(async(req, res)=>{
+router.route("/delete/presentation/:id").delete(async(req, res)=>{
     let id=req.params.id;
 
     await presentation.findByIdAndDelete(id).then(()=>{
@@ -379,7 +483,7 @@ router.route("/deletepresentation/:id").delete(async(req, res)=>{
     }).catch((err)=>{
         res.send("presentation not delete" + err)
     })
-})
+});
 
 
 //create marking rubric 
@@ -411,20 +515,30 @@ router.route("/rubrics/all").get(async(req,res)=>{
  })
 
 
-//read one marking rubric
-router.route("/rubrics/:id").get(async(req,res)=>{
-    const rid=req.params.id;
-    console.log(rid);
+//Delete rubrics
+router.route("/delete/rubric/:id").delete(async(req, res)=>{
+    let id = req.params.id;
 
-   try {      
-    Rubric.findById(rid).then((data)=>{
-        res.json(data)
+    await Rubric.findByIdAndDelete(id).then(()=>{
+         res.send("Rubric deleted");
+    }).catch((err)=>{
+        res.send("Rubric not deleted " + err)
     })
+});
 
-   } catch (error) {
-     console.log("Can not get rubric!" + error)
-   }
-})
+
+// Get only one rubric
+router.get('/rubric/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const rub = await Rubric.findById(id);
+      res.send(rub);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  });
+
 
 
 module.exports = router;

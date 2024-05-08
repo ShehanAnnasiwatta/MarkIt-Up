@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Tab, Tabs, IconButton, Badge, Avatar, Box, Menu, MenuItem, Typography, Button } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Add from '@mui/icons-material/Add';
+import axios from 'axios';
+import PdfIcon from '../Images/PdfICON.png'
+import Card from '@mui/material/Card';
+
+
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -79,6 +84,23 @@ const ProfileMenu = (props) => {
 function ItSem1() {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const [assignmentData, setAssignmentData] = useState([]);
+    console.log(assignmentData);
+
+    const getItSem1 = () => {
+        axios.get('http://localhost:3005/AddAssi/GetItSem1')
+            .then((res) => {
+                console.log(res.data);
+                setAssignmentData(res.data);
+            })
+            .catch((err) => {
+                console.log("Assignment data fetch error" + err);
+            });
+    }
+
+    useEffect(() => {
+        getItSem1();
+    }, []);
 
     const handleOpen = (e) => {
         setAnchorEl(e.currentTarget);
@@ -88,11 +110,14 @@ function ItSem1() {
         setAnchorEl(null);
     };
 
+    //const weekData= assignmentData.filter(datas => datas.week === toString(1));
+    //console.log("weekdata are : ",weekData);
+
     const renderTables = () => {
         const tables = [];
-
-        // Loop to create 15 tables
+    
         for (let i = 1; i <= 15; i++) {
+            const weekData= assignmentData.filter(datas => datas.week === i.toString()); 
             tables.push(
                 <div key={i}>
                     <table style={{ width: '100%', marginTop: '150px' }}>
@@ -107,7 +132,43 @@ function ItSem1() {
                             <tr>
                                 <td>
                                     <div>
-                                    <Button href={`#`} startIcon={<Add />} color="primary"> Submit here</Button>
+                                     {weekData.length===0 ? (
+                                        <div> </div>
+                                     ):(<Box sx={{ minWidth: 275 ,border:2,margin:1}}>
+                                        <Card variant="outlined">
+                                  
+                                        {weekData.map((data, key) => (
+                                                                              <div key={key}>
+                                                                                  <div dangerouslySetInnerHTML={{ __html: data.description }} />
+                                  
+                                                                                  {data.url && (
+                                              <div style={{margin:'10px'}}>
+                                                  <img
+                                                      src={PdfIcon}
+                                                      alt="Pdf Icon"
+                                                      style={{ width: '50px', height: '50px', cursor: 'pointer' }}
+                                                      onClick={() => window.open(data.url, '_blank')}
+                                                  />
+                                              </div>
+                                          )}
+                                  
+                                  <div style={{margin:'10px'}}>
+                                  {data.sdate && (
+                                      <p>End Date: {new Date(data.edate).toLocaleString()}</p>
+                                  )}
+                                  </div>
+                                  
+                                  <Button href={`#`} startIcon={<Add />} color="primary"> Submit here</Button>
+                                  
+                                  
+                                                                              </div>
+                                  
+                                  
+                                                                              
+                                                                          ))}
+                                  
+                                        </Card>
+                                      </Box>)}                                    
                                     </div>
                                 </td>
                             </tr>
@@ -116,7 +177,7 @@ function ItSem1() {
                 </div>
             );
         }
-
+    
         return tables;
     };
 
@@ -198,7 +259,6 @@ function ItSem1() {
             <div>
                 {renderTables()}
             </div>
-          
         </div>
     );
 }

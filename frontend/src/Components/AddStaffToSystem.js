@@ -13,10 +13,12 @@ import Select from '@mui/material/Select';
 import { Hourglass } from 'react-loader-spinner'
 import {RotatingLines} from 'react-loader-spinner';
 
-import ExcellHeadingImage from './Images/ExcellModel.png'
+import ExcellHeadingImage from './Images/Staff.png'
+import Swal from 'sweetalert2';
 
 
-function AddStudentToSys() {
+
+function AddStaffToSystem() {
 
   // onchange states
   const [excelFile, setExcelFile] = useState(null);
@@ -73,21 +75,38 @@ function AddStudentToSys() {
       if (excelData !== null) {
         // console.log('Uploading:',uploading);
         for (const item of excelData) {
-          await axios.post('http://localhost:3005/normalroutes/addStudent', item).then((res)=>{
-            console.log(res.data.error);
-            if (res.data.error){
+          await axios.post('http://localhost:3005/normalroutes/addStaff', item).then((res)=>{
+            console.log(res.data.message);
+            if (res.data.message === "Member already exist" ||res.data.message === "Error adding staff data") {
               setErruploading(true);
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${res.data.message}`,
+              });
             }
             else{
               setUploading(true);
+              Swal.fire({
+                icon: "success",
+                title: "Oops...",
+                text: `${res.data.message}`,
+              });
+
             }
-            console.log("StudentData added to the System");
+            console.log("Staff added to the System");
           })
         }
         setUploading(false);
         // console.log('Uploading:',uploading);
       } else {
         console.log("No data to add");
+
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "No data to add",
+          });
       }
     } catch (error) {
       setUploading(false);
@@ -95,18 +114,6 @@ function AddStudentToSys() {
       console.log("Error adding student data to the System");
       console.error(error.message);
     }
-  };
-
-  //Drop Down Items
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
   };
 
  
@@ -168,7 +175,7 @@ function AddStudentToSys() {
 
       <div className="wrapper">
 
-        <h3 style={{ margin: '20px', textAlign: 'center' }}>Add Students To System</h3>
+        <h3 style={{ margin: '20px', textAlign: 'center' }}>Add Staff to System</h3>
 
         {/* form */}
 
@@ -191,7 +198,7 @@ function AddStudentToSys() {
             <p style={{textAlign:'center'}}>Your Data Heading Should Me As Follows</p>
             <div>
               <div style={{textAlign:'center', margin:'20px'}}>
-                <img src={ExcellHeadingImage}></img>
+                <img src={ExcellHeadingImage} style={{width:'100%'}}></img>
               </div>
             </div>
           </div>
@@ -203,13 +210,13 @@ function AddStudentToSys() {
 
           <Stack direction="row" spacing={2}>
             <Button variant="contained" endIcon={<SendIcon />} onClick={addStudentdata}>
-              Add Students
+              Add Staff
             </Button>
           </Stack>
 
           <Stack direction="row" spacing={2} style={{marginLeft:'20px'}}>
            <a href='/manualStudents'> <Button variant="contained" endIcon={<SendIcon />} >
-              Add Students Manually
+              Add Staff Manually
             </Button></a>
           </Stack>
         </div>
@@ -246,4 +253,4 @@ function AddStudentToSys() {
   )
 }
 
-export default AddStudentToSys
+export default AddStaffToSystem;

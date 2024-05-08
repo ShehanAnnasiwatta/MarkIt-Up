@@ -376,5 +376,104 @@ router.route("/CSNESem2").post(async(req,res)=>{
 
 })
 
+
+router.route("/GetItSem1").get((req,res)=>{
+    ItSem1.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetItSem2").get((req,res)=>{
+    ItSem2.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetSeSem1").get((req,res)=>{
+    SeSem1.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetSeSem2").get((req,res)=>{
+    SeSem2.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetIsSem1").get((req,res)=>{
+    IsSem1.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetIsSem2").get((req,res)=>{
+    IsSem2.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetDsSem1").get((req,res)=>{
+    DsSem1.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetDsSem2").get((req,res)=>{
+    DsSem2.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetCsSem1").get((req,res)=>{
+    CsSem1.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetCsSem2").get((req,res)=>{
+    CsSem2.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetCSNESem1").get((req,res)=>{
+    CSNESem1.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+router.route("/GetCSNESem2").get((req,res)=>{
+    CSNESem2.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+
+
 module.exports=router;
 
