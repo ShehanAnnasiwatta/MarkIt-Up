@@ -25,6 +25,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { loginSchema } from '../validations/formValidations';
 import { blue } from '@mui/material/colors';
+import Logo from './Images/Logo.jpeg';
+import { margin } from '@mui/system';
 
 
 
@@ -132,7 +134,7 @@ else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="IT
 
   return (
 
-    <Box width="100vw" height="100vh" position="relative" bgcolor="whitesmoke">
+    <Box width="100vw" height="100vh" position="relative" bgcolor="whitesmoke" style={{margin:'40px'}}>
 
       <Box
         display="flex"
@@ -147,6 +149,7 @@ else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="IT
         borderRadius="20px"
         alignItems="center"
       >
+       
         <Avatar sx={{
           height: "70px",
           width: "70px",

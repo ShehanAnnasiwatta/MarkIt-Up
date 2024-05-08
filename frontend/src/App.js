@@ -35,6 +35,7 @@ import AddProjectS from './pages/projects/addProjectSample';
 // import StudentLogin from './Components/StudentLogin';
 // import StudentReg from './Components/StudentReg';
 import SpeciaSelect from './Components/SpecializationSelect'
+import ManualStudentAdd from './Components/AddStudentsManually'
 
 import SeSem1 from './Components/AdminSpeacializationHomePages/SeSem1';
 import SeSem2 from './Components/AdminSpeacializationHomePages/SeSem2';
@@ -81,7 +82,6 @@ function App() {
   return (
 
  <Router>  
- <Header />
     
 {/* <Header /> */}
    <Routes>
@@ -93,6 +93,7 @@ function App() {
     <Route path="/addStudents" element={<AddStudentToSys/>}></Route>
     {/* <Route path="/adminHome/:id" element={<AdminHome/>}></Route>  */}
     <Route path="/addStudents" element={<AddStudent/>}></Route>
+    <Route path="/manualStudents" element={<ManualStudentAdd/>}></Route>
 
     <Route path="/shedulepresentation" element={<ShedulePresentation/>}></Route>
     <Route path="/presentations" element={<ViewPresentations/>}></Route>
