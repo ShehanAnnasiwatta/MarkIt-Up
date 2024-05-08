@@ -17,6 +17,9 @@ const UserActivation = require('../../Models/AdminUsers');
 //get students data model
 const StudentData = require('../../Models/StudentDataModel');
 
+//get Staff data model
+const StaffData = require('../../Models/StaffModel');
+
 //If have the Problem time format and time value 
 const options = { timeZone: 'Asia/Colombo', hour12:true};
 const CurrentDate = new Date().toLocaleString('en-US', options);
@@ -57,6 +60,9 @@ router.post('/signin', async (req, res) => {
   const userStudent = await StudentData.findOne({ Email: email });
   console.log(userStudent);
 
+  const userStaff = await StaffData.findOne({ Email: email });
+  console.log(userStaff);
+
   if (user && (password === user.password) ) {
       // Create JWT Token
       const jwt_key = process.env.JWT_KEY;
@@ -87,6 +93,25 @@ router.post('/signin', async (req, res) => {
       console.log({ message: 'Login successful' });
 
       return res.json({ message: 'Login success as student',user:userStudent});
+      
+  }else if(userStaff && password === userStaff.IdNumber){
+    // Create JWT Token
+    const jwt_key = process.env.JWT_KEY;
+    const token = jwt.sign(
+        { email: userStaff.email, role1: userStaff.role1, role2: userStaff.role2, role3: userStaff.role3, role4: userStaff.role4 },
+        jwt_key,
+        { expiresIn: '1h' }
+    );
+
+    // set token as a cookie
+    res.cookie('token', token, { httpOnly: true, secure: false });
+
+    req.session.user = { userEmail: userStaff.email,role1: userStaff.role1, role2: userStaff.role2, role3: userStaff.role3, role4: userStaff.role4};
+
+    console.log({ message: 'Login successful' });
+
+    return res.json({ message: 'Login success as staff',user:userStaff});
+
   } else {
       // If no user found or incorrect password
       return res.json({ message: 'Login failed' });
