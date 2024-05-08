@@ -208,9 +208,9 @@ function AddStudentToSys() {
           </Stack>
 
           <Stack direction="row" spacing={2} style={{marginLeft:'20px'}}>
-            <Button variant="contained" endIcon={<SendIcon />} onClick={addStudentdata}>
+           <a href='/manualStudents'> <Button variant="contained" endIcon={<SendIcon />} >
               Add Students Manually
-            </Button>
+            </Button></a>
           </Stack>
         </div>
 
