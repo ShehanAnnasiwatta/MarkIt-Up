@@ -4,6 +4,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const ProfileMenu = (props) => {
 
+    const handleClose = () => {
+        props.setAnchorEl(null);
+    }
+
     const menuList = [
         {
             label: "Profile",
@@ -19,7 +23,7 @@ const ProfileMenu = (props) => {
             id="icon-menu"
             anchorEl={props.anchorEl}
             open={props.open}
-            onClose={props.onClose}
+            onClose={handleClose}
             anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "center"
