@@ -4,6 +4,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Add from '@mui/icons-material/Add';
+import Card from '@mui/material/Card';
+import axios from 'axios';
+import { useEffect } from 'react';
+import PdfIcon from '../Images/PdfICON.png'
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -79,6 +83,22 @@ const ProfileMenu = (props) => {
 function DsSem1() {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const [assignmentData, setAssignmentData] = useState([]);
+    
+    const Datagetting=async()=>{
+        axios.get('http://localhost:3005/AddAssi/GetDsSem2').then((res)=>{
+            setAssignmentData(res.data);
+          console.log(res.data);
+          console.log("Assignment data get Success");
+        }).catch((err)=>{
+          console.log(err);
+          console.log("assignment data not get");
+        })
+      }
+    
+      useEffect(()=>{ 
+        Datagetting();
+      })
 
     const handleOpen = (e) => {
         setAnchorEl(e.currentTarget);
@@ -93,6 +113,7 @@ function DsSem1() {
 
         // Loop to create 15 tables
         for (let i = 1; i <= 15; i++) {
+            const weekData = assignmentData.filter(data => data.week === i);
             tables.push(
                 <div key={i}>
                     <table style={{ width: '100%', marginTop: '150px' }}>
@@ -107,6 +128,46 @@ function DsSem1() {
                             <tr>
                                 <td>
                                     <div>
+
+                                                                          
+                                    <div>
+                                     {weekData.length===0 ? (
+                                        <div> </div>
+                                     ):(<Box sx={{ minWidth: 275 ,border:2,margin:1}}>
+                                        <Card variant="outlined">
+                                  
+                                        {weekData.map((data, key) => (
+                                                                              <div key={key}>
+                                                                                  <div dangerouslySetInnerHTML={{ __html: data.description }} />
+                                  
+                                                                                  {data.url && (
+                                              <div style={{margin:'10px'}}>
+                                                  <img
+                                                      src={PdfIcon}
+                                                      alt="Pdf Icon"
+                                                      style={{ width: '50px', height: '50px', cursor: 'pointer' }}
+                                                      onClick={() => window.open(data.url, '_blank')}
+                                                  />
+                                              </div>
+                                          )}
+                                  
+                                  <div style={{margin:'10px'}}>
+                                  {data.sdate && (
+                                      <p>End Date: {new Date(data.edate).toLocaleString()}</p>
+                                  )}
+                                  </div>
+                            
+                                  
+                                                                              </div>
+                                  
+                                  
+                                                                              
+                                                                          ))}
+                                  
+                                        </Card>
+                                      </Box>)}    
+
+                                    </div>
                                         <Button href={`/DsSem2Add/${i}`} startIcon={<Add />} color="primary"> Add Assignment</Button>
                                     </div>
                                 </td>
