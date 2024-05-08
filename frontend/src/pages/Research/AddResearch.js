@@ -141,10 +141,14 @@ function AddResearch() {
           <div className="col">
             <div className="mb-3">
               <label htmlFor="currency" className="form-label">Currency</label>
-              <select className="form-select" id="currency" value={selectedCurrency} onChange={(e) => setSelectedCurrency(e.target.value)}>
-                <option value="USD">USD</option>
-                <option value="LKR">LKR</option>
-              </select>
+              <Select
+                options={[
+                  { value: 'USD', label: 'USD' },
+                  { value: 'LKR', label: 'LKR' }
+                ]}
+                value={selectedCurrency ? { value: selectedCurrency, label: selectedCurrency } : null}
+                onChange={(selectedOption) => setSelectedCurrency(selectedOption.value)}
+              />
             </div>
              <div className="mb-3">
               <label htmlFor="student" className="form-label">Fee</label>
@@ -158,8 +162,7 @@ function AddResearch() {
         </div>
       </form>
     </div>
-  )
-
+  ) 
 }
 
 export default AddResearch;

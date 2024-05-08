@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Grid, FormControl, InputLabel, Select, MenuItem, Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import axios from 'axios';
@@ -10,11 +11,6 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 const StyledItem = styled(Grid)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   padding: theme.spacing(2),
-}));
-
-
-const SelectContainer = styled(FormControl)(({ theme }) => ({
-  width: '100%',
 }));
 
 const examinersData = [
@@ -30,34 +26,64 @@ const examinersData = [
   { id: 10, Fname: 'Benjamin', Lname: 'Anderson' }
 ];
 
-export default function SchedulePresentation() {
+export default function EditPresentation() {
+  const [presentation, setPresentation] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
+  const [type, setType] = React.useState('');
+  const [group, setGroup] = React.useState('');
+  const [date, setDate] = React.useState(null);
+  const [startTime, setStartTime] = React.useState(null);
+  const [endTime, setEndTime] = React.useState(null);
+  const [location, setLocation] = React.useState('');
+  const [examiners, setExaminers] = React.useState(examinersData);
+  const [selectedExaminers, setSelectedExaminers] = React.useState([]);
+  const params = useParams();
+  const { id: ID } = params;
+
+  useEffect(() => {
+    async function GetPresentation() {
+      try {
+        const res = await axios.get(`http://localhost:3005/normalroutes/presentation/${ID}`);
+        setLoading(true);
+        const presentationData = res.data;
+        
+        // // Parse date and time strings to Date objects
+        // presentationData.date = new Date(presentationData.date);
+        // presentationData.startTime = new Date(presentationData.startTime);
+        // presentationData.endTime = new Date(presentationData.endTime);
   
-  const [type, setType] = useState('');
-  const [group, setGroup] = useState('');
-  const [date, setDate] = useState(null);
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
-  const [location, setLocation] = useState('');
-  const [examiners, setExaminers] = useState(examinersData);
-  const [selectedExaminers, setSelectedExaminers] = useState([]);
+        setPresentation(presentationData);
+        setType(presentationData.type);
+        setGroup(presentationData.group);
+        // setDate(presentationData.date);
+        setStartTime(presentationData.startTime);
+        setEndTime(presentationData.endTime);
+        setLocation(presentationData.location);
+        setExaminers(presentationData.examiners);
+        setSelectedExaminers(presentationData.examiners); // Assuming already selected examiners need to be pre-populated
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        alert(err.message);
+      }
+    }
+    GetPresentation();
+  }, [ID]);
+  
 
-//   useEffect(() => {
-//   const fetchExaminers = async () => {
-//     try {
-//       const response = await axios.get('http://localhost:3005/normalroutes/allExaminers');
-//       if (response.status === 200) {
-//         setExaminers(response.data);
-//         console.log(response.data)
-//       } else {
-//         console.error('Failed to fetch examiners:', response.statusText);
-//       }
-//     } catch (error) {
-//       console.error('Error fetching examiners:', error);
-//     }
-//   };
-
-//   fetchExaminers();
-// }, []);
+  // useEffect(() => {
+  //   const fetchExaminers = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3005/normalroutes/allExaminers');
+  //       if (response.status === 200) {
+  //         setExaminers(response.data);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching examiners:', error);
+  //     }
+  //   };
+  //   fetchExaminers();
+  // }, []);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
@@ -69,13 +95,11 @@ export default function SchedulePresentation() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!type || !group || !date || !startTime || !endTime || !location || !selectedExaminers.length) {
       alert("Please fill all fields");
       return;
     }
-
-    const newPresentation = {
+    const updatePresentation = {
       type,
       group,
       date,
@@ -84,10 +108,9 @@ export default function SchedulePresentation() {
       location,
       examiners: selectedExaminers
     };
-
-    axios.post("http://localhost:3005/normalroutes/addpresentation", newPresentation)
+    axios.put(`http://localhost:3005/normalroutes/update/${ID}`, updatePresentation) // Fix endpoint URL
       .then(() => {
-        alert('Presentation added');
+        alert('Presentation updated');
         window.location.href = '/presentations';
       })
       .catch((err) => {
@@ -97,11 +120,11 @@ export default function SchedulePresentation() {
 
   return (
     <div style={{marginTop:'100px'}}>
-      <h2 style={{ marginLeft: '220px', marginTop: '10px' }}>Schedule a presentation</h2>
+      <h2 style={{ marginLeft: '220px', marginTop: '10px' }}>Edit Presentation</h2>
       <Grid container spacing={5} sx={{ margin: '0 auto', maxWidth: '1200px' }}>
         <Grid item xs={12} sm={6} >
           <StyledItem>
-            <FormControl fullWidth>
+            <FormControl fullWidth >
               <InputLabel id="presentation-type-label">Presentation Type</InputLabel>
               <Select
                 labelId="presentation-type-label"
@@ -115,7 +138,7 @@ export default function SchedulePresentation() {
               </Select>
             </FormControl>
             <br /><br />
-            <FormControl fullWidth >
+            <FormControl fullWidth>
               <InputLabel id="presentation-group-label">Group</InputLabel>
               <Select
                 labelId="presentation-group-label"
@@ -157,7 +180,7 @@ export default function SchedulePresentation() {
               />
             </LocalizationProvider>
             <br /><br />
-            <SelectContainer fullWidth>
+            <FormControl fullWidth>
               <InputLabel id="location-label">Location</InputLabel>
               <Select
                 labelId="location-label"
@@ -166,15 +189,12 @@ export default function SchedulePresentation() {
                 label="Location"
                 onChange={handleLocationChange}
               >
-                <MenuItem value="room1">F_501</MenuItem>
-                <MenuItem value="room2">F_502</MenuItem>
-                <MenuItem value="room2">F_503</MenuItem>
-                <MenuItem value="room2">F_504</MenuItem>
-
+                <MenuItem value="room1">Room 1</MenuItem>
+                <MenuItem value="room2">Room 2</MenuItem>
               </Select>
-            </SelectContainer>
+            </FormControl>
             <br /><br />
-            <Button variant="contained" onClick={handleSubmit}>Create Presentation</Button>
+            <Button variant="contained" onClick={handleSubmit}>Update Presentation</Button>
           </StyledItem>
         </Grid>
 

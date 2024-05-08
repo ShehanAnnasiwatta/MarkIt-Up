@@ -1,22 +1,23 @@
 const mongoose = require('mongoose');
 
-const criterionSchema = new mongoose.Schema({
-  name: [{
-    type: String,
-    required: true,
-  }],
-  score: {
-    type: Number,
-    default: 0,
-  },
-});
+// Define the criterion schema
+const criterionSchema = {
+  name: {
+    type: [String], // Array of strings
+    required: true
+  }
+};
 
-const rubricSchema = new mongoose.Schema({
+// Define the rubric schema
+const rubricSchema = {
   specialization: {
     type: String,
-    required: true,
+    required: true
   },
-  criteria: [criterionSchema],
-});
+  criteria: [criterionSchema] // Array of criterion objects
+};
 
-module.exports = mongoose.model('Rubric', rubricSchema);
+// Create the Rubric model
+const Rubric = mongoose.model('Rubric', rubricSchema);
+
+module.exports = Rubric;
