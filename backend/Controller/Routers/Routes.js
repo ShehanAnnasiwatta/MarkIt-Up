@@ -123,6 +123,19 @@ router.route("/addStudent").post(async (req, res) => {
 
 })
 
+//get data using email(Students)
+
+router.route("/oneStudent/:sid").get(async(req,res)=>{
+          
+     const sid=req.body.sid;
+
+     const get1StudentData=await studentDatamodel.findOne({email:sid});
+     console.log(get1StudentData);
+     res.send(get1StudentData);
+
+
+})
+
 
 //Data add in Staff
 
