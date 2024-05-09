@@ -420,10 +420,10 @@ router.route("/delete/presentation/:id").delete(async(req, res)=>{
 router.route('/addrubric')
   .post(async (req, res) => {
     try {
-      const { specialization, criteria } = req.body;
+      const { specialization, assignment, criteria } = req.body;
       
       // Constructing the rubric object based on the model structure
-      const rubric = new Rubric({ specialization, criteria });
+      const rubric = new Rubric({ specialization, assignment, criteria });
 
       // Save the rubric to the database
       await rubric.save();

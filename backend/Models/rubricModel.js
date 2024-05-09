@@ -14,6 +14,10 @@ const rubricSchema = {
     type: String,
     required: true
   },
+  assignment: {
+    type: String,
+    required: true
+  },
   criteria: [criterionSchema] // Array of criterion objects
 };
 
