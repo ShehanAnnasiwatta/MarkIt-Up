@@ -127,9 +127,9 @@ router.route("/addStudent").post(async (req, res) => {
 
 router.route("/oneStudent/:sid").get(async(req,res)=>{
           
-     const sid=req.body.sid;
-
-     const get1StudentData=await studentDatamodel.findOne({email:sid});
+     const sid=req.params.sid;
+     console.log("Sid is - " ,sid);
+     const get1StudentData=await studentDatamodel.findOne({Email:sid});
      console.log(get1StudentData);
      res.send(get1StudentData);
 

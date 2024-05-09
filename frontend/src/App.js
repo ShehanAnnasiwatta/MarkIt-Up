@@ -114,7 +114,7 @@ function App() {
     <Route path="/editRes/:id" element={<EditResearch/>}></Route>
     <Route path="/addMark" element={<AddExaminerMark/>}></Route>
     <Route path="/progressBar" element={<ProgressBar futureDate={new Date(2024, 2, 31)} />}></Route>
-    <Route path="/SpecializationSelect/aid" element={<SpeciaSelect/>}></Route>
+    <Route path="/SpecializationSelect" element={<SpeciaSelect/>}></Route>
 
     <Route path="/CSNESem1" element={<CSNESem1/>}></Route>
     <Route path="/CSNESem2" element={<CSNESem2/>}></Route>

@@ -113,12 +113,13 @@ function SeSem1() {
     const [studentData, setStudentData] = useState([]);
 
     const{sid}=useParams();
+    console.log(sid);
 
 
     const getStudentData = () => {
         axios.get(`http://localhost:3005/normalroutes/oneStudent/${sid}`)
             .then((res) => {
-               // console.log(res.data);
+               console.log(res.data);
                 setStudentData(res.data);
             })
             .catch((err) => {
