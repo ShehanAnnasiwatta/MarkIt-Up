@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, Button, Typography, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
+import { flexbox } from '@mui/system';
 
 function SelectRubric() {
   const [rubrics, setRubrics] = useState([]);
@@ -43,7 +44,7 @@ function SelectRubric() {
             <Card
               sx={{
                 width: 300,
-                height: 200,
+                height: flexbox,
                 backgroundColor: '#ced4da',
                 transition: 'background-color 0.3s',
                 cursor: 'pointer',
@@ -54,7 +55,8 @@ function SelectRubric() {
             >
               <CardContent>
                 <Typography variant="h6" gutterBottom>{rubric.specialization}</Typography>
-                <Button variant="contained" endIcon={<SendIcon />} component={Link} to={`/marking/${rubric._id}`} style={{ marginTop: '20px' }}>
+                <p>{rubric.assignment}</p>
+                <Button variant="contained" endIcon={<SendIcon />} component={Link} to={`/marking/${rubric._id}`} style={{ marginTop: '10px' }}>
                   Get Rubric
                 </Button><br></br>
                 <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => handleDelete(rubric._id)} style={{ marginTop: '10px' }}>
