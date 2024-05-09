@@ -19,7 +19,8 @@ import {
 
 const MarkingRubric = () => {
   const [rubric, setRubric] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [specialization, setSpecialization] = useState('');
+  const [assignment, setAssignment] = useState('');
 
   const handleCriteriaChange = (rowIndex, colIndex, event) => {
     const newRubric = [...rubric];
@@ -38,63 +39,72 @@ const MarkingRubric = () => {
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  // Check if a specialization is selected
-  if (!selectedOption) {
-    alert("Please select a specialization.");
-    return;
-  }
+    // Check if a specialization is selected
+    if (!specialization || !assignment) {
+      alert("Please select a specialization & assignment title.");
+      return;
+    }
 
-  // Check if any criterion is empty
-  for (let i = 0; i < rubric.length; i++) {
-    for (let j = 0; j < rubric[i].length; j++) {
-      if (!rubric[i][j]) {
-        alert("Please fill out all fields.");
-        return;
+    // Check if any criterion is empty
+    for (let i = 0; i < rubric.length; i++) {
+      for (let j = 0; j < rubric[i].length; j++) {
+        if (!rubric[i][j]) {
+          alert("Please fill out all fields.");
+          return;
+        }
       }
     }
-  }
 
-  // Proceed with form submission
-  const criteria = rubric.map(row => ({ name: row }));
+    // Proceed with form submission
+    const criteria = rubric.map(row => ({ name: row }));
 
-  const newRubric = {
-    specialization: selectedOption,
-    criteria: criteria
+    const newRubric = {
+      assignment: assignment,
+      specialization: specialization,
+      criteria: criteria
+    };
+
+    console.log(newRubric);
+
+    axios.post("http://localhost:3005/normalroutes/addrubric", newRubric)
+      .then(() => {
+        alert('Rubric submitted successfully!');
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.error('Error submitting rubric:', err);
+        alert('Error submitting rubric: ' + err);
+      });
   };
-
-  console.log(newRubric);
-
-  axios.post("http://localhost:3005/normalroutes/addrubric", newRubric)
-    .then(() => {
-      alert('Rubric submitted successfully!');
-      window.location.reload();
-    })
-    .catch((err) => {
-      console.error('Error submitting rubric:', err);
-      alert('Error submitting rubric: ' + err);
-    });
-};
-
-  
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
       <Paper elevation={3} style={{ padding: 20, maxHeight: '80vh', overflow: 'auto', width: '80%' }}>
-        <Typography variant="h5" gutterBottom style={{ marginBottom:'25px' }}>
+        <Typography variant="h5" gutterBottom style={{ marginBottom: '25px' }}>
           Marking Rubric
         </Typography>
-        <Box display="flex" alignItems="center" mb={2}>
+        <Box mb={2}>
+          <TextField
+            label="Assignment"
+            value={assignment}
+            onChange={(e) => setAssignment(e.target.value)}
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: '20px' }}
+          />
+        </Box>
+        <Box mb={2}>
           <FormControl sx={{ minWidth: '200px', marginRight: '10px' }} required>
             <InputLabel id="select-option-label">Specialization</InputLabel>
             <Select
               labelId="select-option-label"
               label="Specialization"
               id="select-option"
-              value={selectedOption}
+              value={specialization}
               size="small"
-              onChange={(e) => setSelectedOption(e.target.value)}
+              onChange={(e) => setSpecialization(e.target.value)}
               sx={{ paddingTop: '10px' }}
             >
               <MenuItem value="Information Technology">Information Technology</MenuItem>
