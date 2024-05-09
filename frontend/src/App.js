@@ -83,8 +83,6 @@ function App() {
   return (
 
  <Router>  
-
-<Header />
     
    <Routes>
     <Route exact path="/" element={<AdminLogin/>}></Route>
@@ -116,7 +114,7 @@ function App() {
     <Route path="/editRes/:id" element={<EditResearch/>}></Route>
     <Route path="/addMark" element={<AddExaminerMark/>}></Route>
     <Route path="/progressBar" element={<ProgressBar futureDate={new Date(2024, 2, 31)} />}></Route>
-    <Route path="/SpecializationSelect" element={<SpeciaSelect/>}></Route>
+    <Route path="/SpecializationSelect/aid" element={<SpeciaSelect/>}></Route>
 
     <Route path="/CSNESem1" element={<CSNESem1/>}></Route>
     <Route path="/CSNESem2" element={<CSNESem2/>}></Route>
@@ -144,18 +142,18 @@ function App() {
     <Route path="/SeSem2Add/:id" element={<SeSem2Add/>}></Route>
     <Route path="/SeSem1Add/:id" element={<SeSem1Add/>}></Route>
 
-    <Route path="/StudentSeSem1" element={<StudentSeSem1/>}></Route>
-    <Route path="/StudentSeSem2" element={<StudentSeSem2/>}></Route>
-    <Route path="/StudentDsSem1" element={<StudentDsSem1/>}></Route>
-    <Route path="/StudentDsSem2" element={<StudentDsSem2/>}></Route>
-    <Route path="/StudentCSNESem1" element={<StudentCSNESem1/>}></Route>
-    <Route path="/StudentCSNESem2" element={<StudentCSNESem2/>}></Route>
-    <Route path="/StudentIsSem1" element={<StudentIsSem1/>}></Route>
-    <Route path="/StudentIsSem2" element={<StudentIsSem2/>}></Route>
-    <Route path="/StudentItSem1" element={<StudentItSem1/>}></Route>
-    <Route path="/StudentItSem2" element={<StudentItSem2/>}></Route>
-    <Route path="/StudentCsSem1" element={<StudentCsSem1/>}></Route>
-    <Route path="/StudentCsSem2" element={<StudentCsSem2/>}></Route>
+    <Route path="/StudentSeSem1/:sid" element={<StudentSeSem1/>}></Route>
+    <Route path="/StudentSeSem2/:sid" element={<StudentSeSem2/>}></Route>
+    <Route path="/StudentDsSem1/:sid" element={<StudentDsSem1/>}></Route>
+    <Route path="/StudentDsSem2/:sid" element={<StudentDsSem2/>}></Route>
+    <Route path="/StudentCSNESem1/:sid" element={<StudentCSNESem1/>}></Route>
+    <Route path="/StudentCSNESem2/:sid" element={<StudentCSNESem2/>}></Route>
+    <Route path="/StudentIsSem1/:sid" element={<StudentIsSem1/>}></Route>
+    <Route path="/StudentIsSem2/:sid" element={<StudentIsSem2/>}></Route>
+    <Route path="/StudentItSem1/:sid" element={<StudentItSem1/>}></Route>
+    <Route path="/StudentItSem2/:sid" element={<StudentItSem2/>}></Route>
+    <Route path="/StudentCsSem1/:sid" element={<StudentCsSem1/>}></Route>
+    <Route path="/StudentCsSem2/:sid" element={<StudentCsSem2/>}></Route>
     
 
    </Routes>

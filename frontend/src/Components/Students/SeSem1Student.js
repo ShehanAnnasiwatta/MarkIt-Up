@@ -8,6 +8,8 @@ import PdfIcon from '../Images/PdfICON.png'
 import Card from '@mui/material/Card';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -20,6 +22,27 @@ const ProfileMenu = (props) => {
             icon: <LogoutIcon />
         },
     ];
+
+    const{sid}=useParams();
+
+    const [studentData, setStudentData] = useState([]);
+    
+    //console.log(studentData);
+ 
+     const getStudentData = () => {
+         axios.get(`http://localhost:3005/normalroutes/oneStudent/${sid}`)
+             .then((res) => {
+                // console.log(res.data);
+                 setStudentData(res.data);
+             })
+             .catch((err) => {
+                 console.log("Student data fetch error" + err);
+             });
+     }
+ 
+     useEffect(() => {
+         getStudentData();
+     }, []);
 
     return (
         <Menu
@@ -54,14 +77,14 @@ const ProfileMenu = (props) => {
                 margin="5px"
                 borderColor="divider"
             >
-                <Avatar sx={{ height: "60px", width: "60px" }} >
-                    S
+                 <Avatar sx={{ height: "60px", width: "60px" }} >
+                {studentData?.StudentName?.charAt(0)}
                 </Avatar>
                 <Typography fontSize="18px">
-                    Shehan Annasiwatta
+                  {studentData.StudentName}
                 </Typography>
                 <Typography fontSize="13px" marginBottom="5px ">
-                    annasiwattasa@gmail.com
+                {studentData.Email}
                 </Typography>
             </Box>
             {menuList.map(menu => (
@@ -86,6 +109,27 @@ function SeSem1() {
 
     const [assignmentData, setAssignmentData] = useState([]);
     console.log(assignmentData);
+
+    const [studentData, setStudentData] = useState([]);
+
+    const{sid}=useParams();
+
+
+    const getStudentData = () => {
+        axios.get(`http://localhost:3005/normalroutes/oneStudent/${sid}`)
+            .then((res) => {
+               // console.log(res.data);
+                setStudentData(res.data);
+            })
+            .catch((err) => {
+                console.log("Student data fetch error" + err);
+            });
+    }
+
+    useEffect(() => {
+        getStudentData();
+    }, []);
+
 
     const getItSem1 = () => {
         axios.get('http://localhost:3005/AddAssi/GetSeSem1')
@@ -245,7 +289,7 @@ function SeSem1() {
                                     height: "32px",
                                     width: "32px",
                                 }}>
-                                    S
+                                   {studentData?.StudentName?.charAt(0)}
                                 </Avatar>
                             </IconButton>
                             <ProfileMenu anchorEl={anchorEl} open={open} onClose={handleClose} />
