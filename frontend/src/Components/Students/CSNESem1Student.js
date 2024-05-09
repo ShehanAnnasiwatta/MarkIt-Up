@@ -13,7 +13,8 @@ const ProfileMenu = (props) => {
     const menuList = [
         {
             label: "Profile",
-            icon: <PersonIcon />
+            icon: <PersonIcon />,
+            href: `/userProfile/${sid}`
         },
         {
             label: "Sign out",
