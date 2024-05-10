@@ -16,3 +16,4 @@ const rubricmarkSchema = mongoose.Schema({
 })
 
 module.exports = mongoose.model('rubricMark', rubricmarkSchema);
+
