@@ -60,7 +60,7 @@ function AdminsLogin() {
       await loginSchema.validate(loginCredentials, { abortEarly: false });
 
       const alldata = await axios.post("http://localhost:3005/loginAndSign/signIn", loginCredentials)
-      console.log(alldata.data.user);
+      console.log(alldata.data);
       alert(alldata.data.message);
 
       setloginMsg(alldata)
@@ -68,8 +68,7 @@ function AdminsLogin() {
 
      
       if (alldata.data.message === "Login success as admin" ) {
-         reqTableData()
-        window.location.href = `/SpecializationSelect`;
+       window.location.href = `/SpecializationSelect/${alldata.data.user.Email}`;
       }
 
       else if (alldata.data.message === "Login success as student") {
@@ -113,7 +112,7 @@ else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="IT
 
 
       }else if(alldata.data.message === "Login success as staff"){
-        window.location.href = `/SpecializationSelect`;
+        window.location.href = `/SpecializationSelect/${alldata.data.user.email}`;
       }
 
 

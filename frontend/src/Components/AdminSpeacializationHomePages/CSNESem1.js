@@ -11,6 +11,7 @@ import Card from '@mui/material/Card';
 import Swal from 'sweetalert2';
 import { Stack } from '@mui/system';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useParams } from 'react-router-dom';
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -109,7 +110,7 @@ function CSNESem1() {
     
       useEffect(()=>{ 
         Datagetting();
-      })
+      },[])
 
       const DeleteItems=(id)=>{
         axios.delete(`http://localhost:3005/AddAssi/CSNESem1Delete/${id}`).then((res)=>{
@@ -122,7 +123,7 @@ function CSNESem1() {
                 title: "Assignment Delete Success",
                 text: `${res.data.message}`,
               });
-           
+              Datagetting();
           }
           else{
             Swal.fire({
@@ -132,7 +133,7 @@ function CSNESem1() {
               });
           }
 
-          Datagetting();
+       
         }).catch((err)=>{
           console.log(err);
           console.log("Assignment data not delete");
@@ -145,6 +146,22 @@ function CSNESem1() {
 
         })
     }
+      
+    const{aid}=useParams();
+    console.log(aid);
+
+    const getUserData = async () => {
+
+    await axios.get(`http://localhost:3005/loginAndSign/oneStaff/${aid}`).then((res)=>{
+            console.log(res.data.role1);         
+     }).catch((err)=>{
+            console.log(err);
+     })
+    }
+
+    useEffect(() => {
+        getUserData();
+    }, []);
       
 
     const renderTables = () => {

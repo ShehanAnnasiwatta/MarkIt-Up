@@ -142,78 +142,24 @@ router.post('/StudentRegister',async(req, res)=>{
 
 
 
+//get one Staff member data
 
-router.route("/addReg").post((req,res)=>{
+router.route('/oneStaff/:aid').get((req, res) => {
 
-    const Fname=req.body.fname
-    const Lname=req.body.lname
-    const pass=req.body.password
-    const role=req.body.role
-    const email=req.body.email
-    const phone=req.body.phone
-    
-   
-    //To request table
-    const RequestData=false;
+  console.log(req.params.aid);
 
-    const addReqdata=new ReqdataModel({
-          name:Fname+' '+Lname,
-          email: email,
-          role: role,
-          RequestData:RequestData,
-          currentDate:CurrentDate
-    })
-
-    const addingData=new UserActivation({
-       Fname:Fname,
-       Lname:Lname,
-       password:pass,
-       role:role,
-       email:email,
-       phone:phone
-     })
-
-    try {
-        addReqdata.save()
-        addingData.save()
-
-       res.send({message:"Registratrion data added"})
-       console.log('Registration data added');
-
-       const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false, // Use `true` for port 465, `false` for all other ports
-        auth: {
-          user: "itpm322@gmail.com",
-          pass: "uipa omfn jvrt eatd",
-        },
-      });
-      
-      // async..await is not allowed in global scope, must use a wrapper
-      async function main() {
-        // send mail with defined transport object
-        const info = await transporter.sendMail({
-          from: "itpm322@gmail.com" , // sender address
-          to:addingData.email, // list of receivers
-          subject: "[MarkitUp]Registration Success", // Subject line
-          text: "Hello world1", // plain text body
-          html: "<b>Your registration was Success ..Please wait to the Cordinator accept your request </b>", // html body
-        });
-      
-       
-        console.log("Message sent: %s", info.messageId,nodemailer.getTestMessageUrl(info));
-        // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
-      }
-         
-      main().catch(console.error);
-      
-    } catch (error) {
-         res.send({message:"Registratrion data added error: " + error.message})
+  StaffData.findOne({ email: req.params.aid })
+    .then((staff) => {
+      res.json(staff)
+     console.log(staff)
     }
+  )
+    .catch((err) => res.status(400).json("data fetch error"));
+});
 
 
-})
+
+
 
 module.exports = router;
 
