@@ -60,7 +60,7 @@ router.post('/signin', async (req, res) => {
   const userStudent = await StudentData.findOne({ Email: email });
   console.log(userStudent);
 
-  const userStaff = await StaffData.findOne({ Email: email });
+  const userStaff = await StaffData.findOne({ email: email });
   console.log(userStaff);
 
   if (user && (password === user.password) ) {

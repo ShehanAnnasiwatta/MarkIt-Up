@@ -99,7 +99,6 @@ else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="DS
   window.location.href = `/StudentDsSem2/${alldata.data.user.Email}`;
 }
 else if(alldata.data.Semester===2 && alldata.data.user.Specialization==="CS"){
-  console.log("CS sem2 trigger")
   window.location.href = `/StudentCsSem2/${alldata.data.user.Email}`;
 }
 else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="CSNE"){
@@ -113,6 +112,8 @@ else if(alldata.data.user.Semester===2 && alldata.data.user.Specialization==="IT
 }
 
 
+      }else if(alldata.data.message === "Login success as staff"){
+        window.location.href = `/SpecializationSelect`;
       }
 
 

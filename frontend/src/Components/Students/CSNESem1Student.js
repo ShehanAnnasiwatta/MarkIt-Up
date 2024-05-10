@@ -8,8 +8,10 @@ import axios from 'axios';
 import PdfIcon from '../Images/PdfICON.png'
 import Card from '@mui/material/Card';
 import { useParams } from 'react-router-dom';
+import { navigate } from 'raviger';
 
 const ProfileMenu = (props) => {
+    const{sid}=useParams();
     const menuList = [
         {
             label: "Profile",
@@ -23,7 +25,7 @@ const ProfileMenu = (props) => {
     ];
     
     const [studentData, setStudentData] = useState([]);
-    const{sid}=useParams();
+
 
    //console.log(studentData);
 
@@ -85,8 +87,9 @@ const ProfileMenu = (props) => {
                 {studentData.Email}
                 </Typography>
             </Box>
-            {menuList.map(menu => (
-                <MenuItem key={menu.label} sx={{
+            {menuList.map(menu => (        
+                <MenuItem key={menu.label}
+                onClick={() => navigate(menu.href)} sx={{
                     display: "flex",
                     flexDirection: "row",
                     columnGap: "10px",
