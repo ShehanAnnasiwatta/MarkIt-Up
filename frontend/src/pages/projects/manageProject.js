@@ -96,7 +96,7 @@ function ManageProject() {
                   <tr key={project._id}>
                     <td style={{textAlign: 'center' }}>{project.regNum}</td>
                     <td style={{textAlign: 'center' }}>{project.leader}</td>
-                    <td style={{textAlign: 'center' }}>{project.students}</td>
+                    <td style={{textAlign: 'center' }}>{project.students},</td>
                     <td style={{textAlign: 'center' }}>{project.telephone}</td>
                     <td style={{textAlign: 'center' }}>{project.email}</td>
                     <td style={{textAlign: 'center' }}>{project.batch}</td>
@@ -113,8 +113,6 @@ function ManageProject() {
 <div className="btn-group" role="group" aria-label="Delete">
     <button className="btn btn-danger" onClick={() => handleDelete(project._id)}>Delete</button>
 </div>
-
-
                     </td>
                   </tr>
                 ))}

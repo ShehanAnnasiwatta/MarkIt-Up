@@ -214,6 +214,7 @@ function CSNESem2() {
 
 
                                         <Button href={`/CSNESem2Add/${i}`} startIcon={<Add />} color="primary"> Add Assignment</Button>
+                                        <Button href={`/createrubric`} startIcon={<Add />} color="primary"> Add Marks</Button>
                                     </div>
                                 </td>
                             </tr>

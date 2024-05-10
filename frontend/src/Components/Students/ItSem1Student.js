@@ -176,12 +176,13 @@ function ItSem1() {
                         <tbody>
                             <tr>
                                 <td>
+                                <Button href={`/addPro`} startIcon={<Add />} color="primary"> Add Research Group</Button>
                                     <div>
                                         {weekData.length === 0 ? (
                                             <div> </div>
                                         ) : (<Box sx={{ minWidth: 275, border: 2, margin: 1 }}>
                                             <Card variant="outlined">
-
+                                           
                                                 {weekData.map((data, key) => (
                                                     <div key={key}>
                                                         <div dangerouslySetInnerHTML={{ __html: data.description }} />
@@ -202,7 +203,7 @@ function ItSem1() {
                                                                 <p>End Date: {new Date(data.edate).toLocaleString()}</p>
                                                             )}
                                                         </div>
-
+                                                        
                                                         <Button href={`#`} startIcon={<Add />} color="primary"> Submit here</Button>
 
 

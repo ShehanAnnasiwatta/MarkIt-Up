@@ -214,6 +214,7 @@ function IsSem2() {
                                     </div>
 
                                         <Button href={`/IsSem2Add/${i}`} startIcon={<Add />} color="primary"> Add Assignment</Button>
+                                        <Button href={`/createrubric`} startIcon={<Add />} color="primary"> Add Marks</Button>
                                     </div>
                                 </td>
                             </tr>
