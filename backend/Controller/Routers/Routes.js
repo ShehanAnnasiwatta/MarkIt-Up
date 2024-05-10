@@ -5,6 +5,7 @@ const staffData=require('../../Models/StaffModel')
 const presentation = require('../../Models/presentationModel')
 const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
+const rubricMark = require('../../Models/rubricmarkModel')
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");
@@ -121,6 +122,36 @@ router.route("/addStudent").post(async (req, res) => {
        
      }
 
+})
+
+//get data using email(Students)
+router.route("/oneStudent/:sid").get(async(req,res)=>{
+          
+     const sid=req.params.sid;
+     console.log("Sid is - " ,sid);
+     const get1StudentData=await studentDatamodel.findOne({Email:sid});
+     console.log(get1StudentData);
+     res.send(get1StudentData);
+
+
+})
+
+//update student idNumber
+router.route("/updateStudent/:id").put(async(req,res)=>{
+
+    let id=req.params.id;
+    console.log(id);
+    const{IdNumber}=req.body;
+
+    const updateData=({IdNumber})
+
+    try {
+        await studentDatamodel.findByIdAndUpdate(id,updateData).then(()=>{
+            res.send({message:"data updated"});
+        })
+    } catch (error) {
+        res.send({message:"Data not updated"})
+    }
 })
 
 
@@ -487,10 +518,10 @@ router.route("/delete/presentation/:id").delete(async(req, res)=>{
 router.route('/addrubric')
   .post(async (req, res) => {
     try {
-      const { specialization, criteria } = req.body;
+      const { specialization, assignment, criteria } = req.body;
       
       // Constructing the rubric object based on the model structure
-      const rubric = new Rubric({ specialization, criteria });
+      const rubric = new Rubric({ specialization, assignment, criteria });
 
       // Save the rubric to the database
       await rubric.save();
@@ -537,5 +568,28 @@ router.get('/rubric/:id', async (req, res) => {
   });
 
 
+//add marks from rubric
+router.post('/addRubricMark', async (req, res) => {
+  try {
+    const { specialization, assignment, SID, totalMarks } = req.body;
+    const mark = new rubricMark({ specialization, assignment, SID, totalMarks });
+    await mark.save();
+    res.status(201).json({ message: 'Marks added successfully!' });
+  } catch (error) {
+    console.error('Error adding marks:', error);
+    res.status(500).json({ message: 'Failed to add marks.' });
+  }
+});
+
+
+// Assuming you've already defined the router and imported necessary modules
+router.get('/getRubricMark', async (req, res) => {
+  try {
+    const allMarks = await rubricMark.find();
+    res.status(200).json(allMarks);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve marks.' });
+  }
+});
 
 module.exports = router;

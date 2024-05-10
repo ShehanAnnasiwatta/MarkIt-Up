@@ -60,18 +60,18 @@ router.post('/signin', async (req, res) => {
   const userStudent = await StudentData.findOne({ Email: email });
   console.log(userStudent);
 
-  const userStaff = await StaffData.findOne({ Email: email });
+  const userStaff = await StaffData.findOne({ email: email });
   console.log(userStaff);
 
   if (user && (password === user.password) ) {
       // Create JWT Token
       const jwt_key = process.env.JWT_KEY;
-      const token = jwt.sign({ email: user.email, role: user.role }, jwt_key, { expiresIn: '1h' });
+      const token = jwt.sign({user:user}, jwt_key, { expiresIn: '1h' });
 
       // set token as a cookie
       res.cookie('token', token, { httpOnly: true, secure: false });
 
-      req.session.user = { userEmail: user.email, role: user.role };
+      req.session.user = { userEmail: user.email, role: user.role,Fname:user.Fname,Lname:user.Lname};
 
       console.log({ message: 'Login successful' });
 
@@ -80,7 +80,7 @@ router.post('/signin', async (req, res) => {
       // Create JWT Token
       const jwt_key = process.env.JWT_KEY;
       const token = jwt.sign(
-          { email: userStudent.Email, role: userStudent.Specialization },
+          { userStudent:userStudent},
           jwt_key,
           { expiresIn: '1h' }
       );
@@ -88,17 +88,17 @@ router.post('/signin', async (req, res) => {
       // set token as a cookie
       res.cookie('token', token, { httpOnly: true, secure: false });
 
-      req.session.user = { userEmail: userStudent.Email, role: userStudent.Specialization };
+      req.session.user = { userEmail: userStudent.Email, role: userStudent.Specialization, StudentName: userStudent.StudentName};
 
       console.log({ message: 'Login successful' });
 
       return res.json({ message: 'Login success as student',user:userStudent});
-      
+
   }else if(userStaff && password === userStaff.IdNumber){
     // Create JWT Token
     const jwt_key = process.env.JWT_KEY;
     const token = jwt.sign(
-        { email: userStaff.email, role1: userStaff.role1, role2: userStaff.role2, role3: userStaff.role3, role4: userStaff.role4 },
+        {userStaff:userStaff},
         jwt_key,
         { expiresIn: '1h' }
     );
@@ -106,7 +106,7 @@ router.post('/signin', async (req, res) => {
     // set token as a cookie
     res.cookie('token', token, { httpOnly: true, secure: false });
 
-    req.session.user = { userEmail: userStaff.email,role1: userStaff.role1, role2: userStaff.role2, role3: userStaff.role3, role4: userStaff.role4};
+    req.session.user = { userEmail: userStaff.email,name:userStaff.name,role1: userStaff.role1, role2: userStaff.role2, role3: userStaff.role3, role4: userStaff.role4};
 
     console.log({ message: 'Login successful' });
 

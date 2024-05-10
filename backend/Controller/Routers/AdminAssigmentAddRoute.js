@@ -376,7 +376,134 @@ router.route("/CSNESem2").post(async(req,res)=>{
 
 })
 
+//delete items
 
+router.route("/SeSem1Delete/:id").delete(async(req,res)=>{ 
+    let id=req.params.id;
+    await SeSem1.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+});
+
+router.route("/SeSem2Delete/:id").delete(async(req,res)=>{ 
+    let id=req.params.id;
+    await SeSem2.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+
+router.route("/ItSem1Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await ItSem1.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+router.route("/ItSem2Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await ItSem2.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+
+router.route("/IsSem1Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await IsSem1.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    }
+    );
+
+router.route("/IsSem2Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await IsSem2.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+
+router.route("/DsSem1Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await DsSem1.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+router.route("/DsSem2Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await DsSem2.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+router.route("/CsSem1Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await CsSem1.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+router.route("/CsSem2Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await CsSem2.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+router.route("/CSNESem1Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await CSNESem1.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+router.route("/CSNESem2Delete/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+    await CSNESem2.findByIdAndDelete(id).then(()=>{   
+        res.json({message:"Assignment deleted"});
+    }).catch((err)=>{  
+        console.log(err.message);
+        res.json({message:"Error with delete Assignment"});
+     })
+    });
+
+
+//get items
 router.route("/GetItSem1").get((req,res)=>{
     ItSem1.find().then((data)=>{
         res.json(data)

@@ -8,6 +8,9 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import PdfIcon from '../Images/PdfICON.png'
 import Card from '@mui/material/Card';
+import Swal from 'sweetalert2';
+import { Stack } from '@mui/system';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -108,6 +111,42 @@ function CSNESem1() {
         Datagetting();
       })
 
+      const DeleteItems=(id)=>{
+        axios.delete(`http://localhost:3005/AddAssi/CSNESem1Delete/${id}`).then((res)=>{
+          console.log(res.data.message);
+          console.log("Assignment data delete Success");
+          if(res.data.message === "Assignment deleted"){
+
+            Swal.fire({
+                icon: "success",
+                title: "Assignment Delete Success",
+                text: `${res.data.message}`,
+              });
+           
+          }
+          else{
+            Swal.fire({
+                icon: "error",
+                title: "Assignment Not Deleted",
+                text: `${res.data.message}`,
+              });
+          }
+
+          Datagetting();
+        }).catch((err)=>{
+          console.log(err);
+          console.log("Assignment data not delete");
+
+          Swal.fire({
+            icon: "error",
+            title: "Assignment Not Deleted",
+            text: "Please try Again",
+          });
+
+        })
+    }
+      
+
     const renderTables = () => {
         const tables = [];
 
@@ -154,6 +193,10 @@ function CSNESem1() {
                                   {data.sdate && (
                                       <p>End Date: {new Date(data.edate).toLocaleString()}</p>
                                   )}
+
+<Stack sx={{width:100,marginLeft:2}}>
+                                     <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => DeleteItems(data._id)}>Delete</Button>
+                                     </Stack>
                                   </div>
                             
                                   

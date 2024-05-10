@@ -20,6 +20,7 @@
     "firebase": "^10.11.0",
     "mdb-ui-kit": "^7.2.0",
     "quill-color-picker-enhance": "^1.1.5",
+    "raviger": "^4.1.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",

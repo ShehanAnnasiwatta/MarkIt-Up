@@ -7,20 +7,45 @@ import Add from '@mui/icons-material/Add';
 import axios from 'axios';
 import PdfIcon from '../Images/PdfICON.png'
 import Card from '@mui/material/Card';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 
 const ProfileMenu = (props) => {
+    const { sid } = useParams();
+    const navigate  = useNavigate()
     const menuList = [
         {
             label: "Profile",
-            icon: <PersonIcon />
+            icon: <PersonIcon />,
+            href: `/userProfile/${sid}`
         },
         {
             label: "Sign out",
             icon: <LogoutIcon />
+            
         },
     ];
+
+    const [studentData, setStudentData] = useState([]);
+
+
+    //console.log(studentData);
+
+    const getStudentData = () => {
+        axios.get(`http://localhost:3005/normalroutes/oneStudent/${sid}`)
+            .then((res) => {
+                // console.log(res.data);
+                setStudentData(res.data);
+            })
+            .catch((err) => {
+                console.log("Student data fetch error" + err);
+            });
+    }
+
+    useEffect(() => {
+        getStudentData();
+    }, []);
 
     return (
         <Menu
@@ -56,23 +81,25 @@ const ProfileMenu = (props) => {
                 borderColor="divider"
             >
                 <Avatar sx={{ height: "60px", width: "60px" }} >
-                    S
+                    {studentData?.StudentName?.charAt(0)}
                 </Avatar>
                 <Typography fontSize="18px">
-                    Shehan Annasiwatta
+                    {studentData.StudentName}
                 </Typography>
                 <Typography fontSize="13px" marginBottom="5px ">
-                    annasiwattasa@gmail.com
+                    {studentData.Email}
                 </Typography>
             </Box>
             {menuList.map(menu => (
-                <MenuItem key={menu.label} sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    columnGap: "10px",
-                    margin: "4px 50px 4px 4px",
-                    borderRadius: "10px"
-                }}>
+                <MenuItem key={menu.label}
+                    onClick={() => navigate(menu.href)}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        columnGap: "10px",
+                        margin: "4px 50px 4px 4px",
+                        borderRadius: "10px"
+                    }}>
                     {menu.icon}
                     {menu.label}
                 </MenuItem>
@@ -85,7 +112,25 @@ function ItSem1() {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [assignmentData, setAssignmentData] = useState([]);
-    console.log(assignmentData);
+    const [studentData, setStudentData] = useState([]);
+    const { sid } = useParams();
+
+
+
+    const getStudentData = () => {
+        axios.get(`http://localhost:3005/normalroutes/oneStudent/${sid}`)
+            .then((res) => {
+                // console.log(res.data);
+                setStudentData(res.data);
+            })
+            .catch((err) => {
+                console.log("Student data fetch error" + err);
+            });
+    }
+
+    useEffect(() => {
+        getStudentData();
+    }, []);
 
     const getItSem1 = () => {
         axios.get('http://localhost:3005/AddAssi/GetItSem1')
@@ -115,9 +160,9 @@ function ItSem1() {
 
     const renderTables = () => {
         const tables = [];
-    
+
         for (let i = 1; i <= 15; i++) {
-            const weekData= assignmentData.filter(datas => datas.week === i.toString()); 
+            const weekData = assignmentData.filter(datas => datas.week === i.toString());
             tables.push(
                 <div key={i}>
                     <table style={{ width: '100%', marginTop: '150px' }}>
@@ -132,43 +177,43 @@ function ItSem1() {
                             <tr>
                                 <td>
                                     <div>
-                                     {weekData.length===0 ? (
-                                        <div> </div>
-                                     ):(<Box sx={{ minWidth: 275 ,border:2,margin:1}}>
-                                        <Card variant="outlined">
-                                  
-                                        {weekData.map((data, key) => (
-                                                                              <div key={key}>
-                                                                                  <div dangerouslySetInnerHTML={{ __html: data.description }} />
-                                  
-                                                                                  {data.url && (
-                                              <div style={{margin:'10px'}}>
-                                                  <img
-                                                      src={PdfIcon}
-                                                      alt="Pdf Icon"
-                                                      style={{ width: '50px', height: '50px', cursor: 'pointer' }}
-                                                      onClick={() => window.open(data.url, '_blank')}
-                                                  />
-                                              </div>
-                                          )}
-                                  
-                                  <div style={{margin:'10px'}}>
-                                  {data.sdate && (
-                                      <p>End Date: {new Date(data.edate).toLocaleString()}</p>
-                                  )}
-                                  </div>
-                                  
-                                  <Button href={`#`} startIcon={<Add />} color="primary"> Submit here</Button>
-                                  
-                                  
-                                                                              </div>
-                                  
-                                  
-                                                                              
-                                                                          ))}
-                                  
-                                        </Card>
-                                      </Box>)}                                    
+                                        {weekData.length === 0 ? (
+                                            <div> </div>
+                                        ) : (<Box sx={{ minWidth: 275, border: 2, margin: 1 }}>
+                                            <Card variant="outlined">
+
+                                                {weekData.map((data, key) => (
+                                                    <div key={key}>
+                                                        <div dangerouslySetInnerHTML={{ __html: data.description }} />
+
+                                                        {data.url && (
+                                                            <div style={{ margin: '10px' }}>
+                                                                <img
+                                                                    src={PdfIcon}
+                                                                    alt="Pdf Icon"
+                                                                    style={{ width: '50px', height: '50px', cursor: 'pointer' }}
+                                                                    onClick={() => window.open(data.url, '_blank')}
+                                                                />
+                                                            </div>
+                                                        )}
+
+                                                        <div style={{ margin: '10px' }}>
+                                                            {data.sdate && (
+                                                                <p>End Date: {new Date(data.edate).toLocaleString()}</p>
+                                                            )}
+                                                        </div>
+
+                                                        <Button href={`#`} startIcon={<Add />} color="primary"> Submit here</Button>
+
+
+                                                    </div>
+
+
+
+                                                ))}
+
+                                            </Card>
+                                        </Box>)}
                                     </div>
                                 </td>
                             </tr>
@@ -177,7 +222,7 @@ function ItSem1() {
                 </div>
             );
         }
-    
+
         return tables;
     };
 
@@ -248,7 +293,8 @@ function ItSem1() {
                                     height: "32px",
                                     width: "32px",
                                 }}>
-                                    S
+                                    {studentData?.StudentName?.charAt(0)}
+
                                 </Avatar>
                             </IconButton>
                             <ProfileMenu anchorEl={anchorEl} open={open} onClose={handleClose} />
