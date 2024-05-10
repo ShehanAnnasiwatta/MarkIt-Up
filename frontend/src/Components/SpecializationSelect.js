@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Tab, Tabs, IconButton, Badge, Avatar, Box, Menu, MenuI
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useParams } from 'react-router-dom';
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -87,6 +88,8 @@ const SpecializationSelect = () => {
         setAnchorEl(null);
     };
 
+    const { aid } = useParams();
+  console.log(aid);
     return (
         <div>
             <AppBar
@@ -164,18 +167,18 @@ const SpecializationSelect = () => {
             </AppBar>
             <div style={{ border: "2px solid black", width: "75%", margin: "100px auto", padding: "100px" }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
-                    <a href='/SeSem1'><Button variant="outlined" sx={{ width: '400px' }}>Software Engenearing Sem 1</Button></a>
-                    <a href='/SeSem2'><Button variant="outlined" sx={{ width: '400px' }}>Software Engenearing Sem 2</Button></a>
-                    <a href='/ItSem1'><Button variant="outlined" sx={{ width: '400px' }}>Information Technology Sem 1</Button></a>
-                    <a href='/ItSem2'><Button variant="outlined" sx={{ width: '400px' }}>Information Technology Sem 2</Button></a>
-                    <a href='/IsSem1'><Button variant="outlined" sx={{ width: '400px' }}>Information Systems Sem 1</Button></a>
-                    <a href='/IsSem2'><Button variant="outlined" sx={{ width: '400px' }}>Information Systems Sem 2</Button></a>
-                    <a href='/CsSem1'><Button variant="outlined" sx={{ width: '400px' }}>Cyber Security Sem 1</Button></a>
-                    <a href='/CsSem2'><Button variant="outlined" sx={{ width: '400px' }}>Cyber Security Sem 2</Button></a>
-                    <a href='/DsSem1'><Button variant="outlined" sx={{ width: '400px' }}>Data Science Sem 1</Button></a>
-                    <a href='/DsSem2'><Button variant="outlined" sx={{ width: '400px' }}>Data Science Sem 2</Button></a>
-                    <a href='/CSNESem1'><Button variant="outlined" sx={{ width: '400px' }}>Computer Systems and Network Engineering Sem 1</Button></a>
-                    <a href='/CSNESem2'><Button variant="outlined" sx={{ width: '400px' }}>Computer Systems and Network Engineering Sem 2</Button></a>
+                    <a href={`/SeSem1/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Software Engenearing Sem 1</Button></a>
+                    <a href={`/SeSem2/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Software Engenearing Sem 2</Button></a>
+                    <a href={`/ItSem1/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Information Technology Sem 1</Button></a>
+                    <a href={`/ItSem2/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Information Technology Sem 2</Button></a>
+                    <a href={`/IsSem1/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Information Systems Sem 1</Button></a>
+                    <a href={`/IsSem2/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Information Systems Sem 2</Button></a>
+                    <a href={`/CsSem1/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Cyber Security Sem 1</Button></a>
+                    <a href={`/CsSem2/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Cyber Security Sem 2</Button></a>
+                    <a href={`/DsSem1/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Data Science Sem 1</Button></a>
+                    <a href={`/DsSem2/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Data Science Sem 2</Button></a>
+                    <a href={`/CSNESem1/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Computer Systems and Network Engineering Sem 1</Button></a>
+                    <a href={`/CSNESem2/${aid}`}><Button variant="outlined" sx={{ width: '400px' }}>Computer Systems and Network Engineering Sem 2</Button></a>
                 </Box>
             </div>
         </div>

@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { Stack } from '@mui/system';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useParams } from 'react-router-dom';
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -101,7 +102,7 @@ function ItSem2() {
     
       useEffect(()=>{ 
         Datagetting();
-      })
+      },[])
 
       const DeleteItems=(id)=>{
         axios.delete(`http://localhost:3005/AddAssi/ItSem2Delete/${id}`).then((res)=>{

@@ -118,21 +118,21 @@ function App() {
     <Route path="/editRes/:id" element={<EditResearch/>}></Route>
     <Route path="/addMark" element={<AddExaminerMark/>}></Route>
     <Route path="/progressBar" element={<ProgressBar futureDate={new Date(2024, 2, 31)} />}></Route>
-    <Route path="/SpecializationSelect" element={<SpeciaSelect/>}></Route>
+    <Route path="/SpecializationSelect/:aid" element={<SpeciaSelect/>}></Route>
     <Route path="/researchpaper" element={<Getreasearchpaper/>}></Route>
 
-    <Route path="/CSNESem1" element={<CSNESem1/>}></Route>
-    <Route path="/CSNESem2" element={<CSNESem2/>}></Route>
-    <Route path="/CsSem1" element={<CsSem1/>}></Route>
-    <Route path="/CsSem2" element={<CsSem2/>}></Route>
-    <Route path="/DsSem1" element={<DsSem1/>}></Route>
-    <Route path="/DsSem2" element={<DsSem2/>}></Route>
-    <Route path="/IsSem1" element={<IsSem1/>}></Route>
-    <Route path="/IsSem2" element={<IsSem2/>}></Route>
-    <Route path="/ItSem1" element={<ItSem1/>}></Route>
-    <Route path="/ItSem2" element={<ItSem2/>}></Route>
-    <Route path="/SeSem1" element={<SeSem1/>}></Route>
-    <Route path="/SeSem2" element={<SeSem2/>}></Route>
+    <Route path="/CSNESem1/:aid" element={<CSNESem1/>}></Route>
+    <Route path="/CSNESem2/:aid" element={<CSNESem2/>}></Route>
+    <Route path="/CsSem1/:aid" element={<CsSem1/>}></Route>
+    <Route path="/CsSem2/:aid" element={<CsSem2/>}></Route>
+    <Route path="/DsSem1/:aid" element={<DsSem1/>}></Route>
+    <Route path="/DsSem2/:aid" element={<DsSem2/>}></Route>
+    <Route path="/IsSem1/:aid" element={<IsSem1/>}></Route>
+    <Route path="/IsSem2/:aid" element={<IsSem2/>}></Route>
+    <Route path="/ItSem1/:aid" element={<ItSem1/>}></Route>
+    <Route path="/ItSem2/:aid" element={<ItSem2/>}></Route>
+    <Route path="/SeSem1/:aid" element={<SeSem1/>}></Route>
+    <Route path="/SeSem2/:aid" element={<SeSem2/>}></Route>
 
     <Route path="/CSNESem1Add/:id" element={<CSNESem2Add/>}></Route>
     <Route path="/CSNESem2Add/:id" element={<CSNESem1Add/>}></Route>
