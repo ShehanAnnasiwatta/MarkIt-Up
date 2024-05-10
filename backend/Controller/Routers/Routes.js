@@ -3,11 +3,8 @@ const requestTable=require('../../Models/RequestTableModel')
 const studentDatamodel=require('../../Models/StudentDataModel')
 const staffData=require('../../Models/StaffModel')
 const presentation = require('../../Models/presentationModel')
-<<<<<<< HEAD
-=======
 const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
->>>>>>> cd73807eb7e850d53d8515071de563d7ea1d75c7
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");
