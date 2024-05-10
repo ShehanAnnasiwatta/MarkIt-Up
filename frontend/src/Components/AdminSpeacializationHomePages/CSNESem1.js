@@ -155,7 +155,7 @@ function CSNESem1() {
             const weekData= assignmentData.filter(datas => datas.week === i.toString());
             tables.push(
                 <div key={i}>
-                    <table style={{ width: '100%', marginTop: '150px' }}>
+                    <table style={{ width: '100%', marginTop: '10px' }}>
                         <thead>
                             <tr>
                                 <th style={{ backgroundColor: 'green', color: 'white' }}>
@@ -165,7 +165,7 @@ function CSNESem1() {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
+                            <td style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', padding: '100px' }}>
                                     <div>
 
                                     <div>
@@ -208,7 +208,7 @@ function CSNESem1() {
 
 
                                     <a href={`/CSNESem1Add/${i}`}> <Button startIcon={<Add />} color="primary">Add Assignment</Button></a>
-                                    <Button href={`/createrubric`} startIcon={<Add />} color="primary"> Add Marks</Button>
+                        
                                     </div>
                                 </td>
                             </tr>
@@ -297,6 +297,14 @@ function CSNESem1() {
                 </Toolbar>
             </AppBar>
             <div>
+            <Button
+             href={`/createrubric`}
+            startIcon={<Add />}
+            color="primary"
+            style={{ marginTop: '100px', marginBottom: '20px' }}  // Adjust the '20px' to the desired margin
+            >
+            Add Marks
+            </Button>
                 {renderTables()}
             </div>
            
