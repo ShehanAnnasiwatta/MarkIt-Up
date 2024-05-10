@@ -198,12 +198,7 @@ function CSNESem1() {
                                      <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => DeleteItems(data._id)}>Delete</Button>
                                      </Stack>
                                   </div>
-                            
-                                  
-                                                                              </div>
-                                  
-                                  
-                                                                              
+                                                                              </div>   
                                                                           ))}
                                   
                                         </Card>
