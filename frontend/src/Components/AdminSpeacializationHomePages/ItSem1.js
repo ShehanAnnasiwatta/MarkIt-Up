@@ -8,6 +8,10 @@ import PdfIcon from '../Images/PdfICON.png'
 import Card from '@mui/material/Card';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { Stack } from '@mui/system';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
+
 
 const ProfileMenu = (props) => {
     const menuList = [
@@ -99,6 +103,41 @@ function ItSem1() {
       useEffect(()=>{ 
         Datagetting();
       })
+
+    const DeleteItems=(id)=>{
+        axios.delete(`http://localhost:3005/AddAssi/ItSem1Delete/${id}`).then((res)=>{
+          console.log(res.data.message);
+          console.log("Assignment data delete Success");
+          if(res.data.message === "Assignment deleted"){
+
+            Swal.fire({
+                icon: "success",
+                title: "Assignment Delete Success",
+                text: `${res.data.message}`,
+              });
+           
+          }
+          else{
+            Swal.fire({
+                icon: "error",
+                title: "Assignment Not Deleted",
+                text: `${res.data.message}`,
+              });
+          }
+
+          Datagetting();
+        }).catch((err)=>{
+          console.log(err);
+          console.log("Assignment data not delete");
+
+          Swal.fire({
+            icon: "error",
+            title: "Assignment Not Deleted",
+            text: "Please try Again",
+          });
+
+        })
+    }
       
 
     const handleOpen = (e) => {
@@ -154,7 +193,14 @@ function ItSem1() {
                                   <div style={{margin:'10px'}}>
                                   {data.sdate && (
                                       <p>End Date: {new Date(data.edate).toLocaleString()}</p>
+                                     
+                                      
                                   )}
+
+                                     <Stack sx={{width:100,marginLeft:2}}>
+                                     <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => DeleteItems(data._id)}>Delete</Button>
+                                     </Stack>
+                                    
                                   </div>
                             
                                   
