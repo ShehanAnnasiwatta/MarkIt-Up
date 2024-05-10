@@ -9,6 +9,7 @@ import PdfIcon from '../Images/PdfICON.png'
 import Card from '@mui/material/Card';
 import { useParams } from 'react-router-dom';
 import { navigate } from 'raviger';
+import { Link } from 'react-router-dom';
 
 const ProfileMenu = (props) => {
     const{sid}=useParams();
@@ -171,6 +172,7 @@ function CSNESem1() {
                         <tbody>
                             <tr>
                                 <td>
+                                <Button href={`/addPro`} startIcon={<Add />} color="primary"> Add Research Group</Button>
                                     <div>
                                      {weekData.length===0 ? (
                                         <div> </div>
@@ -197,14 +199,11 @@ function CSNESem1() {
                                       <p>End Date: {new Date(data.edate).toLocaleString()}</p>
                                   )}
                                   </div>
-                                  
+                                  <Button href={`/addPro`} startIcon={<Add />} color="primary"> Add Research</Button>
                                   <Button href={`#`} startIcon={<Add />} color="primary"> Submit here</Button>
                                   
                                   
-                                                                              </div>
-                                  
-                                  
-                                                                              
+                                                                              </div>     
                                                                           ))}
                                   
                                         </Card>

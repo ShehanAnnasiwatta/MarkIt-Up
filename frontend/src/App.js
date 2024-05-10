@@ -78,6 +78,7 @@ import StudentItSem2 from './Components/Students/ItSem2Student';
 import StudentCsSem1 from './Components/Students/CsSem1Student';
 import StudentCsSem2 from './Components/Students/CsSem2Student';
 
+import ExaminerDash from './pages/Examiner Dash/ExaminerDashboard';
 
 
 function App() {
@@ -157,6 +158,8 @@ function App() {
     <Route path="/StudentCsSem1/:sid" element={<StudentCsSem1/>}></Route>
     <Route path="/StudentCsSem2/:sid" element={<StudentCsSem2/>}></Route>
     
+
+    <Route path="/ExaminerDash" element={<ExaminerDash/>}></Route>
 
    </Routes>
   
