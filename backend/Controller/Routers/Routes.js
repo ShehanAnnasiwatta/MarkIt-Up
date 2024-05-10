@@ -5,6 +5,7 @@ const staffData=require('../../Models/StaffModel')
 const presentation = require('../../Models/presentationModel')
 const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
+const resPaper=require('../../Models/resPaperModel')
 const rubricMark = require('../../Models/rubricmarkModel')
 const router=require('express').Router()
 const express=require('express')
@@ -591,5 +592,28 @@ router.get('/getRubricMark', async (req, res) => {
     res.status(500).json({ message: 'Failed to retrieve marks.' });
   }
 });
+
+
+//get research paper all data
+router.route('/getResearchPaper').get(async(req,res)=>{
+    resPaper.find().then((data)=>{
+        res.send(data)
+    }).catch((err)=>{
+        console.log(err.message);
+        res.send({message:"Data not found"})
+    })
+})
+
+
+//delete research paper data
+router.route("/deleteResearchPaper/:id").delete(async(req,res)=>{
+    let id=req.params.id;
+
+    await resPaper.findByIdAndDelete(id).then(()=>{
+         res.json({message:"data deleted"});
+    }).catch((err)=>{
+        res.json({message:"Data not delete"})
+    })
+})
 
 module.exports = router;

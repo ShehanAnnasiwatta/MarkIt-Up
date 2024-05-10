@@ -38,6 +38,7 @@ import SpeciaSelect from './Components/SpecializationSelect'
 import ManualStudentAdd from './Components/AddStudentsManually'
 import AddStaff from './Components/AddStaffToSystem'
 import UserProfileUpdate from './Components/UserProfileUpdate';
+import Getreasearchpaper from './Components/ReserchPaperDetails'
 
 import SeSem1 from './Components/AdminSpeacializationHomePages/SeSem1';
 import SeSem2 from './Components/AdminSpeacializationHomePages/SeSem2';
@@ -118,6 +119,7 @@ function App() {
     <Route path="/addMark" element={<AddExaminerMark/>}></Route>
     <Route path="/progressBar" element={<ProgressBar futureDate={new Date(2024, 2, 31)} />}></Route>
     <Route path="/SpecializationSelect" element={<SpeciaSelect/>}></Route>
+    <Route path="/researchpaper" element={<Getreasearchpaper/>}></Route>
 
     <Route path="/CSNESem1" element={<CSNESem1/>}></Route>
     <Route path="/CSNESem2" element={<CSNESem2/>}></Route>

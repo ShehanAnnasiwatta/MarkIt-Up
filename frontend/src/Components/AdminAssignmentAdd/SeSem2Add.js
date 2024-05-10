@@ -13,6 +13,8 @@ import { useParams } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 import { width } from '@mui/system';
+import Swal from 'sweetalert2';
+
 
 // Initialize Firebase    
 const firebaseConfig = {
@@ -138,7 +140,6 @@ function SeSem2Add() {
     const assignmentData = {
       description: Desvalu,
       url:FilesUrls,
-      url:FilesUrls,
       sdate: sDate,
       edate: eDate,
       week: id,
@@ -149,10 +150,35 @@ function SeSem2Add() {
       .then((res) => {
         console.log(res.data);
         console.log('Assignment data added successfully');
+
+        if(res.data.message === "Assignment submitted"){
+          Swal.fire({
+            icon: "success",
+            title: "assigment Added Success",
+            text: `${res.data.message}`,
+           
+          });
+         }else{
+          Swal.fire({
+            icon: "error",
+            title: "Assignment not added",
+            text: `${res.data.message}`,
+           
+          });
+         }
+
       })
       .catch((err) => {
         console.error(err);
         console.log('Failed to add assignment data');
+          
+        Swal.fire({
+          icon: "error",
+          title: "Assignment not added",
+          text: `data added error`,
+         
+        });
+        
       });
   };
  

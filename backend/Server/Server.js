@@ -62,8 +62,8 @@ const StudentRoutes = require('../Controller/Routers/studentRoutes');
 app.use('/stRoutes', StudentRoutes);
 
 //student routes
-const studentRoutes = require('../Controller/Routers/studentRoutes')
-app.use("/student", studentRoutes);
+//const studentRoutes = require('../Controller/Routers/studentRoutes')
+//app.use("/student", studentRoutes);
 
 const StSignAndLogout=require('../Controller/Routers/StudentSigns');
 app.use('/stloginAndSign',/*RequireRole([''])*/StSignAndLogout);

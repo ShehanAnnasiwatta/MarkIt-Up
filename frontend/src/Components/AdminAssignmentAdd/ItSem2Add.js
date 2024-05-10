@@ -13,6 +13,8 @@ import 'firebase/compat/storage';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Swal from 'sweetalert2';
+
 
 // Initialize Firebase    
 const firebaseConfig = {
@@ -155,9 +157,34 @@ function ItSem2Add() {
     axios.post("http://localhost:3005/AddAssi/ItSem2",assigmentData).then((res)=>{
          console.log(res.data);
          console.log("Assignment data added Success");
+
+         if(res.data.message === "Assignment submitted"){
+          Swal.fire({
+            icon: "success",
+            title: "assigment Added Success",
+            text: `${res.data.message}`,
+           
+          });
+         }else{
+          Swal.fire({
+            icon: "error",
+            title: "Assignment not added",
+            text: `${res.data.message}`,
+           
+          });
+         }
+
     }).catch((err)=>{
       console.log(err);
       console.log("assignment data not addedd");
+
+      Swal.fire({
+        icon: "error",
+        title: "Assignment not added",
+        text: `data added error`,
+       
+      });
+      
     })
   }
   
