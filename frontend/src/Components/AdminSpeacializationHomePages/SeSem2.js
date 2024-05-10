@@ -212,6 +212,7 @@ function SeSem2() {
                                     </div>
 
                                         <Button href={`/SeSem2Add/${i}`} startIcon={<Add />} color="primary"> Add Assignment</Button>
+                                        <Button href={`/createrubric`} startIcon={<Add />} color="primary"> Add Marks</Button>
                                     </div>
                                 </td>
                             </tr>
