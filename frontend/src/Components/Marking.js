@@ -5,6 +5,7 @@ import { Table, TableHead, TableBody, TableRow, TableCell, Typography, TextField
 
 function Marking() {
   const [rubric, setRubric] = useState(null);
+  const [specialization, setSpecialization] = useState('');
   const [studentId, setStudentId] = useState('');
   const [marks, setMarks] = useState([]);
   const { id } = useParams();
@@ -14,6 +15,7 @@ function Marking() {
       try {
         const response = await axios.get(`http://localhost:3005/normalroutes/rubric/${id}`);
         setRubric(response.data);
+        setSpecialization(response.data.specialization); // Set specialization
         // Initialize marks array with default values
         const initialMarks = response.data.criteria.slice(1).map(() => '');
         setMarks(initialMarks);
@@ -37,7 +39,8 @@ function Marking() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:3005/normalroutes/rubric/addMark', {
+      const response = await axios.post('http://localhost:3005/normalroutes/addRubricMark', {
+        specialization: specialization,
         assignment: rubric.assignment,
         SID: studentId,
         totalMarks: marks.reduce((acc, curr) => acc + parseFloat(curr), 0).toFixed(2)
@@ -60,17 +63,13 @@ function Marking() {
 
   return (
     <div>
-      <Typography variant="h3" align="center" style={{ margin: '20px 0' }}>
-        {rubric.specialization + " Marking Rubric"}
+      <Typography variant="h3" align="center" style={{ marginTop: '20px' }}>
+        {specialization}
       </Typography>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 'calc(100vh - 200px)' }}>
-        <TextField
-          label="Assignment"
-          value={rubric.assignment}
-          onChange={(e) => setStudentId(e.target.value)}
-          style={{ marginBottom: '20px' }}
-        />
+
+      <h3 style={{marginBottom:'30px'}}>Marking Rubric for {rubric.assignment}</h3>
         <TextField
           label="Student ID"
           value={studentId}

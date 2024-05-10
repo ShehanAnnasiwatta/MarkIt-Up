@@ -569,17 +569,27 @@ router.get('/rubric/:id', async (req, res) => {
 
 
 //add marks from rubric
-router.post('/rubric/addMark', async (req, res) => {
+router.post('/addRubricMark', async (req, res) => {
   try {
-    const {assignment, SID, totalMarks} = req.body;
-    const mark = new rubricMark ({assignment, SID, totalMarks})
+    const { specialization, assignment, SID, totalMarks } = req.body;
+    const mark = new rubricMark({ specialization, assignment, SID, totalMarks });
     await mark.save();
-    res.status(201).json({ message: 'Marks addded successfully!' });
-
+    res.status(201).json({ message: 'Marks added successfully!' });
   } catch (error) {
-    
+    console.error('Error adding marks:', error);
+    res.status(500).json({ message: 'Failed to add marks.' });
   }
-})
+});
 
+
+// Assuming you've already defined the router and imported necessary modules
+router.get('/getRubricMark', async (req, res) => {
+  try {
+    const allMarks = await rubricMark.find();
+    res.status(200).json(allMarks);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve marks.' });
+  }
+});
 
 module.exports = router;
