@@ -9,12 +9,15 @@ import Card from '@mui/material/Card';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { navigate } from 'raviger';
 
 const ProfileMenu = (props) => {
+    const{sid}=useParams();
     const menuList = [
         {
             label: "Profile",
             icon: <PersonIcon />
+            , href: `/userProfile/${sid}`
         },
         {
             label: "Sign out",
@@ -22,7 +25,7 @@ const ProfileMenu = (props) => {
         },
     ];
 
-    const{sid}=useParams();
+
 
     const [studentData, setStudentData] = useState([]);
     
@@ -87,7 +90,7 @@ const ProfileMenu = (props) => {
                 </Typography>
             </Box>
             {menuList.map(menu => (
-                <MenuItem key={menu.label} sx={{
+                <MenuItem key={menu.label}  onClick={() => navigate(menu.href)} sx={{
                     display: "flex",
                     flexDirection: "row",
                     columnGap: "10px",

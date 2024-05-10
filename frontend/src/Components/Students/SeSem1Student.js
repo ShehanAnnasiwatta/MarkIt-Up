@@ -9,13 +9,16 @@ import Card from '@mui/material/Card';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { navigate } from 'raviger';
 
 const ProfileMenu = (props) => {
+    
+    const{sid}=useParams();
     const menuList = [
         {
             label: "Profile",
             icon: <PersonIcon />
+            , href: `/userProfile/${sid}`
         },
         {
             label: "Sign out",
@@ -23,7 +26,6 @@ const ProfileMenu = (props) => {
         },
     ];
 
-    const{sid}=useParams();
 
     const [studentData, setStudentData] = useState([]);
     
@@ -88,7 +90,7 @@ const ProfileMenu = (props) => {
                 </Typography>
             </Box>
             {menuList.map(menu => (
-                <MenuItem key={menu.label} sx={{
+                <MenuItem key={menu.label}  onClick={() => navigate(menu.href)} sx={{
                     display: "flex",
                     flexDirection: "row",
                     columnGap: "10px",
@@ -113,12 +115,13 @@ function SeSem1() {
     const [studentData, setStudentData] = useState([]);
 
     const{sid}=useParams();
+    console.log(sid);
 
 
     const getStudentData = () => {
         axios.get(`http://localhost:3005/normalroutes/oneStudent/${sid}`)
             .then((res) => {
-               // console.log(res.data);
+               console.log(res.data);
                 setStudentData(res.data);
             })
             .catch((err) => {

@@ -37,6 +37,7 @@ import AddProjectS from './pages/projects/addProjectSample';
 import SpeciaSelect from './Components/SpecializationSelect'
 import ManualStudentAdd from './Components/AddStudentsManually'
 import AddStaff from './Components/AddStaffToSystem'
+import UserProfileUpdate from './Components/UserProfileUpdate';
 
 import SeSem1 from './Components/AdminSpeacializationHomePages/SeSem1';
 import SeSem2 from './Components/AdminSpeacializationHomePages/SeSem2';
@@ -94,6 +95,7 @@ function App() {
     {/* <Route path="/adminHome/:id" element={<AdminHome/>}></Route>  */}
     <Route path="/addStudents" element={<AddStudent/>}></Route>
     <Route path="/manualStudents" element={<ManualStudentAdd/>}></Route>
+    <Route path="/userProfile/:sid" element={<UserProfileUpdate/>}></Route>
 
     <Route path="/shedulepresentation" element={<ShedulePresentation/>}></Route>
     <Route path="/presentations" element={<ViewPresentations/>}></Route>
@@ -114,7 +116,7 @@ function App() {
     <Route path="/editRes/:id" element={<EditResearch/>}></Route>
     <Route path="/addMark" element={<AddExaminerMark/>}></Route>
     <Route path="/progressBar" element={<ProgressBar futureDate={new Date(2024, 2, 31)} />}></Route>
-    <Route path="/SpecializationSelect/aid" element={<SpeciaSelect/>}></Route>
+    <Route path="/SpecializationSelect" element={<SpeciaSelect/>}></Route>
 
     <Route path="/CSNESem1" element={<CSNESem1/>}></Route>
     <Route path="/CSNESem2" element={<CSNESem2/>}></Route>

@@ -125,16 +125,33 @@ router.route("/addStudent").post(async (req, res) => {
 })
 
 //get data using email(Students)
-
 router.route("/oneStudent/:sid").get(async(req,res)=>{
           
-     const sid=req.body.sid;
-
-     const get1StudentData=await studentDatamodel.findOne({email:sid});
+     const sid=req.params.sid;
+     console.log("Sid is - " ,sid);
+     const get1StudentData=await studentDatamodel.findOne({Email:sid});
      console.log(get1StudentData);
      res.send(get1StudentData);
 
 
+})
+
+//update student idNumber
+router.route("/updateStudent/:id").put(async(req,res)=>{
+
+    let id=req.params.id;
+    console.log(id);
+    const{IdNumber}=req.body;
+
+    const updateData=({IdNumber})
+
+    try {
+        await studentDatamodel.findByIdAndUpdate(id,updateData).then(()=>{
+            res.send({message:"data updated"});
+        })
+    } catch (error) {
+        res.send({message:"Data not updated"})
+    }
 })
 
 
