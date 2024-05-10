@@ -35,10 +35,21 @@ function Marking() {
     setMarks(newMarks);
   };
 
-  const handleSubmit = () => {
-    // You can handle the submission here
-    console.log("Student ID:", studentId);
-    console.log("Marks:", marks);
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('http://localhost:3005/normalroutes/rubric/addMark', {
+        assignment: rubric.assignment,
+        SID: studentId,
+        totalMarks: marks.reduce((acc, curr) => acc + parseFloat(curr), 0).toFixed(2)
+      });
+      console.log('Marks submitted:', response.data);
+      alert('Marks added!')
+      // Clear the form after submission
+      setStudentId('');
+      setMarks([]);
+    } catch (error) {
+      console.error('Error submitting marks:', error);
+    }
   };
 
   if (!rubric) {
