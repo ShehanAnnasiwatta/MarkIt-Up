@@ -5,6 +5,7 @@ const staffData=require('../../Models/StaffModel')
 const presentation = require('../../Models/presentationModel')
 const assignment=require('../../Models/AddAssignmentModel')
 const Rubric = require('../../Models/rubricModel')
+const rubricMark = require('../../Models/rubricmarkModel')
 const router=require('express').Router()
 const express=require('express')
 const nodemailer = require("nodemailer");
@@ -549,6 +550,19 @@ router.get('/rubric/:id', async (req, res) => {
     }
   });
 
+
+//add marks from rubric
+router.post('/rubric/addMark', async (req, res) => {
+  try {
+    const {assignment, SID, totalMarks} = req.body;
+    const mark = new rubricMark ({assignment, SID, totalMarks})
+    await mark.save();
+    res.status(201).json({ message: 'Marks addded successfully!' });
+
+  } catch (error) {
+    
+  }
+})
 
 
 module.exports = router;
