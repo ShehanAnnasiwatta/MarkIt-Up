@@ -35,11 +35,6 @@ function Marking() {
     setMarks(newMarks);
   };
 
-  const generateTotalMarks = () => {
-    const totalMarks = marks.reduce((acc, curr) => acc + parseFloat(curr), 0);
-    return totalMarks.toFixed(2);
-  };
-
   const handleSubmit = () => {
     // You can handle the submission here
     console.log("Student ID:", studentId);
@@ -49,6 +44,8 @@ function Marking() {
   if (!rubric) {
     return <div>Loading...</div>;
   }
+
+  const totalMarks = marks.reduce((acc, curr) => acc + parseFloat(curr), 0).toFixed(2);
 
   return (
     <div>
@@ -107,7 +104,7 @@ function Marking() {
               <Typography variant="h6" style={{ fontWeight: '400' }}>Total Marks:</Typography>
             </TableCell>
             <TableCell>
-              <Typography variant="h6" style={{ fontWeight: '400' }}>{generateTotalMarks()}</Typography>
+              <Typography variant="h6" style={{ fontWeight: '400' }}>{totalMarks}</Typography>
             </TableCell>
           </TableRow>
         </div>
