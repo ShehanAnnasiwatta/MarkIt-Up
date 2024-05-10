@@ -176,6 +176,7 @@ function CSNESem2() {
                         <tbody>
                             <tr>
                                 <td>
+                                <Button href={`/addPro`} startIcon={<Add />} color="primary"> Add Research Group</Button>
                                     <div>
                                      {weekData.length===0 ? (
                                         <div> </div>
