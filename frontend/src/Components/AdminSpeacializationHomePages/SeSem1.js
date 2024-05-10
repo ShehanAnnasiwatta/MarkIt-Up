@@ -68,6 +68,7 @@ const ProfileMenu = (props) => {
                     annasiwattasa@gmail.com
                 </Typography>
             </Box>
+           
             {menuList.map(menu => (
                 <MenuItem key={menu.label} sx={{
                     display: "flex",
@@ -80,7 +81,9 @@ const ProfileMenu = (props) => {
                     {menu.label}
                 </MenuItem>
             ))}
+
         </Menu>
+     
     );
 }
 
@@ -164,15 +167,17 @@ function SeSem1() {
         setAnchorEl(null);
     };
 
+    
     const renderTables = () => {
         const tables = [];
-
+      
         // Loop to create 15 tables
         for (let i = 1; i <= 15; i++) {
             const weekData= assignmentData.filter(datas => datas.week === i.toString()); 
+           
             tables.push(
                 <div key={i}>
-                    <table style={{ width: '100%', marginTop: '150px' }}>
+                    <table style={{ width: '100%', marginTop: '10px' }}>
                         <thead>
                             <tr>
                                 <th style={{ backgroundColor: 'green', color: 'white' }}>
@@ -180,12 +185,10 @@ function SeSem1() {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody >
                             <tr>
-                                <td>
-                                    <div>
-
-                                        
+                                <td style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', padding: '100px' }}>
+                                    <div>   
                                     <div>
                                      {weekData.length===0 ? (
                                         <div> </div>
@@ -229,7 +232,7 @@ function SeSem1() {
                                     </div>
 
                                        <a href={`/SeSem1Add/${i}`}><Button  startIcon={<Add />} color="primary"> Add Assignment</Button></a> 
-                                       <Button href={`/createrubric`} startIcon={<Add />} color="primary"> Add Marks</Button>
+                                     
                                     </div>
                                 </td>
                             </tr>
@@ -243,12 +246,15 @@ function SeSem1() {
     };
 
     return (
+        
         <div>
+              
             <AppBar
                 sx={{
                     bgcolor: "#ffff"
                 }}
             >
+                
                 <Toolbar
                     sx={{
                         margin: "0 auto",
@@ -313,15 +319,26 @@ function SeSem1() {
                                 </Avatar>
                             </IconButton>
                             <ProfileMenu anchorEl={anchorEl} open={open} onClose={handleClose} />
+                           
                         </Box>
                     </Box>
                 </Toolbar>
             </AppBar>
+            
             <div>
+            <Button
+             href={`/createrubric`}
+              startIcon={<Add />}
+             color="primary"
+             style={{ marginTop: '100px', marginBottom: '20px' }}  // Adjust the '20px' to the desired margin
+                >
+             Add Marks
+            </Button>
+
                 {renderTables()}
             </div>
-         
-        </div>
+          
+        </div>  
     );
 }
 

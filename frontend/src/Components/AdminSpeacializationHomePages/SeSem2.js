@@ -172,7 +172,7 @@ function SeSem2() {
             const weekData= assignmentData.filter(datas => datas.week === i.toString()); 
             tables.push(
                 <div key={i}>
-                    <table style={{ width: '100%', marginTop: '150px' }}>
+                    <table style={{ width: '100%', marginTop: '10px' }}>
                         <thead>
                             <tr>
                                 <th style={{ backgroundColor: 'green', color: 'white' }}>
@@ -182,7 +182,7 @@ function SeSem2() {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
+                            <td style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', padding: '100px' }}>
                                     <div>
 
                                         
@@ -229,7 +229,7 @@ function SeSem2() {
                                     </div>
 
                                         <Button href={`/SeSem2Add/${i}`} startIcon={<Add />} color="primary"> Add Assignment</Button>
-                                        <Button href={`/createrubric`} startIcon={<Add />} color="primary"> Add Marks</Button>
+                                        
                                     </div>
                                 </td>
                             </tr>
@@ -318,6 +318,14 @@ function SeSem2() {
                 </Toolbar>
             </AppBar>
             <div>
+            <Button
+             href={`/createrubric`}
+            startIcon={<Add />}
+            color="primary"
+            style={{ marginTop: '100px', marginBottom: '20px' }}  // Adjust the '20px' to the desired margin
+            >
+            Add Marks
+            </Button>
                 {renderTables()}
             </div>
            
