@@ -34,13 +34,13 @@ router.route("/SeSem1").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -65,13 +65,13 @@ router.route("/SeSem2").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -95,13 +95,13 @@ router.route("/ItSem1").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -125,13 +125,13 @@ router.route("/ItSem2").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -155,13 +155,13 @@ router.route("/IsSem1").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -185,13 +185,13 @@ router.route("/IsSem2").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -215,13 +215,13 @@ router.route("/DsSem1").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -245,13 +245,13 @@ router.route("/DsSem2").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -275,13 +275,13 @@ router.route("/CsSem1").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -305,13 +305,13 @@ router.route("/CsSem2").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -335,13 +335,13 @@ router.route("/CSNESem1").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
@@ -365,13 +365,13 @@ router.route("/CSNESem2").post(async(req,res)=>{
 
         AddAssi.save().then(()=>{
             console.log("assignment data Added");
-            res.json("Assignment submitted")
+            res.json({message:"Assignment submitted"})
         })
         
     } catch (error) {
         
         console.log("assignment data Added Error");
-        res.json("Assignment Not submitted");
+        res.json({message:"Assignment Not submitted"});
     }
 
 })
