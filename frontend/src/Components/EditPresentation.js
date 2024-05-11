@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { Grid, FormControl, InputLabel, Select, MenuItem, Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
+import { Grid, FormControl, InputLabel, Select, MenuItem, Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Checkbox, ListItemText, OutlinedInput, IconButton } from '@mui/material';
 import axios from 'axios';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const StyledItem = styled(Grid)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -27,63 +28,36 @@ const examinersData = [
 ];
 
 export default function EditPresentation() {
-  const [presentation, setPresentation] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
-  const [type, setType] = React.useState('');
-  const [group, setGroup] = React.useState('');
-  const [date, setDate] = React.useState(null);
-  const [startTime, setStartTime] = React.useState(null);
-  const [endTime, setEndTime] = React.useState(null);
-  const [location, setLocation] = React.useState('');
-  const [examiners, setExaminers] = React.useState(examinersData);
-  const [selectedExaminers, setSelectedExaminers] = React.useState([]);
+  const [presentation, setPresentation] = useState({});
+  const [type, setType] = useState('');
+  const [group, setGroup] = useState('');
+  const [date, setDate] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [location, setLocation] = useState('');
+  const [selectedExaminers, setSelectedExaminers] = useState([]);
   const params = useParams();
   const { id: ID } = params;
 
   useEffect(() => {
-    async function GetPresentation() {
+    const fetchPresentation = async () => {
       try {
-        const res = await axios.get(`http://localhost:3005/normalroutes/presentation/${ID}`);
-        setLoading(true);
-        const presentationData = res.data;
-        
-        // // Parse date and time strings to Date objects
-        // presentationData.date = new Date(presentationData.date);
-        // presentationData.startTime = new Date(presentationData.startTime);
-        // presentationData.endTime = new Date(presentationData.endTime);
-  
+        const response = await axios.get(`http://localhost:3005/normalroutes/presentation/${ID}`);
+        const presentationData = response.data;
+        console.log(presentationData);
         setPresentation(presentationData);
         setType(presentationData.type);
         setGroup(presentationData.group);
-        // setDate(presentationData.date);
-        setStartTime(presentationData.startTime);
-        setEndTime(presentationData.endTime);
         setLocation(presentationData.location);
-        setExaminers(presentationData.examiners);
-        setSelectedExaminers(presentationData.examiners); // Assuming already selected examiners need to be pre-populated
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        alert(err.message);
+        setSelectedExaminers(presentationData.examiners);
+      } catch (error) {
+        console.error('Error fetching presentation:', error);
       }
-    }
-    GetPresentation();
+    };
+  
+    fetchPresentation();
   }, [ID]);
   
-
-  // useEffect(() => {
-  //   const fetchExaminers = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:3005/normalroutes/allExaminers');
-  //       if (response.status === 200) {
-  //         setExaminers(response.data);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching examiners:', error);
-  //     }
-  //   };
-  //   fetchExaminers();
-  // }, []);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
@@ -93,13 +67,13 @@ export default function EditPresentation() {
     setSelectedExaminers(event.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleRemoveExaminer = (examinerName) => {
+    setSelectedExaminers(selectedExaminers.filter(examiner => examiner !== examinerName));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!type || !group || !date || !startTime || !endTime || !location || !selectedExaminers.length) {
-      alert("Please fill all fields");
-      return;
-    }
-    const updatePresentation = {
+    const updatedPresentation = {
       type,
       group,
       date,
@@ -108,23 +82,24 @@ export default function EditPresentation() {
       location,
       examiners: selectedExaminers
     };
-    axios.put(`http://localhost:3005/normalroutes/update/${ID}`, updatePresentation) // Fix endpoint URL
-      .then(() => {
-        alert('Presentation updated');
-        window.location.href = '/presentations';
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    
+    try {
+      await axios.put(`http://localhost:3005/normalroutes/presentation/${ID}`, updatedPresentation);
+      alert('Presentation updated successfully');
+      window.location.href = '/presentations';
+    } catch (error) {
+      console.error('Error updating presentation:', error);
+      alert('Failed to update presentation');
+    }
   };
 
   return (
-    <div style={{marginTop:'100px'}}>
+    <div style={{ marginTop: '10px' }}>
       <h2 style={{ marginLeft: '220px', marginTop: '10px' }}>Edit Presentation</h2>
       <Grid container spacing={5} sx={{ margin: '0 auto', maxWidth: '1200px' }}>
         <Grid item xs={12} sm={6} >
           <StyledItem>
-            <FormControl fullWidth >
+            <FormControl fullWidth>
               <InputLabel id="presentation-type-label">Presentation Type</InputLabel>
               <Select
                 labelId="presentation-type-label"
@@ -133,12 +108,14 @@ export default function EditPresentation() {
                 label="Presentation Type"
                 onChange={(e) => setType(e.target.value)}
               >
-                <MenuItem value="lecture">Progress Showing</MenuItem>
-                <MenuItem value="workshop">Final Presentation</MenuItem>
+                <MenuItem value="Progress Showing">Progress Showing</MenuItem>
+                <MenuItem value="Final Presentation">Final Presentation</MenuItem>
+                <MenuItem value="Final Viva">Final Viva</MenuItem>
+
               </Select>
             </FormControl>
             <br /><br />
-            <FormControl fullWidth>
+            <FormControl fullWidth >
               <InputLabel id="presentation-group-label">Group</InputLabel>
               <Select
                 labelId="presentation-group-label"
@@ -189,8 +166,10 @@ export default function EditPresentation() {
                 label="Location"
                 onChange={handleLocationChange}
               >
-                <MenuItem value="room1">Room 1</MenuItem>
-                <MenuItem value="room2">Room 2</MenuItem>
+                <MenuItem value="F_501">F_501</MenuItem>
+                <MenuItem value="F_502">F_502</MenuItem>
+                <MenuItem value="F_503">F_503</MenuItem>
+                <MenuItem value="F_504">F_504</MenuItem>
               </Select>
             </FormControl>
             <br /><br />
@@ -212,7 +191,7 @@ export default function EditPresentation() {
                 renderValue={(selected) => selected.join(', ')}
                 MenuProps={MenuProps}
               >
-                {examiners.map((examiner) => (
+                {examinersData.map((examiner) => (
                   <MenuItem key={examiner.id} value={examiner.Fname + " " + examiner.Lname}>
                     <Checkbox checked={selectedExaminers.indexOf(examiner.Fname + " " + examiner.Lname) > -1} />
                     <ListItemText primary={examiner.Fname + " " + examiner.Lname} />
@@ -226,6 +205,7 @@ export default function EditPresentation() {
                   <TableRow>
                     <TableCell><b>Examiner Name</b></TableCell>
                     <TableCell align="right"><b>ID</b></TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -233,6 +213,11 @@ export default function EditPresentation() {
                     <TableRow key={index}>
                       <TableCell>{name}</TableCell>
                       <TableCell align="right">{index}</TableCell>
+                      <TableCell align="right">
+                        <IconButton onClick={() => handleRemoveExaminer(name)}>
+                          <RemoveIcon />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

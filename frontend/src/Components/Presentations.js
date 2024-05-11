@@ -50,7 +50,7 @@ export default function Presentations() {
   
 
   return (
-    <div style={{marginTop:'100px'}}>
+    <div style={{marginTop:'10px'}}>
       <h2 style={{padding:'10px'}}>Scheduled Presentations</h2>
       <Link to="/shedulepresentation" style={{marginLeft:'10px'}}>
         <Button variant="contained" size='small' >Add New</Button>
@@ -88,7 +88,7 @@ export default function Presentations() {
                 <TableCell>{row.location}</TableCell>
                 <TableCell>{row.examiners.join(', ')}</TableCell>
                 <TableCell style={{width:'150px'}}>
-                  <Link to={`update/presentation/${row._id}`}><Button variant="contained" size='small'>Edit</Button></Link>
+                  <Link to={`/update/presentation/${row._id}`}><Button variant="contained" size='small'>Edit</Button></Link>
                   <IconButton style={{marginLeft:'10px'}} aria-label="delete" onClick={() => handleDelete(row._id)}><DeleteIcon /></IconButton>
                 </TableCell>
               </TableRow>
