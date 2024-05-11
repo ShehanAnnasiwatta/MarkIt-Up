@@ -71,13 +71,28 @@ const MarkingRubric = () => {
     axios.post("http://localhost:3005/normalroutes/addrubric", newRubric)
       .then(() => {
         alert('Rubric submitted successfully!');
-        window.location.reload();
+        window.location.href = '/selectrubric';
       })
       .catch((err) => {
         console.error('Error submitting rubric:', err);
         alert('Error submitting rubric: ' + err);
       });
   };
+
+
+  const specializationOptions = [
+    { value: 'Information Technology', label: 'Information Technology' },
+    { value: 'Software Engineering', label: 'Software Engineering' },
+    { value: 'Data Science', label: 'Data Science' },
+    { value: 'Interactive Media', label: 'Interactive Media' },
+  ];
+
+  const assignmentOptions = [
+    { value: 'Proposal', label: 'Proposal' },
+    { value: 'Progress 1', label: 'Progress 1' },
+    { value: 'Progress 2', label: 'Progress 2' },
+    { value: 'Final Presentation', label: 'Final Presentation' },
+  ];
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -86,17 +101,27 @@ const MarkingRubric = () => {
           Marking Rubric
         </Typography>
         <Box mb={2}>
-          <TextField
+        <FormControl sx={{ minWidth: '500px', marginRight: '10px' }} required>
+        <InputLabel id="select-option-label">Assignment</InputLabel>
+        <Select
             label="Assignment"
             value={assignment}
             onChange={(e) => setAssignment(e.target.value)}
             variant="outlined"
             fullWidth
+            select
             style={{ marginBottom: '20px' }}
-          />
+          >
+            {assignmentOptions.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+            </Select>
+          </FormControl>
         </Box>
         <Box mb={2}>
-          <FormControl sx={{ minWidth: '200px', marginRight: '10px' }} required>
+          <FormControl sx={{ minWidth: '300px', marginRight: '10px' }} required>
             <InputLabel id="select-option-label">Specialization</InputLabel>
             <Select
               labelId="select-option-label"
@@ -107,10 +132,9 @@ const MarkingRubric = () => {
               onChange={(e) => setSpecialization(e.target.value)}
               sx={{ paddingTop: '10px' }}
             >
-              <MenuItem value="Information Technology">Information Technology</MenuItem>
-              <MenuItem value="Software Engineering">Software Engineering</MenuItem>
-              <MenuItem value="Data Science">Data Science</MenuItem>
-              <MenuItem value="Interactive Media">Interactive Media</MenuItem>
+              {specializationOptions.map(option => (
+                <MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Box>

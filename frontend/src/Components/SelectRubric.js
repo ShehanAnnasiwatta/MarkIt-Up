@@ -37,7 +37,7 @@ function SelectRubric() {
 
   return (
     <div>
-      <Typography variant="h4" align="center" gutterBottom style={{ marginTop: '50px', float: 'left', marginLeft: '130px' }}>Select the Specialization</Typography>
+      <Typography variant="h4" align="center" gutterBottom style={{ marginTop: '50px', float: 'left', marginLeft: '130px' }}>Select the Marking Rubric</Typography>
       <Grid container spacing={3} justifyContent="center">
         {rubrics.map(rubric => (
           <Grid item key={rubric._id}>
