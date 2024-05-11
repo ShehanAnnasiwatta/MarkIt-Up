@@ -303,7 +303,7 @@ function ItSem2() {
             </AppBar>
             <div>
             <Button
-             href={`/createrubric`}
+             href={`/selectrubric`}
             startIcon={<Add />}
             color="primary"
             style={{ marginTop: '100px', marginBottom: '20px' }}  // Adjust the '20px' to the desired margin
