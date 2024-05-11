@@ -30,6 +30,10 @@ const examinersData = [
   { id: 10, Fname: 'Benjamin', Lname: 'Anderson' }
 ];
 
+const presentationTypes = ["Progress Showing", "Final Presentation", "Final Viva"];
+const groups = ['WE_106', 'WE_107', 'WE_108', 'WE_109'];
+const locations = ["F_501", "F_502", "F_503", "F_504"];
+
 export default function SchedulePresentation() {
   
   const [type, setType] = useState('');
@@ -96,8 +100,8 @@ export default function SchedulePresentation() {
   };
 
   return (
-    <div style={{marginTop:'100px'}}>
-      <h2 style={{ marginLeft: '220px', marginTop: '10px' }}>Schedule a presentation</h2>
+    <div style={{marginTop:'10px'}}>
+      <h2 style={{ marginLeft: '225px'}}>Schedule a presentation</h2>
       <Grid container spacing={5} sx={{ margin: '0 auto', maxWidth: '1200px' }}>
         <Grid item xs={12} sm={6} >
           <StyledItem>
@@ -110,8 +114,9 @@ export default function SchedulePresentation() {
                 label="Presentation Type"
                 onChange={(e) => setType(e.target.value)}
               >
-                <MenuItem value="lecture">Progress Showing</MenuItem>
-                <MenuItem value="workshop">Final Presentation</MenuItem>
+                {presentationTypes.map((type, index) => (
+                  <MenuItem key={index} value={type}>{type}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <br /><br />
@@ -124,10 +129,9 @@ export default function SchedulePresentation() {
                 label="Group"
                 onChange={(e) => setGroup(e.target.value)}
               >
-                <MenuItem value='WE_106'>WE_106</MenuItem>
-                <MenuItem value='WE_107'>WE_107</MenuItem>
-                <MenuItem value='WE_108'>WE_108</MenuItem>
-                <MenuItem value='WE_109'>WE_109</MenuItem>
+                {groups.map((group, index) => (
+                  <MenuItem key={index} value={group}>{group}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <br /><br />
@@ -166,11 +170,9 @@ export default function SchedulePresentation() {
                 label="Location"
                 onChange={handleLocationChange}
               >
-                <MenuItem value="room1">F_501</MenuItem>
-                <MenuItem value="room2">F_502</MenuItem>
-                <MenuItem value="room2">F_503</MenuItem>
-                <MenuItem value="room2">F_504</MenuItem>
-
+                {locations.map((location, index) => (
+                  <MenuItem key={index} value={location}>{location}</MenuItem>
+                ))}
               </Select>
             </SelectContainer>
             <br /><br />

@@ -479,8 +479,8 @@ router.route("/presentations/all").get(async(req, res)=>{
 router.get('/presentation/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const presentation = await presentation.findById(id);
-      res.send(presentation);
+      const getpresent = await presentation.findById(id);
+      res.send(getpresent);
     } catch (error) {
       console.error(error);
       res.status(500).send(error);
@@ -488,13 +488,13 @@ router.get('/presentation/:id', async (req, res) => {
   });
 
  //update presentation
- router.put('/update/presentation/:id', async (req, res) => {
+ router.put('/presentation/:id', async (req, res) => {
     const { id } = req.params;
     const { type, group, date, startTime, endTime, location,examiners} = req.body;
   
     try {
-      const presentation = await presentation.findByIdAndUpdate(id, { type, group, date, startTime, endTime, location,examiners }, { new: true });
-      res.send(presentation);
+      const updatepresent = await presentation.findByIdAndUpdate(id, { type, group, date, startTime, endTime, location,examiners }, { new: true });
+      res.send(updatepresent);
       console.log("updated successfully!")
     } catch (error) {
       console.error(error);
