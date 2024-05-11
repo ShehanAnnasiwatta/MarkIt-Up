@@ -161,7 +161,7 @@ function CSNESem1() {
             const weekData= assignmentData.filter(datas => datas.week === i.toString()); 
             tables.push(
                 <div key={i}>
-                    <table style={{ width: '100%', marginTop: '150px' }}>
+                    <table style={{ width: '100%', marginTop: '10px' }}>
                         <thead>
                             <tr>
                                 <th style={{ backgroundColor: 'green', color: 'white' }}>
@@ -171,8 +171,8 @@ function CSNESem1() {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                <Button href={`/addPro`} startIcon={<Add />} color="primary"> Add Research Group</Button>
+                            <td style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', padding: '100px' }}>
+                               
                                     <div>
                                      {weekData.length===0 ? (
                                         <div> </div>
@@ -296,6 +296,14 @@ function CSNESem1() {
                 </Toolbar>
             </AppBar>
             <div>
+            <Button
+             href={`/addPro`}
+              startIcon={<Add />}
+             color="primary"
+             style={{ marginTop: '100px', marginBottom: '20px' }}  // Adjust the '20px' to the desired margin
+                >
+            Add Research Group
+            </Button>
                 {renderTables()}
             </div>
            
